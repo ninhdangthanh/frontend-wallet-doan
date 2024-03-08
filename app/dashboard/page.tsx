@@ -1,6 +1,12 @@
 "use client";
 
 
+import ActivityDetailPopUp from "../components/popup/activityDetail";
+import AddNftPopUp from "../components/popup/addNFT";
+import AddNetworkPopUp from "../components/popup/addNetwork";
+import NetworkSelect from "../components/popup/networkSelect";
+import SelectAccountPopUp from "../components/popup/selectAccount";
+import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
 import "../css/fontawesome-free-6.5.1-web/css/all.css"
 import "../css/main.css"
 
@@ -9,6 +15,12 @@ export default function Dashboard() {
   return (
     <>
       <div className="app-container">
+        {/* <NetworkSelect /> */}
+        {/* <SelectAccountPopUp /> */}
+        {/* <ShowPrivateKeyPopUp /> */}
+        {/* <AddNftPopUp /> */}
+        {/* <AddNetworkPopUp /> */}
+        {/* <ActivityDetailPopUp /> */}
           <h1 className="wallet-logo">
               U2MYA BLOCKCHAIN WALLET
           </h1>

@@ -1,10 +1,11 @@
 "use client";
 
 import "../../css/fontawesome-free-6.5.1-web/css/all.css"
-import "../../css/bootstrap.css"
+import "../../css/bootstrap.min.css"
 import "../../css/main.css"
+import "../../css/popup.css"
 
-export default function NftPage() {
+export default function NetworkSelectPopUp() {
 
   return (
     <>
