@@ -47,6 +47,14 @@
     color: black;
 }
 
+.login-container-button-login:hover {
+    background-color: rgb(96, 26, 1);
+}
+
+.login-container-button-login:disabled {
+    background-color: rgb(96, 26, 1);
+}
+
 .login-container-input {
     margin-top: 10px;
     border: 1px solid orangered;

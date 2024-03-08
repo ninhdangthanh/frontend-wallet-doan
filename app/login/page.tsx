@@ -2,6 +2,7 @@
 
 import "../css/bootstrap.min.css"
 import "../css/login.css"
+import Link from 'next/link';
 
 export default function LogIn() {
 
@@ -22,10 +23,10 @@ export default function LogIn() {
                     <div className="form-group">
                       <input type="password" className="form-control login-container-input" id="exampleInputPassword1" placeholder="Password" />
                     </div>
-                    <a href="" className="login-container-forgot-pass">Forgot password?</a>
+                    <Link key="Forgot Password" href="/forgot-password" className="login-container-forgot-pass">Forgot password?</Link>
                     <button type="submit" className="btn btn-primary login-container-button-login">Login</button>
                 </form>
-                <a href="" className="login-container-create-new-account">Create an account</a>
+                <Link key="Sign Up" href="/signup" className="login-container-create-new-account">Create an account</Link>
             </div>
         </div>
 
