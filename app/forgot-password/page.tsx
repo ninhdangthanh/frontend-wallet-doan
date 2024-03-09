@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import "../css/bootstrap.min.css"
-import "../css/login.css"
+import "../../css/bootstrap.min.css"
+import "../../css/login.css"
 import { FormEvent, useState } from "react";
-import { IForgotPasswordPayload } from "../common";
-import { authApi } from "../api-client/auth-api";
+import { IForgotPasswordPayload } from "../../common";
+import { authApi } from "../../api-client/auth-api";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");

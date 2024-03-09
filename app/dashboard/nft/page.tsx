@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import "../../css/fontawesome-free-6.5.1-web/css/all.css"
-import "../../css/main.css"
+import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
+import "../../../css/main.css"
 
 export default function NftPage() {
 
   return (
     <>
         <div className="wallet-activity-header flex-row">
-            <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option ">Tokens</Link>
-            <Link key="NFT" href="/dashboard/nft"  className="wallet-activity-header-option wallet-activity-header-option-active">NFTs</Link>
+            <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option ">Token</Link>
+            <Link key="NFT" href="/dashboard/nft"  className="wallet-activity-header-option wallet-activity-header-option-active">NFT</Link>
             <Link key="Activity" href="/dashboard/activity"  className="wallet-activity-header-option">Activity</Link>
         </div>
     

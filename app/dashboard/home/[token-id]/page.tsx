@@ -1,10 +1,10 @@
 "use client";
 
 
-import "../../css/fontawesome-free-6.5.1-web/css/all.css"
-import "../../css/main.css"
-import "../../css/popup.css"
-import "../../css/token-detail.css"
+import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
+import "../../../css/main.css"
+import "../../../css/popup.css"
+import "../../../css/token-detail.css"
 
 export default function TokenDetail() {
 

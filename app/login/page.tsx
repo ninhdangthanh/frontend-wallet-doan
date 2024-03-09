@@ -1,11 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import "../css/bootstrap.min.css"
-import "../css/login.css"
+import { FormEvent, useEffect, useState } from "react";
+import "../../css/bootstrap.min.css"
+import "../../css/login.css"
 import Link from 'next/link';
-import { ILogInPayload, ISignUpPayload } from "../common";
-import { authApi } from "../api-client/auth-api";
+import { ILogInPayload, ISignUpPayload, check_token } from "../../common";
+import { authApi } from "../../api-client/auth-api";
 import { useRouter } from "next/navigation";
 
 
@@ -16,6 +16,13 @@ export default function LogIn() {
   const [failedLogin, setFailedLogin] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    let access_token = check_token();
+    if(access_token) {
+      router.push("/dashboard/home")
+    }
+  })
 
   async function logInSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

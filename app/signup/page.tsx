@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import "../css/bootstrap.min.css"
-import "../css/login.css"
+import "../../css/bootstrap.min.css"
+import "../../css/login.css"
 import { FormEvent, useState } from "react";
-import { ISignUpPayload } from "../common";
-import { authApi } from "../api-client/auth-api";
+import { ISignUpPayload } from "../../common";
+import { authApi } from "../../api-client/auth-api";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
