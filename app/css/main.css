@@ -80,6 +80,8 @@
 
 .wallet-account-name {
     padding: 0 10px;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .wallet-container-coin {
@@ -142,6 +144,8 @@
 .wallet-activity-header-option {
     width: 33.33333%;
     padding-bottom: 10px;
+    color: white;
+    text-decoration: none;
 }
 
 .wallet-activity-header-option-active {

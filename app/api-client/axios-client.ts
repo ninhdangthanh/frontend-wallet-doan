@@ -2,7 +2,7 @@ import axios from "axios";
 import { WALLET_SERVICE_API_URL } from "../common";
 
 export const getAccessToken = () =>
-  sessionStorage.getItem("access_token") || "";
+  sessionStorage.getItem("u2mya_wallet_access_token") || "";
 
 const axiosClient = axios.create({
   baseURL: WALLET_SERVICE_API_URL,

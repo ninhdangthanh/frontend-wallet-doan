@@ -205,6 +205,10 @@
     transform: translateY(-50%);
 }
 
+.network-select-item-detail:hover {
+    color: red;
+}
+
 .activity-popup-detail-container {
     position: fixed;
     top: 50%;
