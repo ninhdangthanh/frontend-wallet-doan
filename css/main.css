@@ -50,6 +50,19 @@
     border-radius: 50px;
 }
 
+.wallet-network-logo-character {
+    width: 24px;
+    height: 24px;
+    border-radius: 50px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(133, 37, 3);
+}
+
 .wallet-network {
     background-color: black;
     padding:  6px 12px;

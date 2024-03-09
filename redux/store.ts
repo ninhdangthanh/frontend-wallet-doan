@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import todosReducer from "./slice/todoSlice";
+import networkReducer from "./slice/networkSlice";
 
 const store = configureStore({
   reducer: {
     todos: todosReducer,
+    network: networkReducer
   },
 });
 
