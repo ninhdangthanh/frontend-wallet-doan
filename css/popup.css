@@ -78,6 +78,15 @@
     position: relative;
 }
 
+.network-select-item-selected-redux {
+    height: 40px;
+    display: flex;
+    padding: 24px 0;
+    align-items: center;
+    position: relative;
+    background-color: #272c38;
+}
+
 .network-select-item:hover {
     background-color: #272c38;
 }

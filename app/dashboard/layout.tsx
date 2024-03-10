@@ -11,6 +11,9 @@ import { accountApi } from "../../api-client/account-api";
 import { networkApi } from "../../api-client/network-api";
 import { useDispatch, useSelector } from "react-redux";
 import { Network, changeNetwork, selectNetwork } from "@/redux/slice/networkSlice";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AddNetworkPopUp from "../components/popup/addNetwork";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -23,6 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
+    const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
 
     useEffect(() => {
         let access_token = check_token();
@@ -49,13 +53,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
 
     const initNetwork = async (network_list: Network[]) => {
-        console.log("dispatch network");
+        // console.log("dispatch network");
         network_list.forEach((network: Network) => {
             
             if(network.is_default) {
                 dispatch(changeNetwork({network: network, isDefault: true}));
-                console.log(network);
-                
+                // console.log(network);
                 return false;
             }
         });
@@ -64,8 +67,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     return (
         <>
+        <ToastContainer />
         {isShowSelectAccount && <SelectAccountPopUp accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
-        {isShowSelectNetwork && <NetworkSelectPopUp networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
+
+        {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
+        {isShowAddNetwork && <AddNetworkPopUp getNetworks={getNetworks} setIsShowAddNetwork={setIsShowAddNetwork} />}
 
         <div className="app-container">
             <h1 className="wallet-logo">

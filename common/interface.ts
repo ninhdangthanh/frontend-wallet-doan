@@ -11,3 +11,9 @@ export interface ISignUpPayload {
 export interface IForgotPasswordPayload {
     email: string;
 }
+
+export interface IAddNetwork {
+    rpc_url: string,
+    currency_symbol: string,
+    block_explorer_url: string | null,
+}
