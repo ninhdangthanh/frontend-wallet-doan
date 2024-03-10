@@ -14,6 +14,9 @@ import { Network, changeNetwork, selectNetwork } from "@/redux/slice/networkSlic
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddNetworkPopUp from "../components/popup/addNetwork";
+import { hideApiLoading, selectLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
+import ApiLoading from "../components/loading/apiLoading";
+import { ethers } from "ethers";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -27,6 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
     const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
+    const apiLoading = useSelector(selectLoading);
 
     useEffect(() => {
         let access_token = check_token();
@@ -37,29 +41,75 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             setAccessToken(access_token)
         }
 
-        getAccounts()
-        getNetworks()
+        dispatch(showApiLoading())
+        
+        Promise.all([getAccounts(), getNetworks()])
+            .then(([accounts, networks]) => {
+                setNetworks(networks);
+                setAccounts(accounts);
+
+                setTimeout(() => {
+                    dispatch(hideApiLoading())
+                }, 500);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                setTimeout(() => {
+                    dispatch(hideApiLoading())
+                }, 500);
+            });
+
     }, [])
 
+    // useEffect(() => {
+    //     let network_rpc = network_redux.network?.rpc_url
+    //     const ethers_provider = new ethers.providers.JsonRpcProvider(network_rpc);
+
+    //     const balance_account_promist = accounts.map(async (account: any) => {
+    //         let coin = await ethers_provider.getBalance(account.address)
+    
+    //         let number = Number(`${coin}`)
+    //         let numberShow = (number / 1000000000000000000).toFixed(3)
+
+    //         return numberShow
+    //     });
+        
+    //     Promise.all(balance_account_promist).then((items) => {
+    //         console.log(items);
+    //     })
+    //     .catch((error) => {
+    //         console.error("Error fetching amounts:", error);
+    //     });
+    // }, [isShowSelectAccount])
+
     const getAccounts = async () => {
-        let accounts = await accountApi.getAccounts()
-        setAccounts(accounts.data)
-    }
+        try {
+            const accounts = await accountApi.getAccounts();
+            return accounts.data;
+        } catch (error) {
+            console.error("Error fetching accounts:", error);
+            throw error;
+        }
+    };
 
     const getNetworks = async () => {
-        let network = await networkApi.getNetworks()
-        await initNetwork(network.data)
-        setNetworks(network.data)
-    }
+        try {
+            const network = await networkApi.getNetworks();
+            await initNetwork(network.data);
+            return network.data;
+        } catch (error) {
+            console.error("Error fetching networks:", error);
+            throw error;
+        }
+    };
+
 
     const initNetwork = async (network_list: Network[]) => {
-        // console.log("dispatch network");
         network_list.forEach((network: Network) => {
-            
             if(network.is_default) {
                 dispatch(changeNetwork({network: network, isDefault: true}));
                 // console.log(network);
-                return false;
+                return network.rpc_url;
             }
         });
     }
@@ -68,6 +118,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
         <ToastContainer />
+        {apiLoading.isLoading && <ApiLoading />}
         {isShowSelectAccount && <SelectAccountPopUp accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
 
         {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}

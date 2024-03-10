@@ -1,7 +1,7 @@
 // app/layout.tsx
 
-import { Provider } from "react-redux";
 import ReduxProvider from "../redux/provider";
+import ApiLoading from "./components/loading/apiLoading";
 
 export default function RootLayout({
   children,
@@ -11,7 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          {children}
+          </ReduxProvider>
       </body>
     </html>
   );

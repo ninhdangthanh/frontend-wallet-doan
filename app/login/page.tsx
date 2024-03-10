@@ -56,6 +56,8 @@ export default function LogIn() {
       setPassword("")
 
       router.push("/dashboard");
+
+      window.location.reload();
     } catch (error) {
       setFailedLogin(true)
     } finally {
