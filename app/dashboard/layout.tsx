@@ -130,7 +130,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </h1>
             <div className="wallet-container">
                 <div className="wallet-container-header flex-row"> 
-                    <div onClick={() => setIsShowSelectNetwork(true)} className="wallet-network flex-row">
+                    <div className="wallet-network-hide flex-row"></div>
+                    {/* <div onClick={() => setIsShowSelectNetwork(true)} className="wallet-network flex-row">
                         {
                             network_redux.isDefault ?
                             <img src="../eth_logo.png" alt="N" className="wallet-network-logo" />
@@ -139,7 +140,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         }
                         <div className="wallet-network-name">{network_redux.network?.name || "Mainnet"}</div>
                         <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
-                    </div>
+                    </div> */}
                     <div onClick={() => setIsShowSelectAccount(true)} className="wallet-account flex-row">
                         <img src="../account-1-logologo.png" alt="" className="wallet-account-image"/>
                         <div className="wallet-account-name">Account 1</div>
