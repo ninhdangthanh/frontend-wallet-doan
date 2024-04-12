@@ -17,6 +17,7 @@ import AddNetworkPopUp from "../components/popup/addNetwork";
 import { hideApiLoading, selectLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import ApiLoading from "../components/loading/apiLoading";
 import { ethers } from "ethers";
+import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -26,6 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [accounts, setAccounts] = useState([]);
     const [networks, setNetworks] = useState<Network[]>([]);
     const network_redux = useSelector(selectNetwork);
+    const account = useSelector(selectedAccount);
 
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
@@ -85,6 +87,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const getAccounts = async () => {
         try {
             const accounts = await accountApi.getAccounts();
+            const default_account : any = accounts.data[0];
+            dispatch(changeAccount({
+                id: default_account.id,
+                name: default_account.name,
+                address: default_account.address,
+                user_id: default_account.user_id,
+                index_acc: 0
+            }));
             return accounts.data;
         } catch (error) {
             console.error("Error fetching accounts:", error);
@@ -142,8 +152,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
                     </div> */}
                     <div onClick={() => setIsShowSelectAccount(true)} className="wallet-account flex-row">
-                        <img src="../account-1-logologo.png" alt="" className="wallet-account-image"/>
-                        <div className="wallet-account-name">Account 1</div>
+                        <img src={`../account_list/${account!.index_acc + 1}.jpeg`} alt="" className="wallet-account-image"/>
+                        <div className="wallet-account-name">{account?.name}</div>
                         <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
                     </div>
                     <div className="wallet-setting">

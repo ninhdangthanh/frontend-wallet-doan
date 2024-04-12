@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import apiLoadingReducer from "./slice/apiLoadingSlice";
 import networkReducer from "./slice/networkSlice";
+import accountReducer from "./slice/accountSlice";
 
 const store = configureStore({
   reducer: {
     apiLoading: apiLoadingReducer,
-    network: networkReducer
+    network: networkReducer,
+    account: accountReducer
   },
 });
 

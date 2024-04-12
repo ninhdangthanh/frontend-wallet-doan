@@ -242,6 +242,18 @@
     padding-bottom: 50px;
 }
 
+.account-select-item-selected {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: rgb(68, 43, 35);
+}
+
 .account-select-item:hover {
     background-color: rgb(68, 43, 35);
 }

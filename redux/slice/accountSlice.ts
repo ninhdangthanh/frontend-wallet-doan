@@ -2,44 +2,49 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-export interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
+export interface Account {
+  id: string,
+  name: string,
+  address: string,
+  user_id: number,
+  index_acc: number
 }
 
-interface TodoState {
-  todos: Todo[];
+interface AccountState {
+  accounts: Account[];
+  selectedAccount: Account | null;
 }
 
-const initialState: TodoState = {
-  todos: [],
+const initialState: AccountState = {
+  accounts: [],
+  selectedAccount: null
 };
 
-const todosSlice = createSlice({
-  name: "todos",
+const accountsSlice = createSlice({
+  name: "accounts",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<Todo>) => {
-      state.todos.push(action.payload);
+    changeAccount: (state, action: PayloadAction<Account>) => {
+      state.selectedAccount = action.payload;
     },
-    toggleTodo: (state, action: PayloadAction<number>) => {
-      const todo = state.todos.find((t) => t.id === action.payload);
-      if (todo) {
-        todo.completed = !todo.completed;
-      }
-    },
-    deleteTodo: (state, action: PayloadAction<number>) => {
-      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
-    },
-    setTodos: (state, action: PayloadAction<Todo[]>) => {
-      state.todos = action.payload;
-    },
+    // toggleTodo: (state, action: PayloadAction<number>) => {
+    //   const todo = state.todos.find((t) => t.id === action.payload);
+    //   if (todo) {
+    //     todo.completed = !todo.completed;
+    //   }
+    // },
+    // deleteTodo: (state, action: PayloadAction<number>) => {
+    //   state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+    // },
+    // setTodos: (state, action: PayloadAction<Todo[]>) => {
+    //   state.todos = action.payload;
+    // },
   },
 });
 
-export const { addTodo, toggleTodo, deleteTodo, setTodos } = todosSlice.actions;
-export default todosSlice.reducer;
+export const { changeAccount } = accountsSlice.actions;
+export default accountsSlice.reducer;
 
 // Selector to get the todos state
-export const selectTodos = (state: RootState) => state.todos.todos;
+export const selectAccounts = (state: RootState) => state.account.accounts;
+export const selectedAccount = (state: RootState) => state.account.selectedAccount;

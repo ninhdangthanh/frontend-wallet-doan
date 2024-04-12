@@ -20,8 +20,20 @@ export interface NetworkState {
   isDefault: boolean
 }
 
+const sepoliaTestNet : Network = {
+  name: "SepoliaTestnet",
+  rpc_url: "https://ethereum-sepolia-rpc.publicnode.com",
+  chain_id: 11155111,
+  currency_symbol: "SepoliaETH",
+  block_explorer_url: "https://sepolia.etherscan.io/",
+  logo: "sepolia_eth_logo",
+  is_default: true,
+  id: 0,
+  user_id: null
+}
+
 const initialState: NetworkState = {
-  network: null,
+  network: sepoliaTestNet,
   isDefault: true
 };
 

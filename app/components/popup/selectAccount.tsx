@@ -4,17 +4,19 @@ import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
 import "../../../css/bootstrap.min.css"
 import "../../../css/main.css"
 import "../../../css/popup.css"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
+import { Account, changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 
 
 
 export default function SelectAccountPopUp(props: any) {
-    let { accounts } = props;
+    let { accounts, setIsShowSelectAccount } = props;
     
     const network_redux = useSelector(selectNetwork);
+    const selectedAccountSelect = useSelector(selectedAccount);
 
     const ethers_provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
 
@@ -33,7 +35,7 @@ export default function SelectAccountPopUp(props: any) {
             <div className="network-select-body custom-overflow">
                 {
                     accounts.map((account: any, index: any) => {
-                        return <SelectAccountItem network_redux={network_redux} ethers_provider={ethers_provider} account={account} index={index} />
+                        return <SelectAccountItem setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} network_redux={network_redux} ethers_provider={ethers_provider} account={account} index={index} />
                     })
                 }
             </div>
@@ -48,12 +50,25 @@ export default function SelectAccountPopUp(props: any) {
 
 
 function SelectAccountItem(props: any) {
-    const {account, index, ethers_provider, network_redux} = props
+    const {account, index, ethers_provider, network_redux, isSelected, setIsShowSelectAccount} = props
     const [coin, setCoin] = useState("0.000");
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getCoinOfAddress()
     }, [])
+
+    const selectChangeAccount = (account: any) => {
+        let account_change : Account = {
+            id: account.id,
+            name: account.name,
+            address: account.address,
+            user_id: account.user_id,
+            index_acc: index
+        }
+        dispatch(changeAccount(account_change))
+        setIsShowSelectAccount(false)
+    }
 
     const getCoinOfAddress = async () => {
         try {
@@ -72,7 +87,7 @@ function SelectAccountItem(props: any) {
     
     return (
         <>
-            <div className="account-select-item">
+            <div onClick={() => selectChangeAccount(account)} className={isSelected ? "account-select-item-selected" : "account-select-item"}>
                 <img src={`../account_list/${index + 1}.jpeg`} alt="N" className="network-select-item-logo"/>
                 <div className="account-select-item-name">
                     <div className="network-select-item-name1">{account.name.slice(0, 1).toUpperCase()}{account.name.slice(1, )}</div>
