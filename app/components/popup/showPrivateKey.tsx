@@ -5,10 +5,25 @@ import "../../../css/bootstrap.min.css"
 import "../../../css/main.css"
 import "../../../css/popup.css"
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
+import { accountApi } from "@/api-client/account-api";
+import { toast } from "react-toastify";
 
 export default function ShowPrivateKeyPopUp(props: any) {
     const {setIsShowAccountDetail, account} = props
     const router = useRouter();
+    const dispatch = useDispatch();
+    const [accountName, setAccountName] = useState("");
+
+    const [isChangeAccountnameShow, setShowIsChangeAccountnameShow] = useState(false);
+    const [newAccountName, setNewAccountName] = useState("");
+
+    useEffect(() => {
+        setNewAccountName(account.name);
+        setAccountName(account.name)
+    }, [])
 
 
     const logoutAction = () => {
@@ -16,6 +31,41 @@ export default function ShowPrivateKeyPopUp(props: any) {
         sessionStorage.removeItem("u2mya_wallet_access_token");
         router.push("/login");
     }
+
+    const changeAccountName = async () => {
+        dispatch(showApiLoading())
+        try {
+            let payload = {
+                name: newAccountName
+            }
+            await accountApi.changeAccountName(account.id, payload);
+            toast.success('Change account name success', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            setAccountName(newAccountName)
+        } catch (error) {
+            toast.error('Change account name failed', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+        }
+        dispatch(hideApiLoading())
+    }
+
+
 
     return (
         <>
@@ -33,26 +83,49 @@ export default function ShowPrivateKeyPopUp(props: any) {
 
                     <div className="show-private-key-account-name">
                         <div className="show-private-key-account-name-title">{account.name}</div>
-                        <div className="show-private-key-name-edit-button">
+                        <div onClick={() => setShowIsChangeAccountnameShow(true)} className="show-private-key-name-edit-button">
                             <i className="fa-solid fa-pen-to-square"></i>
                         </div>
                     </div>
 
-                    <div className="show-private-key-enter-password">
-                        <div className="show-private-key-enter-password-title">
-                            Enter your password to show private key:
+                    {
+                        isChangeAccountnameShow && <>
+                        <div className="show-private-key-enter-password">
+                            <div className="show-private-key-enter-password-title">
+                                Enter new account name
+                            </div>
+                            <input value={newAccountName} onChange={((e) => setNewAccountName(e.target.value))} 
+                            type="text" className="form-control" placeholder="Password"/>
                         </div>
-                        <input type="password" className="form-control" placeholder="Password"/>
-                    </div>
 
-                    <div className="show-private-key-button flex-row">
-                        <div onClick={() => setIsShowAccountDetail(false)} className="show-private-key-button-cancel">
-                            Cancel
+                        <div className="show-private-key-button flex-row">
+                            <div onClick={() => setShowIsChangeAccountnameShow(false)} className="show-private-key-button-cancel">
+                                Cancel
+                            </div>
+                            <div onClick={() => changeAccountName()} className={newAccountName.length < 5 ? "show-private-key-button-confirm-disabled" : "show-private-key-button-confirm"}>
+                                Save
+                            </div>
                         </div>
-                        <div className="show-private-key-button-confirm">
-                            Confirm
+                        </>
+                    }
+
+                    {!isChangeAccountnameShow && <>
+                        <div className="show-private-key-enter-password">
+                            <div className="show-private-key-enter-password-title">
+                                Enter your password to show private key
+                            </div>
+                            <input type="password" className="form-control" placeholder="Password"/>
                         </div>
-                    </div>
+
+                        <div className="show-private-key-button flex-row">
+                            <div onClick={() => setIsShowAccountDetail(false)} className="show-private-key-button-cancel">
+                                Cancel
+                            </div>
+                            <div className="show-private-key-button-confirm">
+                                Confirm
+                            </div>
+                        </div>
+                    </>}
 
                     <div onClick={() => logoutAction()} className="show-private-key-button-logout">
                         Log out

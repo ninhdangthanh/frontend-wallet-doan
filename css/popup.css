@@ -421,6 +421,16 @@
     color: black;
 }
 
+
+.show-private-key-button-confirm-disabled {
+    font-size: 18px;
+    padding: 8px 50px;
+    background-color: rgb(59, 40, 34);
+    border-radius: 50px;
+    border: none;
+    color: black;
+}
+
 .show-private-key-button-confirm:hover {
     background-color: rgb(235, 108, 61);
 }
