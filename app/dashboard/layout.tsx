@@ -18,6 +18,7 @@ import { hideApiLoading, selectLoading, showApiLoading } from "@/redux/slice/api
 import ApiLoading from "../components/loading/apiLoading";
 import { ethers } from "ethers";
 import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
+import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -30,6 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const account = useSelector(selectedAccount);
 
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
+    const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
     const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
     const apiLoading = useSelector(selectLoading);
@@ -130,6 +132,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ToastContainer />
         {apiLoading.isLoading && <ApiLoading />}
         {isShowSelectAccount && <SelectAccountPopUp accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+        {isShowAccountDetail && <ShowPrivateKeyPopUp account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
 
         {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
         {isShowAddNetwork && <AddNetworkPopUp getNetworks={getNetworks} setIsShowAddNetwork={setIsShowAddNetwork} />}
@@ -152,11 +155,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
                     </div> */}
                     <div onClick={() => setIsShowSelectAccount(true)} className="wallet-account flex-row">
-                        <img src={`../account_list/${account!.index_acc + 1}.jpeg`} alt="" className="wallet-account-image"/>
+                        <img src={`../account_list/${account.index_acc + 1}.jpeg`} alt="" className="wallet-account-image"/>
                         <div className="wallet-account-name">{account?.name}</div>
                         <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
                     </div>
-                    <div className="wallet-setting">
+                    <div style={{paddingLeft: "10px", paddingRight: "10px"}} onClick={() => setIsShowAccountDetail(true)} className="wallet-setting">
                         <i className="fa-solid fa-ellipsis-vertical"></i>
                     </div>
                 </div>

@@ -408,6 +408,10 @@
     color: orangered;
 }
 
+.show-private-key-button-cancel:hover {
+    background-color: #3e3f42;
+}
+
 .show-private-key-button-confirm {
     font-size: 18px;
     padding: 8px 50px;
@@ -415,4 +419,22 @@
     border-radius: 50px;
     border: none;
     color: black;
+}
+
+.show-private-key-button-confirm:hover {
+    background-color: rgb(235, 108, 61);
+}
+
+.show-private-key-button-logout {
+    font-size: 18px;
+    margin-top: 30px;
+    padding: 8px 50px;
+    background-color: rgb(190, 0, 0);
+    border-radius: 50px;
+    border: none;
+    color: white;
+}
+
+.show-private-key-button-logout:hover {
+    background-color: rgb(173, 48, 48);
 }

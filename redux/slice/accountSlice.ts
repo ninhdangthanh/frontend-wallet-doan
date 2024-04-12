@@ -12,12 +12,20 @@ export interface Account {
 
 interface AccountState {
   accounts: Account[];
-  selectedAccount: Account | null;
+  selectedAccount: Account;
+}
+
+const defaultAccount : Account = {
+  id: "0",
+  name: "Account 1",
+  address: "0xrfe4...234dw",
+  user_id: 0,
+  index_acc: 0
 }
 
 const initialState: AccountState = {
   accounts: [],
-  selectedAccount: null
+  selectedAccount: defaultAccount
 };
 
 const accountsSlice = createSlice({
