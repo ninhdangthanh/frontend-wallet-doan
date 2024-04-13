@@ -19,22 +19,27 @@ import ApiLoading from "../components/loading/apiLoading";
 import { ethers } from "ethers";
 import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
+import { hexToNumber } from "@/utils/format-address";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const network_redux = useSelector(selectNetwork);
+    const account = useSelector(selectedAccount);
+    const apiLoading = useSelector(selectLoading);
+    
+    const [copied, setCopied] = useState(false);
     const [accessToken, setAccessToken] = useState("");
     const [accounts, setAccounts] = useState([]);
     const [networks, setNetworks] = useState<Network[]>([]);
-    const network_redux = useSelector(selectNetwork);
-    const account = useSelector(selectedAccount);
-
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
     const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
-    const apiLoading = useSelector(selectLoading);
+    const [accountBalanceETH, setAccountBalanceETH] = useState('0');
+    
+    
 
     useEffect(() => {
         let access_token = check_token();
@@ -64,6 +69,39 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             });
 
     }, [])
+
+    useEffect(() => {
+        getAccountBalance()
+        setAccountBalanceETH(`${0}`)
+        // console.log("accountBalanceETH", accountBalanceETH);
+    }, [account])
+
+    const getAccountBalance = async () => {
+        try {
+            const provider = new ethers.providers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
+            const etherBalance = await provider.getBalance(account.address);
+            // console.log("Balance:", etherBalance, "ETH", account.address);
+
+            let showBalance = (etherBalance as unknown as number / 1000000000000000000).toFixed(4);
+            if (showBalance == '0.0000') {
+                showBalance = '0'
+            }
+            setAccountBalanceETH(`${showBalance}`)
+        } catch (error) {
+            console.error("Error when get account balance:", error);
+        }
+    }
+
+    const handleCopyTextAddress = () => {
+        const textToCopy = account.address;
+            navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                alert("Copied account address")
+            })
+            .catch((error) => {
+                console.error('Failed to copy:', error);
+            });
+    };
 
     // useEffect(() => {
     //     let network_rpc = network_redux.network?.rpc_url
@@ -164,12 +202,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </div>
                 </div>
                 <div className="wallet-container-coin">
-                <div className="wallet-coin-address">
-                    <div className="wallet-coin-address-text">0xc73cc...cdE73</div>
+                <div onClick={handleCopyTextAddress} className="wallet-coin-address">
+                    {/* <div className="wallet-coin-address-text">0xc73cc...cdE73</div> */}
+                    <div className="wallet-coin-address-text">{`${account.address.slice(0, 6)}...${account.address.slice(37)}`}</div>
                     <i className="wallet-coin-address-copy fa-regular fa-copy"></i>
                 </div>
                 <div className="wallet-coin-balance">
-                    0 SepoliaETH
+                    {accountBalanceETH} SepoliaETH
                 </div>
                 <div className="wallet-coin-option">
                     <div className="wallet-coin-option-item flex-row">
@@ -178,7 +217,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </div>
                     <span>Buy & Sell</span>
                     </div>
-                    <div className="wallet-coin-option-item flex-row">
+                    <div onClick={() => getAccountBalance()} className="wallet-coin-option-item flex-row">
                         <div className="wallet-coin-option-button flex-row">
                             <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
                         </div>

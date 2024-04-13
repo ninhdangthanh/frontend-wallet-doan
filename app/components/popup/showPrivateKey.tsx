@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { accountApi } from "@/api-client/account-api";
 import { toast } from "react-toastify";
+import { changeSelectedAccountName } from "@/redux/slice/accountSlice";
 
 export default function ShowPrivateKeyPopUp(props: any) {
     const {setIsShowAccountDetail, account} = props
@@ -30,6 +31,7 @@ export default function ShowPrivateKeyPopUp(props: any) {
         setIsShowAccountDetail(false)
         sessionStorage.removeItem("u2mya_wallet_access_token");
         router.push("/login");
+        window.location.reload()
     }
 
     const changeAccountName = async () => {
@@ -50,6 +52,7 @@ export default function ShowPrivateKeyPopUp(props: any) {
                     theme: 'dark',
                 });
             setAccountName(newAccountName)
+            dispatch(changeSelectedAccountName(newAccountName))
         } catch (error) {
             toast.error('Change account name failed', {
                 position: 'top-right',

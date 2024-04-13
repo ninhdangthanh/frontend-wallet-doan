@@ -77,7 +77,7 @@ function SelectAccountItem(props: any) {
             let number = Number(`${coin}`)
             let numberShow = (number / 1000000000000000000).toFixed(3)
             
-            console.log(index, numberShow);
+            // console.log(index, numberShow);
             
             setCoin(numberShow)
         } catch (error) {
