@@ -3,10 +3,17 @@
 import Link from "next/link";
 import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
 import "../../../css/main.css"
+import { useState } from "react";
+import AddERC20PopUp from "@/app/components/popup/addERC20";
 
 export default function Home() {
+
+    const [isShowAddTokenERC20, setIsShowAddTokenERC20] = useState(false);
+    
     return (
         <>
+            {isShowAddTokenERC20 && <AddERC20PopUp setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
+        
             <div className="wallet-activity-header flex-row">
                 <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option wallet-activity-header-option-active">Token</Link>
                 <Link key="NFT" href="/dashboard/nft"  className="wallet-activity-header-option">NFT</Link>
@@ -82,7 +89,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="wallet-activity-body-method">
-                        <div className="wallet-activity-import-token">
+                        <div onClick={() => setIsShowAddTokenERC20(true)} className="wallet-activity-import-token">
                             <i className="fa-solid fa-plus"></i>
                             <span>Import token</span>
                         </div>

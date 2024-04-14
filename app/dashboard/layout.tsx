@@ -20,6 +20,7 @@ import { ethers } from "ethers";
 import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
 import { hexToNumber } from "@/utils/format-address";
+import AddERC20PopUp from "../components/popup/addERC20";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
