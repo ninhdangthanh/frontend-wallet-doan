@@ -6,11 +6,11 @@ import "../../../css/main.css"
 import "../../../css/popup.css"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { accountApi } from "@/api-client/account-api";
 import { toast } from "react-toastify";
-import { changeSelectedAccountName } from "@/redux/slice/accountSlice";
+import { changeSelectedAccountName, getPrivateKey } from "@/redux/slice/accountSlice";
 
 export default function ShowPrivateKeyPopUp(props: any) {
     const {setIsShowAccountDetail, account} = props
@@ -20,6 +20,7 @@ export default function ShowPrivateKeyPopUp(props: any) {
 
     const [isChangeAccountnameShow, setShowIsChangeAccountnameShow] = useState(false);
     const [newAccountName, setNewAccountName] = useState("");
+    const privateKey = useSelector(getPrivateKey);
 
     useEffect(() => {
         setNewAccountName(account.name);
@@ -68,6 +69,17 @@ export default function ShowPrivateKeyPopUp(props: any) {
         dispatch(hideApiLoading())
     }
 
+    const handleCopyTextAddress = () => {
+        const textToCopy = privateKey;
+            navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                alert("Copied account private key")
+            })
+            .catch((error) => {
+                console.error('Failed to copy:', error);
+            });
+    };
+
 
 
     return (
@@ -113,21 +125,12 @@ export default function ShowPrivateKeyPopUp(props: any) {
                     }
 
                     {!isChangeAccountnameShow && <>
-                        <div className="show-private-key-enter-password">
-                            <div className="show-private-key-enter-password-title">
-                                Enter your password to show private key
-                            </div>
-                            <input type="password" className="form-control" placeholder="Password"/>
+                        <div style={{fontSize: 24, color: "white", marginTop: 20}}>Private Key</div>
+                        <div onClick={handleCopyTextAddress} className="wallet-coin-address-private">
+                            <div style={{color: "orangered", width: 300, wordWrap: "break-word"}}>{privateKey}</div>
+                            <div><i className="wallet-coin-address-copy fa-regular fa-copy"></i></div>
                         </div>
-
-                        <div className="show-private-key-button flex-row">
-                            <div onClick={() => setIsShowAccountDetail(false)} className="show-private-key-button-cancel">
-                                Cancel
-                            </div>
-                            <div className="show-private-key-button-confirm">
-                                Confirm
-                            </div>
-                        </div>
+                        
                     </>}
 
                     <div onClick={() => logoutAction()} className="show-private-key-button-logout">

@@ -133,7 +133,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 name: default_account.name,
                 address: default_account.address,
                 user_id: default_account.user_id,
-                index_acc: 0
+                index_acc: 0,
+                privateKey: default_account.privateKey
             }));
             return accounts.data;
         } catch (error) {

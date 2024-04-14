@@ -7,7 +7,8 @@ export interface Account {
   name: string,
   address: string,
   user_id: number,
-  index_acc: number
+  index_acc: number,
+  privateKey: string
 }
 
 interface AccountState {
@@ -20,7 +21,8 @@ const defaultAccount : Account = {
   name: "Account 1",
   address: "0xrfe4...234dw",
   user_id: 0,
-  index_acc: 0
+  index_acc: 0,
+  privateKey: "privateKey"
 }
 
 const initialState: AccountState = {
@@ -59,3 +61,4 @@ export default accountsSlice.reducer;
 // Selector to get the todos state
 export const selectAccounts = (state: RootState) => state.account.accounts;
 export const selectedAccount = (state: RootState) => state.account.selectedAccount;
+export const getPrivateKey = (state: RootState) => state.account.selectedAccount.privateKey;

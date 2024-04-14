@@ -64,7 +64,8 @@ function SelectAccountItem(props: any) {
             name: account.name,
             address: account.address,
             user_id: account.user_id,
-            index_acc: index
+            index_acc: index,
+            privateKey: account.privateKey
         }
         dispatch(changeAccount(account_change))
         setIsShowSelectAccount(false)
