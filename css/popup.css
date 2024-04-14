@@ -355,6 +355,21 @@
     justify-content: space-between;
 }
 
+.show-token-erc20-detail-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #191c23;
+    z-index: 10;
+    width: 500px;
+    padding: 16px 16px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .show-private-key-title {
     color: white;
 }

@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { Account, changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 
 
-
 export default function SelectAccountPopUp(props: any) {
     let { accounts, setIsShowSelectAccount } = props;
     

@@ -26,7 +26,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const network_redux = useSelector(selectNetwork);
     const account = useSelector(selectedAccount);
     const apiLoading = useSelector(selectLoading);
     
