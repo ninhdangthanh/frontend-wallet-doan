@@ -7,7 +7,7 @@ export const tokenApi = {
     return axiosClient.get(`api/token/erc20/${accountId}`);
   },
   importTokenERC20(payload: ERC20Import) {
-    return axiosClient.patch(`api/token/erc20/import`, payload);
+    return axiosClient.post(`api/token/erc20/import`, payload);
   },
 };
 
