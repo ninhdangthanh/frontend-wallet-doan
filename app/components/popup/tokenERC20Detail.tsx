@@ -5,13 +5,59 @@ import "../../../css/bootstrap.min.css"
 import "../../../css/main.css"
 import "../../../css/popup.css"
 import "../../../css/token-detail.css"
+import { useDispatch, useSelector } from "react-redux";
+import { selectedAccount } from "@/redux/slice/accountSlice";
+import { tokenApi } from "@/api-client/token-api";
+import { toast } from "react-toastify";
+import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 
 export default function TokenERC20(props: any) {
-    const {setShowDetail, token} = props
+    const {setShowDetail, token, getTokenERC20s} = props
+    const account = useSelector(selectedAccount);
+    const dispatch = useDispatch();
+
 
     const handleOpenNewTab = () => {
         window.open(`https://sepolia.etherscan.io/address/${token.contract_address}`, '_blank');
     };
+
+    const hideTokenERC20 = async (tokenID: number) => {
+        const result = window.confirm('Confirm hide token ERC20?');
+        if (result) {
+            dispatch(showApiLoading())
+            try {
+                await tokenApi.hideTokenERC20(tokenID, account.id as any as number)
+                toast.success('Hide token ERC20 successfully', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+                await getTokenERC20s()
+            } catch (error) {
+                toast.error('Add token ERC20 network failed', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            } finally {
+                dispatch(hideApiLoading())
+                setShowDetail(false)
+            }
+        } else {
+            // console.log('User canceled');
+        }
+    };
+    
 
     return (
         <>
@@ -60,7 +106,7 @@ export default function TokenERC20(props: any) {
                     <div onClick={() => handleOpenNewTab()} className="top-20px top-20px network-select-add">
                         View Asset in explorer
                     </div>
-                    <div className="top-20px network-select-add">
+                    <div onClick={() => hideTokenERC20(token.id)} className="top-20px network-select-add">
                         Hide token
                     </div>
             </div>

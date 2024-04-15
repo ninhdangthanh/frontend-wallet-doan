@@ -9,6 +9,9 @@ export const tokenApi = {
   importTokenERC20(payload: ERC20Import) {
     return axiosClient.post(`api/token/erc20/import`, payload);
   },
+  hideTokenERC20(tokenID: number, accountID: number) {
+    return axiosClient.delete(`api/token/erc20/remove/${tokenID}/${accountID}`);
+  },
 };
 
 

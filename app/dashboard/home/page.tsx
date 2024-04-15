@@ -48,7 +48,7 @@ export default function Home() {
     
     return (
             <>
-                {isShowAddTokenERC20 && <AddERC20PopUp setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
+                {isShowAddTokenERC20 && <AddERC20PopUp getTokenERC20s={getTokenERC20s} setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
             
                 <div className="wallet-activity-header flex-row">
                     <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option wallet-activity-header-option-active">Token</Link>
@@ -59,7 +59,7 @@ export default function Home() {
                         <div className="wallet-activity-body-tokens">
                             {
                                 tokens.map((token: any) => {
-                                    return <TokenERC20Item account={account} token={token} />
+                                    return <TokenERC20Item getTokenERC20s={getTokenERC20s} account={account} token={token} />
                                 })
                             }
                         </div>
@@ -80,13 +80,13 @@ export default function Home() {
 
 
 const TokenERC20Item = (props: any) => {
-    const {token} = props
+    const {token, getTokenERC20s} = props
 
     const [showDetail, setShowDetail] = useState(false);
     
     return (
         <>
-            {showDetail && <TokenERC20 setShowDetail={setShowDetail} token={token} />}
+            {showDetail && <TokenERC20 getTokenERC20s={getTokenERC20s} setShowDetail={setShowDetail} token={token} />}
             <div className="wallet-token-item" onClick={() => setShowDetail(true)}>
                 <img src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc" alt="" className="wallet-token-item-logo" />
                 <div className="wallet-token-item-balance">
