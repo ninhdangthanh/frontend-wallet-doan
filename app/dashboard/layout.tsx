@@ -170,7 +170,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <>
         <ToastContainer />
         {apiLoading.isLoading && <ApiLoading />}
-        {isShowSelectAccount && <SelectAccountPopUp accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+        {isShowSelectAccount && <SelectAccountPopUp getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
         {isShowAccountDetail && <ShowPrivateKeyPopUp account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
 
         {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}

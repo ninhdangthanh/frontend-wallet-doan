@@ -9,10 +9,13 @@ import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { Account, changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
+import { accountApi } from "@/api-client/account-api";
+import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
+import { toast } from "react-toastify";
 
 
 export default function SelectAccountPopUp(props: any) {
-    let { accounts, setIsShowSelectAccount } = props;
+    let { accounts, setIsShowSelectAccount, getAccounts } = props;
     
     const network_redux = useSelector(selectNetwork);
     const selectedAccountSelect = useSelector(selectedAccount);
@@ -34,7 +37,7 @@ export default function SelectAccountPopUp(props: any) {
             <div className="network-select-body custom-overflow">
                 {
                     accounts.map((account: any, index: any) => {
-                        return <SelectAccountItem setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} network_redux={network_redux} ethers_provider={ethers_provider} account={account} index={index} />
+                        return <SelectAccountItem getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} network_redux={network_redux} ethers_provider={ethers_provider} account={account} index={index} />
                     })
                 }
             </div>
@@ -49,7 +52,7 @@ export default function SelectAccountPopUp(props: any) {
 
 
 function SelectAccountItem(props: any) {
-    const {account, index, ethers_provider, network_redux, isSelected, setIsShowSelectAccount} = props
+    const {account, index, ethers_provider, network_redux, isSelected, setIsShowSelectAccount, getAccounts} = props
     const [coin, setCoin] = useState("0.000");
     const dispatch = useDispatch();
 
@@ -84,20 +87,57 @@ function SelectAccountItem(props: any) {
             setCoin("0.000")
         }
     }
+
+    const handleDeleteAccount = async (accountId: number) => {
+        let confirmDeleteAccount = confirm("You confirm delete network?")
+        if(confirmDeleteAccount) {
+            console.log("accountId ", accountId);
+            try {
+                dispatch(showApiLoading())
+                await accountApi.removeAccount(accountId);
+                toast.success('Remove account successfully', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+                setIsShowSelectAccount(false)
+                window.location.reload()
+            } catch (error) {
+                toast.error('Remove account failed', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            } finally {
+                dispatch(hideApiLoading())
+            }
+        }
+    }
+    
     
     return (
         <>
-            <div onClick={() => selectChangeAccount(account)} className={isSelected ? "account-select-item-selected" : "account-select-item"}>
-                <img src={`../account_list/${index + 1}.jpeg`} alt="N" className="network-select-item-logo"/>
-                <div className="account-select-item-name">
+            <div className={isSelected ? "account-select-item-selected" : "account-select-item"}>
+                <img onClick={() => selectChangeAccount(account)} src={`../account_list/${index + 1}.jpeg`} alt="N" className="network-select-item-logo"/>
+                <div onClick={() => selectChangeAccount(account)} className="account-select-item-name">
                     <div className="network-select-item-name1">{account.name.slice(0, 1).toUpperCase()}{account.name.slice(1, )}</div>
                     <div className="network-select-item-name2">{account.address.slice(0, 7)}...{account.address.slice(37, )}</div>
                 </div>
-                <div className="" style={{paddingRight: "50px"}}>
+                <div onClick={() => selectChangeAccount(account)} className="" style={{paddingRight: "50px"}}>
                     <div className="network-select-item-name1">{coin} {network_redux.network.currency_symbol}</div>
                 </div>
-                <div className="network-select-item-detail">
-                    <i className="fa-solid fa-trash"></i>
+                <div onClick={() => handleDeleteAccount(account.id)} className="network-select-item-detail">
+                    {!isSelected && <i className="fa-solid fa-trash"></i>}
                 </div>
             </div>
         </>

@@ -9,4 +9,7 @@ export const accountApi = {
   changeAccountName(accountId : any, payload: any) {
     return axiosClient.patch(`api/account/change-name/${accountId}`, payload);
   },
+  removeAccount(accountId : any) {
+    return axiosClient.delete(`api/account/remove/${accountId}`);
+  },
 };

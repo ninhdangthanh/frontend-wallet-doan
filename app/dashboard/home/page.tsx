@@ -1,8 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
-import "../../../css/main.css"
 import { useEffect, useState } from "react";
 import AddERC20PopUp from "@/app/components/popup/addERC20";
 import { tokenApi } from "@/api-client/token-api";
