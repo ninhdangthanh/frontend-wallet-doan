@@ -10,7 +10,6 @@ export default function SignIn() {
     <>
         <div className="wallet-activity-header flex-row">
             <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option ">Token</Link>
-            <Link key="NFT" href="/dashboard/nft"  className="wallet-activity-header-option">NFT</Link>
             <Link key="Activity" href="/dashboard/activity"  className="wallet-activity-header-option wallet-activity-header-option-active">Activity</Link>
         </div>
         <div className="wallet-activity-body"> 
