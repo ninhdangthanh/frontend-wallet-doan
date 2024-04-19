@@ -1,5 +1,4 @@
 import { IForgotPasswordPayload, ILogInPayload, ISignUpPayload } from "../common";
-import ForgotPassword from "../forgot-password/page";
 import axiosClient from "./axios-client";
 
 export const authApi = {
@@ -11,5 +10,11 @@ export const authApi = {
   },
   forgotPassword(payload: IForgotPasswordPayload) {
     return axiosClient.post("api/auth/forgot-password", payload);
+  },
+  changePassword(newPassword: string) {
+    let changePasswordPayload = {
+      "newPassword": newPassword
+    }
+    return axiosClient.post("api/auth/change-password", changePasswordPayload);
   },
 };

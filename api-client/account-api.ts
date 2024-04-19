@@ -1,5 +1,3 @@
-import { IForgotPasswordPayload, ILogInPayload, ISignUpPayload } from "../common";
-// import ForgotPassword from "../forgot-password/page";
 import axiosClient from "./axios-client";
 
 export const accountApi = {
@@ -11,5 +9,14 @@ export const accountApi = {
   },
   removeAccount(accountId : any) {
     return axiosClient.delete(`api/account/remove/${accountId}`);
+  },
+  createAccount() {
+    return axiosClient.post(`api/account/create`);
+  },
+  importAccount(privateKey : string) {
+    let importAccountPayload = {
+      "account_private_key": privateKey
+    }
+    return axiosClient.post(`api/account/add`, importAccountPayload);
   },
 };

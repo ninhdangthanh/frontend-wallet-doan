@@ -181,8 +181,8 @@
 }
 
 .wallet-activity-header-option-active {
-    border-top: 2px solid orangered;
-    border-bottom: 2px solid orangered;
+    border-top: 1px solid orangered;
+    border-bottom: 1px solid orangered;
 }
 
 .wallet-token-item {
