@@ -10,27 +10,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectedAccount } from "@/redux/slice/accountSlice";
 import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
+import { authApi } from "@/api-client/auth-api";
 
-export default function AddERC20PopUp(props: any) {
-    const {setIsShowAddTokenERC20, getTokenERC20s} = props
-    
-    const dispatch = useDispatch();
-    const [tokenAddress, setTokenAddress] = useState("")
-    const account = useSelector(selectedAccount);
+export default function ChangePasswordPopup(props: any) {
+    const {setIsShowChangePasswordPopup} = props
 
-    const importTokenERC20 = async (e: any) => {
-        e.preventDefault()
-        console.log("tokenAddress ", tokenAddress);
+    const [newPassword, setNewPassword] = useState("")
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState("")
 
-        let tokenInfo : ERC20Import = {
-            account_id: account.id,
-            token_address: tokenAddress
-        };
-        dispatch(showApiLoading())
+    const changePasswordRequest = async (e: any) => {
+        e.preventDefault();
+
+        if (newPassword == "" || newPassword != newPasswordConfirm || newPassword.length < 6) {
+            alert("Please fill in the correct new password.");
+            return;
+        }
 
         try {
-            await tokenApi.importTokenERC20(tokenInfo)
-            toast.success('Add token ERC20 successfully', {
+            await authApi.changePassword(newPassword);
+            toast.success('Change password successfully', {
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -40,9 +38,9 @@ export default function AddERC20PopUp(props: any) {
                 progress: undefined,
                 theme: 'dark',
             });
-            await getTokenERC20s()
+            setIsShowChangePasswordPopup(false)
         } catch (error) {
-            toast.error('Add token ERC20 failed', {
+            toast.error('Change password failed', {
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -52,32 +50,34 @@ export default function AddERC20PopUp(props: any) {
                 progress: undefined,
                 theme: 'dark',
             });
-        } finally {
-            setIsShowAddTokenERC20(false)
-            dispatch(hideApiLoading())
         }
     }
 
+
     return (
         <>
-            <div onClick={() => setIsShowAddTokenERC20(false)} className="overlay"></div>
+            <div onClick={() => setIsShowChangePasswordPopup(false)} className="overlay"></div>
 
             <div className="network-add-container">
-                <form onSubmit={(e) => importTokenERC20(e)}>
+                <form onSubmit={(e) => changePasswordRequest(e)}>
                     <h3 className="network-select-title">
-                        Import token ERC20
-                        <div onClick={() => setIsShowAddTokenERC20(false)} className="network-select-close">
+                        Change password
+                        <div onClick={() => setIsShowChangePasswordPopup(false)} className="network-select-close">
                             <i className="fa-solid fa-xmark"></i>
                         </div>
                     </h3>
                     <div className="network-select-body">
                         <div className="form-group network-add-field">
-                            <label htmlFor="network-name">Token address</label>
-                            <input value={tokenAddress} onChange={e => setTokenAddress(e.target.value)} type="text" className="form-control" id="network-name" />
+                            <label htmlFor="network-name">New password</label>
+                            <input value={newPassword} onChange={e => setNewPassword(e.target.value)} type="text" className="form-control" id="network-name" />
+                        </div>
+                        <div className="form-group network-add-field">
+                            <label htmlFor="network-name">Confirm new password</label>
+                            <input value={newPasswordConfirm} onChange={e => setNewPasswordConfirm(e.target.value)} type="text" className="form-control" id="network-name" />
                         </div>
                     </div>
                     <button type="submit" className="network-select-add">
-                        Import
+                        Save
                     </button>
                 </form>
             </div>

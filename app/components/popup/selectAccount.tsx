@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 
 
 export default function SelectAccountPopUp(props: any) {
-    let { accounts, setIsShowSelectAccount, getAccounts } = props;
+    let { accounts, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup } = props;
     
     const network_redux = useSelector(selectNetwork);
     const selectedAccountSelect = useSelector(selectedAccount);
@@ -41,7 +41,7 @@ export default function SelectAccountPopUp(props: any) {
                     })
                 }
             </div>
-            <div className="network-select-add">
+            <div onClick={() => {setIsShowAddAccountPopup(true);props.setIsShowSelectAccount(false)}} className="network-select-add">
                 Add Account
             </div>
         </div>
@@ -106,7 +106,9 @@ function SelectAccountItem(props: any) {
                     theme: 'dark',
                 });
                 setIsShowSelectAccount(false)
-                window.location.reload()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000);
             } catch (error) {
                 toast.error('Remove account failed', {
                     position: 'top-right',

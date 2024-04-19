@@ -21,6 +21,8 @@ import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
 import { hexToNumber } from "@/utils/format-address";
 import AddERC20PopUp from "../components/popup/addERC20";
+import ChangePasswordPopup from "../components/popup/changePasswordPopup";
+import AddAccountPopup from "../components/popup/addAccountPopup";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -37,6 +39,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
     const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
+    const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
+    const [isShowAddAccountPopup, setIsShowAddAccountPopup] = useState(false);
+    
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
     
     
@@ -52,9 +57,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         dispatch(showApiLoading())
         
-        Promise.all([getAccounts(), getNetworks()])
-            .then(([accounts, networks]) => {
-                setNetworks(networks);
+        Promise.all([getAccounts()])
+            .then(([accounts]) => {
                 setAccounts(accounts);
 
                 setTimeout(() => {
@@ -170,11 +174,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <>
         <ToastContainer />
         {apiLoading.isLoading && <ApiLoading />}
-        {isShowSelectAccount && <SelectAccountPopUp getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
-        {isShowAccountDetail && <ShowPrivateKeyPopUp account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
+        {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+        {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
 
         {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
         {isShowAddNetwork && <AddNetworkPopUp getNetworks={getNetworks} setIsShowAddNetwork={setIsShowAddNetwork} />}
+        {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
+        {isShowAddAccountPopup && <AddAccountPopup getAccounts={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} />}
 
         <div className="app-container">
             <h1 className="wallet-logo">

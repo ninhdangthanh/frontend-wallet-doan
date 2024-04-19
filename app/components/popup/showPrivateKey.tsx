@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { changeSelectedAccountName, getPrivateKey } from "@/redux/slice/accountSlice";
 
 export default function ShowPrivateKeyPopUp(props: any) {
-    const {setIsShowAccountDetail, account} = props
+    const {setIsShowAccountDetail, account, setIsShowChangePasswordPopup} = props
     const router = useRouter();
     const dispatch = useDispatch();
     const [accountName, setAccountName] = useState("");
@@ -132,6 +132,10 @@ export default function ShowPrivateKeyPopUp(props: any) {
                         </div>
                         
                     </>}
+
+                    <div onClick={() => {setIsShowChangePasswordPopup(true);setIsShowAccountDetail(false)}} className="show-private-key-button-cancel">
+                        Change password
+                    </div>
 
                     <div onClick={() => logoutAction()} className="show-private-key-button-logout">
                         Log out

@@ -39,7 +39,7 @@ export default function TokenERC20(props: any) {
                 });
                 await getTokenERC20s()
             } catch (error) {
-                toast.error('Add token ERC20 network failed', {
+                toast.error('Add token ERC20 failed', {
                     position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
