@@ -169,13 +169,19 @@
 }
 
 .wallet-activity-header-option {
-    width: 50%;
+    width: 100%;
+    margin-top: 10px;
     padding-bottom: 10px;
+    padding-top: 10px;
     color: white;
     text-decoration: none;
+    padding-left: 20px;
+    font-weight: 700;
+    font-size: 22px;
 }
 
 .wallet-activity-header-option-active {
+    border-top: 2px solid orangered;
     border-bottom: 2px solid orangered;
 }
 

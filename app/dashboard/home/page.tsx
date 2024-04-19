@@ -50,7 +50,7 @@ export default function Home() {
             
                 <div className="wallet-activity-header flex-row">
                     <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option wallet-activity-header-option-active">Token</Link>
-                    <Link key="Activity" href="/dashboard/activity"  className="wallet-activity-header-option">Activity</Link>
+                    {/* <Link key="Activity" href="/dashboard/activity"  className="wallet-activity-header-option">Activity</Link> */}
                 </div>
                 <div className="wallet-activity-body"> 
                         <div className="wallet-activity-body-tokens">
