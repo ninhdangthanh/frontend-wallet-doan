@@ -133,9 +133,9 @@ export default function ShowPrivateKeyPopUp(props: any) {
                         
                     </>}
 
-                    <div onClick={() => {setIsShowChangePasswordPopup(true);setIsShowAccountDetail(false)}} className="show-private-key-button-cancel">
+                    {!isChangeAccountnameShow && <div onClick={() => {setIsShowChangePasswordPopup(true);setIsShowAccountDetail(false)}} className="show-private-key-button-cancel">
                         Change password
-                    </div>
+                    </div>}
 
                     <div onClick={() => logoutAction()} className="show-private-key-button-logout">
                         Log out
