@@ -115,7 +115,7 @@ export default function AddAccountPopup(props: any) {
                     Create new account
                 </button>
                 <br /> <br />
-                <div style={{width: "100%", height: 1, backgroundColor: "red"}}></div>
+                <div style={{width: "100%", height: 1, backgroundColor: "red", marginTop: 28}}></div>
                 <br />
                 
                 <div className="network-select-body">
