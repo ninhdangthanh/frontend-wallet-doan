@@ -97,7 +97,6 @@
 
 .quantity-send-title {
     font-size: 26px;
-    padding-top: 12px;
     text-align: center;
     padding-bottom: 12px;
 }
@@ -105,7 +104,7 @@
 .quantity-send-close {
     color: orangered;
     position: absolute;
-    top: 16px;
+    top: -4px;
     right: 16px;
 }
 
@@ -115,6 +114,22 @@
     text-align: start;
     padding: 10px 16px;
     margin-top: 10px;
+}
+
+.quantity-send-account-input {
+    border: 1px solid orangered;
+    border-radius: 8px;
+    text-align: start;
+    padding: 4px 16px;
+    background-color: #191c23;
+    color: orangered;
+    flex: 1;
+}
+
+.quantity-send-account-input::-webkit-inner-spin-button,
+.quantity-send-account-input::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
 }
 
 .quantity-send-account-address {
@@ -128,7 +143,7 @@
 .quantity-send-button {
     padding: 0 20px;
     padding-bottom: 30px;
-    margin-top: 80px;
+    margin-top: 40px;
 }
 
 .quantity-send-button div {
@@ -265,4 +280,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.quantity-send-account-name-to {
+    color: orangered;
+    font-size: 20px;
+    padding-left: 10px;
+    padding-right: 12px;
+}
+
+.quantity-send-account-to {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
 }

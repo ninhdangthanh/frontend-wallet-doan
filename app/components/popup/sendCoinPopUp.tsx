@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectedAccount } from "@/redux/slice/accountSlice";
 
-export default function SendTokenPopUp(props: any) {
-    const {token, setIsShowSendTokenPopup} = props
+export default function SendCoinPopUp(props: any) {
+    const {coinBalance, setIsShowSendCoinPopup} = props
 
     const account = useSelector(selectedAccount);
 
@@ -17,7 +17,7 @@ export default function SendTokenPopUp(props: any) {
     const [valueSend, setValueSend] = useState(0)
 
     useEffect(() => {
-        console.log(token.balances, " ", typeof(token.balances));
+        console.log(coinBalance, " ", typeof(coinBalance));
         
     }, [])
 
@@ -26,7 +26,7 @@ export default function SendTokenPopUp(props: any) {
             alert("Please fill in the correct to address.")
             return;
         }
-        if(valueSend > Number(token.balances) || valueSend == 0) {
+        if(valueSend > coinBalance || valueSend == 0) {
             alert("Please fill in the correct amount.")
             return;
         }
@@ -41,14 +41,14 @@ export default function SendTokenPopUp(props: any) {
 
     return (
         <>
-            <div onClick={() => setIsShowSendTokenPopup(false)} className="overlay"></div>
+            <div onClick={() => setIsShowSendCoinPopup(false)} className="overlay"></div>
 
             <div className="popup-send-container" style={{color: "white"}}>
                 <div className="quantity-send-container" style={{color: "white"}}>
                     <div className="quantity-send-title">
                         Send
                     </div>
-                    <div onClick={() => setIsShowSendTokenPopup(false)} className="quantity-send-close">
+                    <div onClick={() => setIsShowSendCoinPopup(false)} className="quantity-send-close">
                         Cancel
                     </div>
                     <div className="quantity-send-account">
@@ -73,10 +73,10 @@ export default function SendTokenPopUp(props: any) {
                             {/* <img src="./account-1-logologo.png" alt="Send tokens logo" className="quantity-send-asset-choose-logo" /> */}
                             <div className="quantity-send-asset-choose-quantity">
                                 <div className="quantity-send-asset-choose-quantity-name">
-                                    {token.name}
+                                    SepoliaETH
                                 </div>
                                 <div className="quantity-send-asset-choose-quantity-balance">
-                                    Balance: <strong style={{fontSize: 18}}>{token.balances}</strong> {token.symbol}
+                                    Balance: <strong style={{fontSize: 18}}>{coinBalance}</strong> ETH
                                 </div>
                             </div>
                             {/* <i className="fa-solid fa-caret-down"></i> */}
@@ -92,7 +92,7 @@ export default function SendTokenPopUp(props: any) {
                         <div className="quantity-send-amount-input">
                             <div className="quantity-send-amount-input-top">
                                 <input value={valueSend} onChange={e => setValueSend(Number(e.target.value))} type="number" placeholder="0" className="quantity-send-amount-input-top-input"/>
-                                <div className="quantity-send-amount-input-title">{token.symbol}</div>
+                                <div className="quantity-send-amount-input-title">ETH</div>
                             </div>
                             <div className="quantity-send-amount-input-bot">
                                 No conversion rate avalable
@@ -100,7 +100,7 @@ export default function SendTokenPopUp(props: any) {
                         </div>
                     </div>
                     <div className="quantity-send-button flex-row">
-                        <div onClick={() => setIsShowSendTokenPopup(false)} className="quantity-send-button-cancel">Cancel</div>
+                        <div onClick={() => setIsShowSendCoinPopup(false)} className="quantity-send-button-cancel">Cancel</div>
                         <div onClick={() => handleSendToken()} className="quantity-send-button-send">Send</div>
                     </div>
                 </div>

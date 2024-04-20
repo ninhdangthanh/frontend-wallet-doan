@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { selectedAccount } from "@/redux/slice/accountSlice";
 import { ethers } from "ethers";
 import TokenERC20 from "@/app/components/popup/tokenERC20Detail";
+import SendTokenPopUp from "@/app/components/popup/sendTokenPopUp";
 
 
 
@@ -79,11 +80,20 @@ export default function Home() {
 const TokenERC20Item = (props: any) => {
     const {token, getTokenERC20s} = props
 
+    const [isShowSendTokenPopup, setIsShowSendTokenPopup] = useState(false);
+    const [tokenStateSend, setTokenStateSend] = useState<any>();
     const [showDetail, setShowDetail] = useState(false);
+
+    const showSendToken = () => {
+        setIsShowSendTokenPopup(true)
+        setShowDetail(false)
+        setTokenStateSend(token)
+    }
     
     return (
         <>
-            {showDetail && <TokenERC20 getTokenERC20s={getTokenERC20s} setShowDetail={setShowDetail} token={token} />}
+            {isShowSendTokenPopup && <SendTokenPopUp setIsShowSendTokenPopup={setIsShowSendTokenPopup} token={tokenStateSend} />}
+            {showDetail && <TokenERC20 showSendToken={showSendToken} getTokenERC20s={getTokenERC20s} setShowDetail={setShowDetail} token={token} />}
             <div className="wallet-token-item" onClick={() => setShowDetail(true)}>
                 <img src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc" alt="" className="wallet-token-item-logo" />
                 <div className="wallet-token-item-balance">

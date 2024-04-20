@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 
 export default function TokenERC20(props: any) {
-    const {setShowDetail, token, getTokenERC20s} = props
+    const {setShowDetail, token, getTokenERC20s, showSendToken} = props
     const account = useSelector(selectedAccount);
     const dispatch = useDispatch();
 
@@ -97,7 +97,7 @@ export default function TokenERC20(props: any) {
                         </div>
                     </div>
 
-                    <div style={{width: "100%", alignItems: "center", display: "flex", justifyContent: "center", flexDirection: "column", marginTop: 40}}>
+                    <div onClick={() => showSendToken()} style={{width: "100%", alignItems: "center", display: "flex", justifyContent: "center", flexDirection: "column", marginTop: 40}}>
                         <div className="wallet-coin-option-button flex-row">
                             <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
                         </div>

@@ -24,6 +24,7 @@ import AddERC20PopUp from "../components/popup/addERC20";
 import ChangePasswordPopup from "../components/popup/changePasswordPopup";
 import AddAccountPopup from "../components/popup/addAccountPopup";
 import SendTokenPopUp from "../components/popup/sendTokenPopUp";
+import SendCoinPopUp from "../components/popup/sendCoinPopUp";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -42,7 +43,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
     const [isShowAddAccountPopup, setIsShowAddAccountPopup] = useState(false);
-    const [isShowSendTokenPopup, setIsShowSendTokenPopup] = useState(false);
+    const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
     
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
     
@@ -175,8 +176,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
         <ToastContainer />
-        {isShowSendTokenPopup && <SendTokenPopUp />}
 
+        {isShowSendCoinPopup && <SendCoinPopUp setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
+        
         {apiLoading.isLoading && <ApiLoading />}
         {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
         {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
@@ -228,7 +230,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </div>
                     <span>Buy & Sell</span>
                     </div>
-                    <div onClick={() => getAccountBalance()} className="wallet-coin-option-item flex-row">
+                    <div onClick={() => setIsShowSendCoinPopup(true)} className="wallet-coin-option-item flex-row">
                         <div className="wallet-coin-option-button flex-row">
                             <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
                         </div>
