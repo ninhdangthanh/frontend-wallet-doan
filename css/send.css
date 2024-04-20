@@ -81,6 +81,7 @@
     margin-top: 12px;
     position: relative;
     padding: 0 12px;
+    z-index: 99;
 }
 
 .quantity-send-asset {
@@ -95,15 +96,17 @@
 }
 
 .quantity-send-title {
-    font-size: 24px;
+    font-size: 26px;
     padding-top: 12px;
+    text-align: center;
+    padding-bottom: 12px;
 }
 
 .quantity-send-close {
     color: orangered;
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 16px;
 }
 
 .quantity-send-account {
@@ -163,6 +166,7 @@
     font-size: 12px;
     margin-top: 6px;
     border: 1px solid orangered;
+    text-align: center;
 }
 
 .quantity-send-asset-choose-quantity-balance {
@@ -242,4 +246,23 @@
 
 .quantity-send-gas-push-left {
     color: green;
+}
+
+.quantity-send-asset-choose-quantity-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.popup-send-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #191c23;
+    z-index: 10;
+    padding: 16px 16px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

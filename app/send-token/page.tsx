@@ -132,7 +132,7 @@ export default function SignIn() {
                             Balance: 950000 MTKERC20
                         </div>
                     </div>
-                    <i className="fa-solid fa-caret-down"></i>
+                    {/* <i className="fa-solid fa-caret-down"></i> */}
                 </div>
             </div>
             <div className="quantity-send-amount flex-row">
@@ -156,14 +156,14 @@ export default function SignIn() {
                 <div className="quantity-send-gas-estimate flex-row">
                     <div className="quantity-send-gas-estimate-left"><strong>Gas</strong><span>(estimation)</span></div>
                     <div className="quantity-send-gas-estimate-right">
-                        0.00008938SepoliaETH
+                        0.00008938 SepoliaETH
                     </div>
                 </div>
                 <div className="quantity-send-gas-push flex-row">
                     <div className="quantity-send-gas-push-left quantity-send-gas-push-right">Likely in &lt; 30 seconds</div>
                     <div className="quantity-send-gas-push-right ">
                         <strong>Max fee:</strong>
-                        0.00009471SepoliaETH
+                        0.00009471 SepoliaETH
                     </div>
                 </div>
             </div>

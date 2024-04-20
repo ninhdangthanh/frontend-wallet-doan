@@ -66,8 +66,8 @@ export default function Home() {
                                 <span>Import token</span>
                             </div>
                             <div className="wallet-activity-refresh-list">
-                                <i className="fa-solid fa-arrows-rotate"></i>
-                                <span>Refresh list</span>
+                                <i onClick={() => {setTokens([]);getTokenERC20s()}} className="fa-solid fa-arrows-rotate"></i>
+                                <span onClick={() => {setTokens([]);getTokenERC20s()}}>Refresh list</span>
                             </div>
                         </div>
                     </div>

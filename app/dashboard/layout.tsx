@@ -23,6 +23,7 @@ import { hexToNumber } from "@/utils/format-address";
 import AddERC20PopUp from "../components/popup/addERC20";
 import ChangePasswordPopup from "../components/popup/changePasswordPopup";
 import AddAccountPopup from "../components/popup/addAccountPopup";
+import SendTokenPopUp from "../components/popup/sendTokenPopUp";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -41,6 +42,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
     const [isShowAddAccountPopup, setIsShowAddAccountPopup] = useState(false);
+    const [isShowSendTokenPopup, setIsShowSendTokenPopup] = useState(false);
     
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
     
@@ -173,12 +175,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
         <ToastContainer />
+        {isShowSendTokenPopup && <SendTokenPopUp />}
+
         {apiLoading.isLoading && <ApiLoading />}
         {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
         {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
 
-        {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
-        {isShowAddNetwork && <AddNetworkPopUp getNetworks={getNetworks} setIsShowAddNetwork={setIsShowAddNetwork} />}
+        {/* {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
+        {isShowAddNetwork && <AddNetworkPopUp getNetworks={getNetworks} setIsShowAddNetwork={setIsShowAddNetwork} />} */}
         {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
         {isShowAddAccountPopup && <AddAccountPopup getAccounts={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} />}
 
@@ -236,7 +240,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </div>
                     <span>Swap</span>
                     </div>
-                    <div className="wallet-coin-option-item flex-row">
+                    {/* <div className="wallet-coin-option-item flex-row">
                         <div className="wallet-coin-option-button wallet-coin-option-button-disabled flex-row">
                             <i className="fa-solid fa-arrow-trend-up"></i>
                         </div>
@@ -247,7 +251,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             <i className="fa-solid fa-chart-column"></i>
                         </div>
                     <span>Portfolio</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="wallet-container-activity">
