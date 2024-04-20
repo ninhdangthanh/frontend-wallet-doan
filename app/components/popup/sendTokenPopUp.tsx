@@ -5,13 +5,26 @@ import "../../../css/bootstrap.min.css"
 import "../../../css/main.css"
 import "../../../css/send.css"
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectedAccount } from "@/redux/slice/accountSlice";
+import { ethers } from "ethers";
+import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
+import { toast } from "react-toastify";
+import { selectNetwork } from "@/redux/slice/networkSlice";
+
+const tokenAbi = [
+    "function balanceOf(address) view returns (uint256)",
+    "function transfer(address to, uint256 value) returns (bool)"
+];
+
+
 
 export default function SendTokenPopUp(props: any) {
-    const {token, setIsShowSendTokenPopup} = props
+    const {token, setIsShowSendTokenPopup, getTokenERC20s} = props
 
     const account = useSelector(selectedAccount);
+    const dispatch = useDispatch();
+    const network_redux = useSelector(selectNetwork);
 
     const [toAddress, setToAddress] = useState("")
     const [valueSend, setValueSend] = useState(0)
@@ -31,7 +44,76 @@ export default function SendTokenPopUp(props: any) {
             return;
         }
         
+        const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
         
+        const wallet = new ethers.Wallet(account.privateKey, provider);
+        const tokenContractAddress = token.contract_address;
+        const tokenContract = new ethers.Contract(tokenContractAddress, tokenAbi, wallet);
+
+        const amountToSend = ethers.utils.parseUnits(valueSend.toString(), 18);
+
+        dispatch(showApiLoading())
+        
+        try {
+            const transactionResponse = await tokenContract.transfer(toAddress, amountToSend);
+
+            toast.success('Import transaction into blockchain successfully', {
+                position: 'top-right',
+                autoClose: 8000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+
+            try {
+                await transactionResponse.wait();
+                toast.success('The transaction is successfully processed by the blockchain', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+
+                setIsShowSendTokenPopup(false)
+                
+            } catch (error) {
+                toast.error('The transaction processed by the blockchain failed', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            }
+
+        } catch (error) {
+            toast.error('Failed when import transaction into blockchain', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+        }
+
+        dispatch(hideApiLoading())
+
+        await getTokenERC20s()
+        setValueSend(0)
+        setToAddress("")
         
         
         

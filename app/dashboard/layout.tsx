@@ -10,7 +10,7 @@ import NetworkSelectPopUp from "../components/popup/networkSelect";
 import { accountApi } from "../../api-client/account-api";
 import { networkApi } from "../../api-client/network-api";
 import { useDispatch, useSelector } from "react-redux";
-import { Network, changeNetwork, selectNetwork } from "@/redux/slice/networkSlice";
+import { Network, selectNetwork } from "@/redux/slice/networkSlice";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddNetworkPopUp from "../components/popup/addNetwork";
@@ -46,6 +46,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
     
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
+
+    const network_redux = useSelector(selectNetwork);
     
     
 
@@ -85,7 +87,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const getAccountBalance = async () => {
         try {
-            const provider = new ethers.providers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
+            const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
             const etherBalance = await provider.getBalance(account.address);
             // console.log("Balance:", etherBalance, "ETH", account.address);
 
@@ -153,7 +155,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const getNetworks = async () => {
         try {
             const network = await networkApi.getNetworks();
-            await initNetwork(network.data);
+            // await initNetwork(network.data);
             return network.data;
         } catch (error) {
             console.error("Error fetching networks:", error);
@@ -162,22 +164,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
 
 
-    const initNetwork = async (network_list: Network[]) => {
-        network_list.forEach((network: Network) => {
-            if(network.is_default) {
-                dispatch(changeNetwork({network: network, isDefault: true}));
-                // console.log(network);
-                return network.rpc_url;
-            }
-        });
-    }
+    // const initNetwork = async (network_list: Network[]) => {
+    //     network_list.forEach((network: Network) => {
+    //         if(network.is_default) {
+    //             dispatch(changeNetwork({network: network, isDefault: true}));
+    //             // console.log(network);
+    //             return network.rpc_url;
+    //         }
+    //     });
+    // }
 
 
     return (
         <>
         <ToastContainer />
 
-        {isShowSendCoinPopup && <SendCoinPopUp setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
+        {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
         
         {apiLoading.isLoading && <ApiLoading />}
         {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}

@@ -41,14 +41,14 @@ const networksSlice = createSlice({
   name: "network",
   initialState,
   reducers: {
-    changeNetwork: (state, action: PayloadAction<NetworkState>) => {
-      state.isDefault = action.payload.isDefault;
-      state.network = action.payload.network
-    },
+    // changeNetwork: (state, action: PayloadAction<NetworkState>) => {
+    //   state.isDefault = action.payload.isDefault;
+    //   state.network = action.payload.network
+    // },
   },
 });
 
-export const { changeNetwork } = networksSlice.actions;
+export const {  } = networksSlice.actions;
 export default networksSlice.reducer;
 
 // Selector to get the todos state

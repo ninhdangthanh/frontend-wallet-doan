@@ -9,6 +9,7 @@ import { selectedAccount } from "@/redux/slice/accountSlice";
 import { ethers } from "ethers";
 import TokenERC20 from "@/app/components/popup/tokenERC20Detail";
 import SendTokenPopUp from "@/app/components/popup/sendTokenPopUp";
+import { selectNetwork } from "@/redux/slice/networkSlice";
 
 
 
@@ -16,21 +17,23 @@ const tokenAbi = [
     "function balanceOf(address) view returns (uint256)"
 ];
 
-const provider = new ethers.providers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
 
 
 export default function Home() {
-
+    
     const [isShowAddTokenERC20, setIsShowAddTokenERC20] = useState(false);
     const [tokens, setTokens] = useState<any[]>([]);
-
+    const network_redux = useSelector(selectNetwork);
+    
+    
     const account = useSelector(selectedAccount);
-
+    
     useEffect(() => {
         getTokenERC20s()
     }, [account])
-
+    
     const getTokenERC20s = async () => {
+        const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
         let tokens = await tokenApi.getTokenERC20s(account.id)
         let tokenApis: any[] = []
         await Promise.all(tokens.data.map(async (token: any) => {
@@ -92,7 +95,7 @@ const TokenERC20Item = (props: any) => {
     
     return (
         <>
-            {isShowSendTokenPopup && <SendTokenPopUp setIsShowSendTokenPopup={setIsShowSendTokenPopup} token={tokenStateSend} />}
+            {isShowSendTokenPopup && <SendTokenPopUp getTokenERC20s={getTokenERC20s} setIsShowSendTokenPopup={setIsShowSendTokenPopup} token={tokenStateSend} />}
             {showDetail && <TokenERC20 showSendToken={showSendToken} getTokenERC20s={getTokenERC20s} setShowDetail={setShowDetail} token={token} />}
             <div className="wallet-token-item" onClick={() => setShowDetail(true)}>
                 <img src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc" alt="" className="wallet-token-item-logo" />

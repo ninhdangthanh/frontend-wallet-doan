@@ -5,13 +5,19 @@ import "../../../css/bootstrap.min.css"
 import "../../../css/main.css"
 import "../../../css/send.css"
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectedAccount } from "@/redux/slice/accountSlice";
+import { toast } from "react-toastify";
+import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
+import { selectNetwork } from "@/redux/slice/networkSlice";
+const { ethers } = require("ethers");
 
 export default function SendCoinPopUp(props: any) {
-    const {coinBalance, setIsShowSendCoinPopup} = props
+    const {coinBalance, setIsShowSendCoinPopup, getAccountBalance} = props
 
     const account = useSelector(selectedAccount);
+    const network_redux = useSelector(selectNetwork);
+    const dispatch = useDispatch();
 
     const [toAddress, setToAddress] = useState("")
     const [valueSend, setValueSend] = useState(0)
@@ -22,7 +28,7 @@ export default function SendCoinPopUp(props: any) {
     }, [])
 
     const handleSendToken = async () => {
-        if(toAddress == "" || !toAddress.startsWith("0x")) {
+        if(toAddress == "" || !toAddress.startsWith("0x") || toAddress == account.address) {
             alert("Please fill in the correct to address.")
             return;
         }
@@ -31,10 +37,74 @@ export default function SendCoinPopUp(props: any) {
             return;
         }
         
+        const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
         
+        const wallet = new ethers.Wallet(account.privateKey, provider);
+        const amountToSend = ethers.utils.parseEther(valueSend.toString());
+
+        dispatch(showApiLoading())
         
-        
-        
+        try {
+            const transactionResponse = await wallet.sendTransaction({
+                to: toAddress,
+                value: amountToSend,
+            });
+
+            toast.success('Import transaction into blockchain successfully', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+
+            try {
+                await transactionResponse.wait();
+                toast.success('The transaction is successfully processed by the blockchain', {
+                    position: 'top-right',
+                    autoClose: 8000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+
+                setIsShowSendCoinPopup(false)
+                
+            } catch (error) {
+                toast.error('The transaction processed by the blockchain failed', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            }
+
+        } catch (error) {
+            toast.error('Failed when import transaction into blockchain', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+        }
+
+        dispatch(hideApiLoading())
+
+        await getAccountBalance()
         setValueSend(0)
         setToAddress("")
     }
