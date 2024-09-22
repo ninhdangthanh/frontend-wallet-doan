@@ -51,7 +51,7 @@ function IndexPage() {
             Log out
           </span>
         </button> */}
-      <div className="bg-backgroundColor w-[1000px] items-center h-full">
+      <div className="bg-backgroundColor w-[1000px] items-center h-full mb-16">
         <div className="relative pt-[26px] pb-[26px] px-[16px]  flex items-center justify-between">
           <div
             onClick={() => {
