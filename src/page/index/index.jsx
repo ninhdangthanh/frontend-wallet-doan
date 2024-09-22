@@ -6,6 +6,7 @@ import PopupSelectAccount from "../popup-select-account";
 import ListTokens from "./list-token";
 import ListActivitys from "./list-activity";
 import PopupAddBlockchainAccount from "../popup-add-blockchain-account";
+import BlockchainAnalytics from "./blockchain-analytics";
 
 function IndexPage() {
   var [popupAccountDetails, setPopupAccountDetails] = useState(false);
@@ -108,7 +109,7 @@ function IndexPage() {
               <div className="mb-2.5 bg-orange-600 w-10 h-10 rounded-full  wallet-coin-option-button-disabled flex items-center justify-center">
               <i class="fa-solid fa-plus"></i>
               </div>
-              <span>Import token</span>
+              <span>Add token</span>
             </div>
           </div>
         </div>
@@ -146,7 +147,7 @@ function IndexPage() {
             </div>
           </div>
           {tabIndex == 0 ? (
-            <ListTokens></ListTokens>
+            <BlockchainAnalytics></BlockchainAnalytics>
           ) : tabIndex == 1 ? (
             <ListTokens></ListTokens>
           ) : (
