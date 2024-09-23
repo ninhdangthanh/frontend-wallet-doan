@@ -7,6 +7,7 @@ const TxPoolAnalyzer = () => {
   useEffect(() => {
     const provider = new ethers.WebSocketProvider("wss://ethereum-rpc.publicnode.com");
     const pendingTxs = {}; // Store pending transactions by hash
+    const scanTxs = 12000;
 
     const updateTopTransactions = () => {
       try {
@@ -23,6 +24,7 @@ const TxPoolAnalyzer = () => {
     const checkTransactionStatus = async () => {
       for (const txHash of Object.keys(pendingTxs)) {
         try {
+          const provider = new ethers.JsonRpcProvider("https://eth-pokt.nodies.app");
           const txReceipt = await provider.getTransactionReceipt(txHash);
           if (txReceipt) {
             if (txReceipt.status !== null) {
@@ -35,8 +37,8 @@ const TxPoolAnalyzer = () => {
       }
     };
 
-    // Scan transactions every 5 seconds
-    const intervalId = setInterval(checkTransactionStatus, 5000);
+    // Scan transactions every 18 seconds
+    const intervalId = setInterval(checkTransactionStatus, scanTxs);
 
     // Listen for new transactions added to the tx_pool
     provider.on('pending', async (txHash) => {
@@ -62,6 +64,9 @@ const TxPoolAnalyzer = () => {
       block.transactions.forEach(txHash => delete pendingTxs[txHash]);
       updateTopTransactions();
     });
+    setTimeout(() => {
+      provider.removeAllListeners();
+    }, 18000);
 
     // Clean up listeners and interval on unmount
     return () => {
