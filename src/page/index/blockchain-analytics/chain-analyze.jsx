@@ -58,7 +58,7 @@ const BlockInfo = () => {
                 {/* Left Side: Block Number & Miner */}
                 <div className="w-1/2 p-4 flex flex-col items-center">
                 <h1 className={`text-4xl font-bold mb-4 ${highlight ? 'text-orangered' : 'text-blue-500'}`}>
-                    Block #{blockInfo.blockNumber}
+                    Block #{formatBlockNumber(blockInfo.blockNumber)}
                 </h1>
                 <p className={`text-lg w-3/4 break-all ${highlight ? 'text-orangered' : 'text-slate-400'}`}>
                     <strong>Miner:</strong> {blockInfo.miner}
@@ -97,6 +97,10 @@ const BlockInfo = () => {
         </div>
       </div>
   );
+};
+
+const formatBlockNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 export default BlockInfo;
