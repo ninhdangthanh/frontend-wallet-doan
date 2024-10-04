@@ -31,7 +31,7 @@ export default function ShowPrivateKeyPopUp(props: any) {
     const logoutAction = () => {
         setIsShowAccountDetail(false)
         sessionStorage.removeItem("u2mya_wallet_access_token");
-        router.push("/login");
+        // router.push("/login");
         window.location.reload()
     }
 
