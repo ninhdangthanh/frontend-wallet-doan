@@ -7,21 +7,24 @@ export default function SignIn() {
     return (
         <>
             <div className="shadow-md py-4 px-6 relative flex items-center justify-center">
-                <div
-                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-black`}
+                <Link
+                    href="/dashboard/analysis"
+                    className={`w-1/3 py-2.5 text-white no-underline cursor-pointer border-b-2 border-t-2 border-black`}
                 >
                     Chain Analytics
-                </div>
-                <div
-                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-black`}
+                </Link>
+                <Link
+                    href="/dashboard/home"
+                    className={`w-1/3 py-2.5 text-white no-underline cursor-pointer border-b-2 border-t-2 border-black`}
                 >
                     Tokens
-                </div>
-                <div
-                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-orangered`}
+                </Link>
+                <Link
+                    href="/dashboard/activity"
+                    className={`w-1/3 py-2.5 text-white no-underline cursor-pointer border-b-2 border-t-2 border-orangered`}
                 >
                     Activitys
-                </div>
+                </Link>
             </div>
 
             <div className="flex flex-col items-start w-full p-4 pt-2">

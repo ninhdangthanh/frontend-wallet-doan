@@ -53,26 +53,29 @@ export default function Home() {
             {isShowAddTokenERC20 && <AddERC20PopUp getTokenERC20s={getTokenERC20s} setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
 
             <div className="shadow-md py-4 px-6 relative flex items-center justify-center">
-                <div
-                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-black`}
+                <Link
+                    href="/dashboard/analysis"
+                    className={`w-1/3 py-2.5 text-white no-underline cursor-pointer border-b-2 border-t-2 border-black`}
                 >
                     Chain Analytics
-                </div>
-                <div
-                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-orangered`}
+                </Link>
+                <Link
+                    href="/dashboard/home"
+                    className={`w-1/3 py-2.5 text-white no-underline cursor-pointer border-b-2 border-t-2 border-orangered`}
                 >
                     Tokens
-                </div>
-                <div
-                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-black`}
+                </Link>
+                <Link
+                    href="/dashboard/activity"
+                    className={`w-1/3 py-2.5 text-white no-underline cursor-pointer border-b-2 border-t-2 border-black`}
                 >
                     Activitys
-                </div>
+                </Link>
             </div>
 
             <div>
                 <div className="mx-5 mb- text-red text-left px-3 text-base cursor-pointer font-semibold flex justify-center ">
-                    <div className=" border-[1px] px-2  py-1 rounded-3xl border-red ">
+                    <div className=" border-[1px] px-2  py-1 mb-3 rounded-3xl border-red ">
                         {/* <i className="fa-solid fa-arrows-rotate pr-2"></i> */}
                         <span>Refresh list</span>
                     </div>
