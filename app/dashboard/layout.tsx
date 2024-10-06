@@ -82,7 +82,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const getAccountBalance = async () => {
         try {
-            const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
+            const provider = new ethers.JsonRpcProvider(network_redux.network?.rpc_url);
             const etherBalance = await provider.getBalance(account.address);
             // console.log("Balance:", etherBalance, "ETH", account.address);
 
