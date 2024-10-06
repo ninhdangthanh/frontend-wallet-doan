@@ -1,111 +1,91 @@
 "use client";
 
 import Link from "next/link";
-import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
-import "../../../css/main.css"
 
 export default function SignIn() {
 
-  return (
-    <>
-        <div className="wallet-activity-header flex-row">
-            <Link key="Home" href="/dashboard/home"  className="wallet-activity-header-option ">Token</Link>
-            {/* <Link key="Activity" href="/dashboard/activity"  className="wallet-activity-header-option wallet-activity-header-option-active">Activity</Link> */}
-        </div>
-        <div className="wallet-activity-body"> 
-            <div className="wallet-activity-body-tokens">
-                <div className="wallet-token-item-activity">
-                    <div className="wallet-token-item-activity-day">
-                        Jan 24, 2024
+    return (
+        <>
+            <div className="shadow-md py-4 px-6 relative flex items-center justify-center">
+                <div
+                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-black`}
+                >
+                    Chain Analytics
+                </div>
+                <div
+                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-black`}
+                >
+                    Tokens
+                </div>
+                <div
+                    className={`w-1/3 py-2.5 cursor-pointer border-b-2 border-t-2 border-orangered`}
+                >
+                    Activitys
+                </div>
+            </div>
+
+            <div className="flex flex-col items-start w-full p-4 pt-2">
+                <div onClick={() => {
+                    // props.setPopupActivityDetail(true);
+                }} className="bg-orange-300 bg-opacity-5 flex justify-between flex-row w-full py-3 px-8 hover:bg-orange-900 hover:bg-opacity-25">
+                    <div className="flex justify-start items-center">
+                        <i className="fa-solid fa-arrow-up rotate-45 text-orangered p-2 border-2 border-orangered rounded-full w-9 h-9 "></i>
+                        <div className="flex-col items-start pl-3 flex">
+                            <div className="text-[20px] font-semibold">Transfer</div>
+                            <div className="text-red">Failed</div>
+                        </div>
                     </div>
-                    <div className="">
-                        <div className="wallet-token-item-activity-body-item">
-                            <div className="wallet-token-item-activity-icon">
-                                <i className="fa-solid fa-arrow-up wallet-token-item-activity-icon-i"></i>
-                            </div>
-                            <div className="wallet-token-item-activity-body-details flex-row">
-                                <div className="wallet-token-item-activity-body-details-title">
-                                    <h3>Transfer</h3>
-                                    <div className="wallet-token-item-activity-body-details-status-confirmed">
-                                        Confirmed
-                                    </div>
-                                </div>
-                                <div className="wallet-token-item-activity-body-details-amount">
-                                    <div>-0.5 ETH</div>
-                                    <div>-0.5 ETH</div>
-                                </div>
-                            </div>
+                    <div className="items-center text-end">
+                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[13px] font-bold">Jan 20, 2024</div>
+                    </div>
+                </div>
+                <div onClick={() => {
+                    // props.setPopupActivityDetail(true);
+                }} className="flex justify-between flex-row w-full py-3 px-8 hover:bg-orange-900 hover:bg-opacity-25">
+                    <div className="flex justify-start items-center">
+                        <i className="fa-solid fa-arrow-up rotate-45 text-orangered p-2 border-2 border-orangered rounded-full w-9 h-9 "></i>
+                        <div className="flex-col items-start justify-center pl-3 flex">
+                            <div className="text-[20px] font-semibold">Transfer</div>
+                            <div className="text-green">Confirm</div>
                         </div>
-                        <div className="wallet-token-item-activity-body-item">
-                            <div className="wallet-token-item-activity-icon">
-                                <i className="fa-solid fa-arrow-up wallet-token-item-activity-icon-i"></i>
-                            </div>
-                            <div className="wallet-token-item-activity-body-details flex-row">
-                                <div className="wallet-token-item-activity-body-details-title">
-                                    <h3>Transfer</h3>
-                                    <div className="wallet-token-item-activity-body-details-status-failed">
-                                        Failed
-                                    </div>
-                                </div>
-                                <div className="wallet-token-item-activity-body-details-amount">
-                                    <div>-0.5 ETH</div>
-                                    <div>-0.5 ETH</div>
-                                </div>
-                            </div>
+                    </div>
+                    <div className="items-center text-end">
+                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[13px] font-bold">Jan 20, 2024</div>
+                    </div>
+                </div>
+                <div onClick={() => {
+                    // props.setPopupActivityDetail(true);
+                }} className="bg-orange-300 bg-opacity-5 flex justify-between flex-row w-full py-3 px-8 hover:bg-orange-900 hover:bg-opacity-25">
+                    <div className="flex justify-start items-center">
+                        <i className="fa-solid fa-arrow-up rotate-45 text-orangered p-2 border-2 border-orangered rounded-full w-9 h-9 "></i>
+                        <div className="flex-col items-start pl-3 flex">
+                            <div className="text-[20px] font-semibold">Transfer</div>
+                            <div className="text-red">Failed</div>
                         </div>
+                    </div>
+                    <div className="items-center text-end">
+                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[13px] font-bold">Jan 20, 2024</div>
+                    </div>
+                </div>
+                <div onClick={() => {
+                    // props.setPopupActivityDetail(true);
+                }} className="flex justify-between flex-row w-full py-3 px-8 hover:bg-orange-900 hover:bg-opacity-25">
+                    <div className="flex justify-start items-center">
+                        <i className="fa-solid fa-arrow-up rotate-45 text-orangered p-2 border-2 border-orangered rounded-full w-9 h-9 "></i>
+                        <div className="flex-col items-start justify-center pl-3 flex">
+                            <div className="text-[20px] font-semibold">Transfer</div>
+                            <div className="text-green">Confirm</div>
+                        </div>
+                    </div>
+                    <div className="items-center text-end">
+                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[13px] font-bold">Jan 20, 2024</div>
                     </div>
                 </div>
             </div>
-            <div className="wallet-activity-body-tokens">
-                <div className="wallet-token-item-activity">
-                    <div className="wallet-token-item-activity-day">
-                        Jan 12, 2024
-                    </div>
-                    <div className="">
-                        <div className="wallet-token-item-activity-body-item">
-                            <div className="wallet-token-item-activity-icon">
-                                <i className="fa-solid fa-download"></i>
-                            </div>
-                            <div className="wallet-token-item-activity-body-details flex-row">
-                                <div className="wallet-token-item-activity-body-details-title">
-                                    <h3>Receive</h3>
-                                    <div className="wallet-token-item-activity-body-details-status-confirmed">
-                                        Confirm
-                                    </div>
-                                </div>
-                                <div className="wallet-token-item-activity-body-details-amount">
-                                    <div>-0.5 ETH</div>
-                                    <div>-0.5 ETH</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="wallet-token-item-activity-body-item">
-                            <div className="wallet-token-item-activity-icon">
-                                <i className="fa-solid fa-arrow-up wallet-token-item-activity-icon-i"></i>
-                            </div>
-                            <div className="wallet-token-item-activity-body-details flex-row">
-                                <div className="wallet-token-item-activity-body-details-title">
-                                    <h3>Transfer</h3>
-                                    <div className="wallet-token-item-activity-body-details-status-pending">
-                                        Pending
-                                    </div>
-                                </div>
-                                <div className="wallet-token-item-activity-body-details-amount">
-                                    <div>-0.5 ETH</div>
-                                    <div>-0.5 ETH</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="wallet-activity-body-method">
-                <div className="wallet-activity-import-token">
-                </div>
-                <div className="wallet-activity-refresh-list">
-                </div>
-            </div>
-        </div>
-    </>
-  );
+        </>
+    );
 }

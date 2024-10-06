@@ -140,11 +140,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
             {isShowAddAccountPopup && <AddAccountPopup getAccounts={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} />}
 
-            <div className="text-white items-center justify-center flex flex-col text-center bg-black h-max pb-28">
+            <div className="text-white items-center justify-center flex flex-col text-center bg-black ">
                 <h1 className="text-orangered pt-10 pb-10 bg-black items-center justify-center flex text-4xl font-bold">
                     U2MYA BLOCKCHAIN WALLET
                 </h1>
-                <div className="bg-backgroundColor w-[1000px] items-center h-full mb-16">
+                <div className="bg-backgroundColor w-[1000px] items-center mb-16">
                     <div className="relative pt-[26px] pb-[26px] px-[16px]  flex items-center justify-between">
                         <div
                             onClick={() => {
@@ -205,36 +205,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             </div>
                         </div>
                     </div>
-                    <div className="wallet-container-activity">
-                        <div className="shadow-md py-4 px-6 relative flex items-center justify-center">
-                            <div
-                                onClick={() => {
-                                    // setTabIndex(0);
-                                }}
-                                className={`w-1/3 pb-2.5 cursor-pointer ${tabIndex == 0 ? "border-b-2 border-orangered" : ""
-                                    }  `}
-                            >
-                                Chain Analytics
-                            </div>
-                            <div
-                                onClick={() => {
-                                    // setTabIndex(1);
-                                }}
-                                className={`w-1/3 pb-2.5 cursor-pointer ${tabIndex == 1 ? "border-b-2 border-orangered" : ""
-                                    }  `}
-                            >
-                                Tokens
-                            </div>
-                            <div
-                                onClick={() => {
-                                    // setTabIndex(2);
-                                }}
-                                className={`w-1/3 pb-2.5 cursor-pointer ${tabIndex == 2 ? "border-b-2 border-orangered" : ""
-                                    }  `}
-                            >
-                                Activitys
-                            </div>
-                        </div>
+                    <div className="">
+                        {children}
                     </div>
                 </div>
             </div>
