@@ -39,7 +39,7 @@ export default function SignIn() {
                         </div>
                     </div>
                     <div className="items-center text-end">
-                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[18px] font-semibold text-orange-600">-0.12 ETH</div>
                         <div className="text-[13px] font-bold">Jan 20, 2024</div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ export default function SignIn() {
                         </div>
                     </div>
                     <div className="items-center text-end">
-                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[18px] font-semibold text-orange-600">-0.12 ETH</div>
                         <div className="text-[13px] font-bold">Jan 20, 2024</div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ export default function SignIn() {
                         </div>
                     </div>
                     <div className="items-center text-end">
-                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[18px] font-semibold text-orange-600">-0.12 ETH</div>
                         <div className="text-[13px] font-bold">Jan 20, 2024</div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@ export default function SignIn() {
                         </div>
                     </div>
                     <div className="items-center text-end">
-                        <div className="text-[18px] font-semibold text-orangered">-0.12 ETH</div>
+                        <div className="text-[18px] font-semibold text-orange-600">-0.12 ETH</div>
                         <div className="text-[13px] font-bold">Jan 20, 2024</div>
                     </div>
                 </div>

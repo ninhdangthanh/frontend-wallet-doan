@@ -47,7 +47,7 @@ export default function ActivityDetailPopUp() {
                 </div>
                 <div className="activity-popup-detail-row flex-row">
                     <strong>Amount</strong>
-                    <div className="activity-popup-detail-tx"><strong>0.5 SepoliaETH</strong></div>
+                    <div className="activity-popup-detail-tx"><strong>0.5 ETH</strong></div>
                 </div>
                 <div className="activity-popup-detail-row flex-row">
                     <strong>Gas Limit (Units)</strong>
@@ -59,7 +59,7 @@ export default function ActivityDetailPopUp() {
                 </div>
                 <div className="activity-popup-detail-row flex-row">
                     <strong>Total</strong>
-                    <div className=""><strong>0.50000032 SepoliaETH</strong></div>
+                    <div className=""><strong>0.50000032 ETH</strong></div>
                 </div>
             </div>
         </div>

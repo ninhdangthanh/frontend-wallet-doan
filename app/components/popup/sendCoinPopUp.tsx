@@ -143,7 +143,7 @@ export default function SendCoinPopUp(props: any) {
                             {/* <img src="./account-1-logologo.png" alt="Send tokens logo" className="quantity-send-asset-choose-logo" /> */}
                             <div className="quantity-send-asset-choose-quantity">
                                 <div className="quantity-send-asset-choose-quantity-name">
-                                    SepoliaETH
+                                    ETH
                                 </div>
                                 <div className="quantity-send-asset-choose-quantity-balance">
                                     Balance: <strong style={{fontSize: 18}}>{coinBalance}</strong> ETH

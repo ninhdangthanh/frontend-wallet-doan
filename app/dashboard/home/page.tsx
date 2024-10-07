@@ -89,8 +89,8 @@ export default function Home() {
                                 className="w-10 h-10 rounded-[50px] mr-[12px]"
                             />
                             <div className="items-start flex-col flex">
-                                <div className="font-bold pb-[6px]">SepoliaETH</div>
-                                <div className="wallet-token-item-real-balance">0 SepoliaETH</div>
+                                <div className="font-bold pb-[6px]">ETH</div>
+                                <div className="wallet-token-item-real-balance">0 ETH</div>
                             </div>
                         </div>
                         <p className="py-1 px-3 border border-orangered text-orangered rounded-full items-center justify-center flex ">
@@ -121,8 +121,8 @@ export default function Home() {
                                 className="w-10 h-10 rounded-[50px] mr-[12px]"
                             />
                             <div className="items-start flex-col flex">
-                                <div className="font-bold pb-[6px]">SepoliaETH</div>
-                                <div className="wallet-token-item-real-balance">0 SepoliaETH</div>
+                                <div className="font-bold pb-[6px]">ETH</div>
+                                <div className="wallet-token-item-real-balance">0 ETH</div>
                             </div>
                         </div>
                         <p className="py-1 px-3 border border-orangered text-orangered rounded-full items-center justify-center flex ">
