@@ -15,7 +15,9 @@ import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
 import ChangePasswordPopup from "../components/popup/changePasswordPopup";
 import AddAccountPopup from "../components/popup/addAccountPopup";
 import SendCoinPopUp from "../components/popup/sendCoinPopUp";
-import PopupAddBlockchainAccount from "../components/new-templete/popup-add-blockchain-account";
+import PopupAddBlockchainAccount from "../components/new-templete/add-new-account/popup-add-blockchain-account";
+import PopupAddNewBlockchainAccount from "../components/new-templete/add-new-account/popup-new-blockchain-acocunt";
+import PopupAddPrivateKeyBlockchainAccount from "../components/new-templete/add-new-account/popup-import-private-blockchain-account";
 import PopupSelectAccount from "../components/new-templete/popup-select-account";
 
 
@@ -130,11 +132,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <ToastContainer />
 
             {popupAddBlockchainAccount && (
-                <PopupAddBlockchainAccount
+                <PopupAddPrivateKeyBlockchainAccount
                 onCancel={() => {
-                    setPopupAddBlockchainAccount(false);
-                }}
-                ></PopupAddBlockchainAccount>
+                    // setPopupAddBlockchainAccount(false);
+                }} 
+                / >
             )}
 
             {popupSelectAccount && (

@@ -17,10 +17,9 @@ import { toast } from "react-toastify";
 export default function SelectAccountPopUp(props: any) {
     let { accounts, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup } = props;
     
-    const network_redux = useSelector(selectNetwork);
     const selectedAccountSelect = useSelector(selectedAccount);
 
-    const ethers_provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
+    const ethers_provider = new ethers.JsonRpcProvider("rpc url");
 
 
     return (
@@ -37,7 +36,7 @@ export default function SelectAccountPopUp(props: any) {
             <div className="network-select-body custom-overflow">
                 {
                     accounts.map((account: any, index: any) => {
-                        return <SelectAccountItem getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} network_redux={network_redux} ethers_provider={ethers_provider} account={account} index={index} />
+                        return <SelectAccountItem getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} ethers_provider={ethers_provider} account={account} index={index} />
                     })
                 }
             </div>
@@ -136,7 +135,6 @@ function SelectAccountItem(props: any) {
                     <div className="network-select-item-name2">{account.address.slice(0, 7)}...{account.address.slice(37, )}</div>
                 </div>
                 <div onClick={() => selectChangeAccount(account)} className="" style={{paddingRight: "50px"}}>
-                    <div className="network-select-item-name1">{coin} {network_redux.network.currency_symbol}</div>
                 </div>
                 <div onClick={() => handleDeleteAccount(account.id)} className="network-select-item-detail">
                     {!isSelected && <i className="fa-solid fa-trash"></i>}
