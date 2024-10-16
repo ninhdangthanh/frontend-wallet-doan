@@ -93,8 +93,8 @@ export default function Home() {
                                 <div className="wallet-token-item-real-balance">0 ETH</div>
                             </div>
                         </div>
-                        <p className="py-1 px-3 border border-orangered text-orangered rounded-full items-center justify-center flex ">
-                            sent
+                        <p className="py-1 px-3 border border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white">
+                            Send
                         </p>
                     </div>
                     <div className="flex px-16 py-3 justify-between hover:bg-gray-700 hover:bg-opacity-35">
@@ -109,8 +109,8 @@ export default function Home() {
                                 <div className="wallet-token-item-real-balance">20 MyToken</div>
                             </div>
                         </div>
-                        <p className="py-1 px-3 border border-orangered text-orangered rounded-full items-center justify-center flex ">
-                            sent
+                        <p className="py-1 px-3 border border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white">
+                            Send
                         </p>
                     </div>
                     <div className="flex px-16 py-3 justify-between bg-slate-800 bg-opacity-50 hover:bg-gray-700 hover:bg-opacity-35 ">
@@ -125,8 +125,8 @@ export default function Home() {
                                 <div className="wallet-token-item-real-balance">0 ETH</div>
                             </div>
                         </div>
-                        <p className="py-1 px-3 border border-orangered text-orangered rounded-full items-center justify-center flex ">
-                            sent
+                        <p className="py-1 px-3 border border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white">
+                            Send
                         </p>
                     </div>
                     <div className="flex px-16 py-3 justify-between hover:bg-gray-700 hover:bg-opacity-35">
@@ -141,8 +141,8 @@ export default function Home() {
                                 <div className="wallet-token-item-real-balance">20 MyToken</div>
                             </div>
                         </div>
-                        <p className="py-1 px-3 border border-orangered text-orangered rounded-full items-center justify-center flex ">
-                            sent
+                        <p className="py-1 px-3 border border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white">
+                            Send
                         </p>
                     </div>
                 </div>
