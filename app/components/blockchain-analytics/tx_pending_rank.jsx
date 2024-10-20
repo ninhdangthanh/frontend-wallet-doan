@@ -49,7 +49,7 @@ const TxPoolAnalyzer = () => {
           const gasTip = (Number(gasTipWei.toString()) / 1000000000).toFixed(4);
           pendingTxs[txHash] = { txHash, gasTip };
 
-          console.log("Transaction Hash:", txHash, "Gas Tip (gwei):", parseFloat(gasTip));
+          // console.log("Transaction Hash:", txHash, "Gas Tip (gwei):", parseFloat(gasTip));
 
           updateTopTransactions();
         }

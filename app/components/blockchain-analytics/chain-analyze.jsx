@@ -1,36 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import powImage from "@/assets/proof-of-work.png"
+import axios from 'axios';
 
 const ChainAnalytics = () => {
   const [blockInfo, setBlockInfo] = useState(null);
   const [highlight, setHighlight] = useState(false); // State to track highlight
-  const [prevBlockMinedAt, setPrevBlockMinedAt] = useState(null); // State to store the previous block's mined time
 
   useEffect(() => {
-    const provider = new ethers.JsonRpcProvider("https://eth-pokt.nodies.app");
-
     const fetchLatestBlock = async () => {
       try {
-        const latestBlockNumber = await provider.getBlockNumber();
-        const block = await provider.getBlock(latestBlockNumber);
-        const blockMinedAt = new Date(block.timestamp * 1000);
-        const txCount = block.transactions.length;
-
-        if (prevBlockMinedAt) {
-          const timeDiff = (blockMinedAt - prevBlockMinedAt) / 1000; // Time difference in seconds
-          setTimeBetweenBlocks(timeDiff);
-        }
-
+        let latestBlockInfoResponse = await axios.get("http://localhost:5000/api/chain/latest-block-info");
+        let latestBlockInfo = latestBlockInfoResponse.data[0]
+        // console.log(latestBlockInfo);
+        
         setBlockInfo({
-          blockNumber: block.number,
-          miner: block.miner,
-          gasUsed: block.gasUsed.toString(),
-          txCount,
-          blockMinedAt: blockMinedAt.toLocaleString(),
+          blockNumber: latestBlockInfo.block_number,
+          miner: latestBlockInfo.miner,
+          gasUsed: latestBlockInfo.gas_used,
+          txCount: latestBlockInfo.transaction_count,
+          blockMinedAt: latestBlockInfo.block_mined_at,
+          timeBetweenBlocks: latestBlockInfo.time_between_blocks
         });
-
-        setPrevBlockMinedAt(blockMinedAt);
 
         setHighlight(true);
         setTimeout(() => setHighlight(false), 1500); // 1.5s highlight duration
@@ -82,7 +73,7 @@ const ChainAnalytics = () => {
                   </tr>
                   <tr>
                     <td className="border px-4 py-2 font-bold">Time Between Blocks:</td>
-                    <td className={`border px-4 py-2 text-lg ${highlight ? 'text-orangered' : 'text-blue-500'}`}><strong>12</strong></td>
+                    <td className={`border px-4 py-2 text-lg ${highlight ? 'text-orangered' : 'text-blue-500'}`}><strong>{blockInfo.timeBetweenBlocks}</strong></td>
                   </tr>
                   <tr>
                     <td className="border px-4 py-2 font-bold">Gas Used:</td>
