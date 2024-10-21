@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectAccountPopUp from "../components/popup/selectAccount";
 import { accountApi } from "../../api-client/account-api";
@@ -25,6 +25,7 @@ import PopupSelectAccount from "../components/new-templete/popup-select-account"
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const dispatch = useDispatch();
+    const pathname = usePathname();
 
     const account = useSelector(selectedAccount);
     const apiLoading = useSelector(selectLoading);
@@ -206,7 +207,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             </div>
                         </div>
 
-                        <div className=" mb-8 mt-4  w-full flex items-center justify-center ">
+                        {pathname === '/dashboard/home' && (<div className=" mb-8 mt-4  w-full flex items-center justify-center ">
                             <div className="w-56 cursor-pointer flex flex-col items-center justify-between">
                                 <div className="mb-2.5 bg-orange-600 w-11 h-11 rounded-full rotate-45 flex items-center justify-center hover:opacity-65">
                                     <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
@@ -219,7 +220,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                 </div>
                                 <span className="font-bold">Add token</span>
                             </div>
-                        </div>
+                        </div> )}
                     </div>
                     <div className="">
                         {children}
