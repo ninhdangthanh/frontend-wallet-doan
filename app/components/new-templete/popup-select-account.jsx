@@ -24,7 +24,8 @@ export default function PopupSelectAccount({ onCancel, className = "w-[450px]" }
           >
             <div className="flex">
               <img
-                src="https://stockimg.ai/_next/image?url=https%3A%2F%2Fmedia.stockimg.ai%2Fdalle-logo%2FGxTmDiIiWDP0.png&w=1920&q=75"
+                src={`../account_list/${index + 1}.jpeg`}
+                // src="https://stockimg.ai/_next/image?url=https%3A%2F%2Fmedia.stockimg.ai%2Fdalle-logo%2FGxTmDiIiWDP0.png&w=1920&q=75"
                 alt="N"
                 className="network-select-item-logo"
               />
