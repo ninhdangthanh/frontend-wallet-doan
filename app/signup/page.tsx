@@ -78,7 +78,7 @@ export default function SignUp() {
                         <input value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} type="password" className="form-control login-container-input" placeholder="Confirm Password" />
                     </div>
                     <button disabled={loading} type="submit" className="btn btn-primary login-container-button-login">{loading ? "Creatinggggggggg" : "Create"}</button>
-                    {successCreated && <span className="create-account-success">Account created, please check your email to verify account!!!</span>}
+                    {successCreated && <span className="create-account-success">Create success, please navigate to login page to continue!!!</span>}
                 </form>
                 <Link key="Login" href="/login" className="login-container-create-new-account">Already had an account?</Link>
             </div>
