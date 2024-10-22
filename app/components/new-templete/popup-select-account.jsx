@@ -20,7 +20,7 @@ export default function PopupSelectAccount({ onCancel, className = "w-[450px]" }
         {[...Array(4)].map((_, index) => (
           <div
             key={index}
-            className="flex w-full justify-between py-6 p-2 my-2 items-center hover:bg-orange-900 hover:bg-opacity-30"
+            className="group flex w-full justify-between py-6 p-2 my-2 items-center hover:bg-orange-900 hover:bg-opacity-30"
           >
             <div className="flex">
               <img
@@ -41,8 +41,8 @@ export default function PopupSelectAccount({ onCancel, className = "w-[450px]" }
               <div className="flex-col">
                 <div className="network-select-item-name1">0.0{index + 1} <span className="text-gray-400">ETH</span></div>
               </div>
-              <div className="pl-5">
-                <i className="fa-solid fa-ellipsis-vertical"></i>
+              <div className="pl-8">
+                <i class="fa-solid fa-trash hidden group-hover:text-red"></i>
               </div>
             </div>
           </div>

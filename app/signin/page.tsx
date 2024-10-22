@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 export default function SignUp() {
 
   useEffect(()=> {
-    redirect('/dashboard/home');
+    redirect('/signup');
   })
   
   return (
