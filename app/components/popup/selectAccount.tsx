@@ -15,52 +15,42 @@ import { toast } from "react-toastify";
 
 
 export default function SelectAccountPopUp(props: any) {
-    let { accounts, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup } = props;
-    
-    const selectedAccountSelect = useSelector(selectedAccount);
+    let { accounts, getAccountsAPI, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup, className = "w-[450px]" } = props;
 
-    const ethers_provider = new ethers.JsonRpcProvider("rpc url");
+    const selectedAccountSelect = useSelector(selectedAccount);
 
 
     return (
-    <>
-        <div onClick={() => props.setIsShowSelectAccount(false)} className="overlay"></div>
+        <>
+            <div onClick={() => setIsShowAddAccountPopup(false)} className="fixed text-white inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
+                <div
+                    className={`${className} py-4 px-8 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
+                >
+                    <div className="flex justify-between pb-4 text-[24px] text-orangered font-semibold">
+                        Select an account
+                    </div>
 
-        <div className="account-select-container">
-            <div className="network-select-title">
-                Select an account
-                <div onClick={() => props.setIsShowSelectAccount(false)} className="network-select-close">
-                    <i className="fa-solid fa-xmark"></i>
+                    {
+                        accounts.map((account: any, index: any) => {
+                            return <SelectAccountItem getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} account={account} index={index} />
+                        })
+                    }
+
+
                 </div>
             </div>
-            <div className="network-select-body custom-overflow">
-                {
-                    accounts.map((account: any, index: any) => {
-                        return <SelectAccountItem getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} ethers_provider={ethers_provider} account={account} index={index} />
-                    })
-                }
-            </div>
-            <div onClick={() => {setIsShowAddAccountPopup(true);props.setIsShowSelectAccount(false)}} className="network-select-add">
-                Add Account
-            </div>
-        </div>
 
-    </>
-  );
+        </>
+    );
 }
 
 
 function SelectAccountItem(props: any) {
-    const {account, index, ethers_provider, network_redux, isSelected, setIsShowSelectAccount, getAccounts} = props
-    const [coin, setCoin] = useState("0.000");
+    const { account, index, isSelected, setIsShowSelectAccount } = props
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        getCoinOfAddress()
-    }, [])
-
     const selectChangeAccount = (account: any) => {
-        let account_change : Account = {
+        let account_change: Account = {
             id: account.id,
             name: account.name,
             address: account.address,
@@ -72,24 +62,9 @@ function SelectAccountItem(props: any) {
         setIsShowSelectAccount(false)
     }
 
-    const getCoinOfAddress = async () => {
-        try {
-            let coin = await ethers_provider.getBalance(account.address)
-            
-            let number = Number(`${coin}`)
-            let numberShow = (number / 1000000000000000000).toFixed(3)
-            
-            // console.log(index, numberShow);
-            
-            setCoin(numberShow)
-        } catch (error) {
-            setCoin("0.000")
-        }
-    }
-
     const handleDeleteAccount = async (accountId: number) => {
         let confirmDeleteAccount = confirm("You confirm delete network?")
-        if(confirmDeleteAccount) {
+        if (confirmDeleteAccount) {
             console.log("accountId ", accountId);
             try {
                 dispatch(showApiLoading())
@@ -124,22 +99,48 @@ function SelectAccountItem(props: any) {
             }
         }
     }
-    
-    
+
+
     return (
         <>
-            <div className={isSelected ? "account-select-item-selected" : "account-select-item"}>
-                <img onClick={() => selectChangeAccount(account)} src={`../account_list/${index + 1}.jpeg`} alt="N" className="network-select-item-logo"/>
-                <div onClick={() => selectChangeAccount(account)} className="account-select-item-name">
-                    <div className="network-select-item-name1">{account.name.slice(0, 1).toUpperCase()}{account.name.slice(1, )}</div>
-                    <div className="network-select-item-name2">{account.address.slice(0, 7)}...{account.address.slice(37, )}</div>
+            <div
+                key={index}
+                className={
+                    isSelected ? "group flex w-full justify-between py-6 p-2 my-2 items-center bg-orange-900 bg-opacity-30" :
+                    "group flex w-full justify-between py-6 p-2 my-2 items-center hover:bg-orange-900 hover:bg-opacity-30"
+                }
+                onClick={() => selectChangeAccount(account)} // Parent onClick
+            >
+                <div className="flex">
+                    <img
+                        src={`../account_list/${index + 1}.jpeg`}
+                        alt="N"
+                        className="network-select-item-logo"
+                    />
+                    <div className="flex items-start flex-col pl-2">
+                        <div className="text-[18px] font-bold">{account.name}</div>
+                        <div className="text-[13px] pt-2 text-gray-400">0xc73cc...cdE73</div>
+                    </div>
                 </div>
-                <div onClick={() => selectChangeAccount(account)} className="" style={{paddingRight: "50px"}}>
-                </div>
-                <div onClick={() => handleDeleteAccount(account.id)} className="network-select-item-detail">
-                    {!isSelected && <i className="fa-solid fa-trash"></i>}
+
+                <div className="flex">
+                    <div className="flex-col">
+                        <div className="network-select-item-name1">
+                            {account.balance | 0.0} <span className="text-gray-400">ETH</span>
+                        </div>
+                    </div>
+                    <div className="pl-8">
+                        <i
+                            className="fa-solid fa-trash hidden group-hover:text-red"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteAccount(account.id);
+                            }}
+                        ></i>
+                    </div>
                 </div>
             </div>
+
         </>
     )
 }

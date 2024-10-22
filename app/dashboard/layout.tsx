@@ -18,7 +18,6 @@ import SendCoinPopUp from "../components/popup/sendCoinPopUp";
 import PopupAddBlockchainAccount from "../components/new-templete/add-new-account/popup-add-blockchain-account";
 import PopupAddNewBlockchainAccount from "../components/new-templete/add-new-account/popup-new-blockchain-acocunt";
 import PopupAddPrivateKeyBlockchainAccount from "../components/new-templete/add-new-account/popup-import-private-blockchain-account";
-import PopupSelectAccount from "../components/new-templete/popup-select-account";
 
 
 
@@ -55,20 +54,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         // dispatch(showApiLoading())
 
-        // Promise.all([getAccounts()])
-        //     .then(([accounts]) => {
-        //         setAccounts(accounts);
+        getAccounts();
 
-        //         setTimeout(() => {
-        //             dispatch(hideApiLoading())
-        //         }, 500);
-        //     })
-        //     .catch(error => {
-        //         console.error("Error fetching data:", error);
-        //         setTimeout(() => {
-        //             dispatch(hideApiLoading())
-        //         }, 500);
-        //     });
 
     }, [])
 
@@ -109,6 +96,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const getAccounts = async () => {
         try {
             const accounts = await accountApi.getAccounts();
+            console.log(accounts.data);
+            
             const default_account: any = accounts.data[0];
             dispatch(changeAccount({
                 id: default_account.id,
@@ -118,6 +107,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 index_acc: 0,
                 privateKey: default_account.privateKey
             }));
+            setAccounts(accounts.data as any)
             return accounts.data;
         } catch (error) {
             console.error("Error fetching accounts:", error);
@@ -140,18 +130,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 / >
             )}
 
-            {popupSelectAccount && (
-                <PopupSelectAccount
-                onCancel={() => {
-                    setPopupSelectAccount(false);
-                }}
-                ></PopupSelectAccount>
-            )}
-
             {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
             {apiLoading.isLoading && <ApiLoading />}
-            {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+            {isShowSelectAccount && <SelectAccountPopUp getAccountsAPI={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
             {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
 
             {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
@@ -178,12 +160,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </div>
                         <div
                             onClick={() => {
-                                setPopupSelectAccount(true);
+                                setIsShowSelectAccount(true);
                             }}
                             className="absolute cursor-pointer left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-between"
                         >
-                            <img src="https://cdn-icons-png.flaticon.com/512/5264/5264885.png" alt="" className="w-8 h-8 bg-white rounded-full p-1" />
-                            <div className="px-[10px] font-bold text-[22px]">Account 1</div>
+                            <img src={`../account_list/${account.index_acc + 1}.jpeg`} alt="" className="w-8 h-8 bg-white rounded-full" />
+                            <div className="px-[10px] font-bold text-[22px]">{account?.name}</div>
                             <i className="text-sm pl-3 fa-solid fa-chevron-down"></i>
                         </div>
 
