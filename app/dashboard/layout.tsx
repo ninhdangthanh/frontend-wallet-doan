@@ -1,93 +1,86 @@
 'use client'
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { check_token } from "../../common";
 import SelectAccountPopUp from "../components/popup/selectAccount";
-import "../../css/fontawesome-free-6.5.1-web/css/all.css"
-import "../../css/main.css"
-import NetworkSelectPopUp from "../components/popup/networkSelect";
 import { accountApi } from "../../api-client/account-api";
-import { networkApi } from "../../api-client/network-api";
 import { useDispatch, useSelector } from "react-redux";
-import { Network, selectNetwork } from "@/redux/slice/networkSlice";
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AddNetworkPopUp from "../components/popup/addNetwork";
 import { hideApiLoading, selectLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import ApiLoading from "../components/loading/apiLoading";
 import { ethers } from "ethers";
 import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
-import { hexToNumber } from "@/utils/format-address";
-import AddERC20PopUp from "../components/popup/addERC20";
 import ChangePasswordPopup from "../components/popup/changePasswordPopup";
 import AddAccountPopup from "../components/popup/addAccountPopup";
-import SendTokenPopUp from "../components/popup/sendTokenPopUp";
 import SendCoinPopUp from "../components/popup/sendCoinPopUp";
+import PopupAddBlockchainAccount from "../components/new-templete/add-new-account/popup-add-blockchain-account";
+import PopupAddNewBlockchainAccount from "../components/new-templete/add-new-account/popup-new-blockchain-acocunt";
+import PopupAddPrivateKeyBlockchainAccount from "../components/new-templete/add-new-account/popup-import-private-blockchain-account";
+import PopupSelectAccount from "../components/new-templete/popup-select-account";
+
+
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const dispatch = useDispatch();
+    const pathname = usePathname();
 
     const account = useSelector(selectedAccount);
     const apiLoading = useSelector(selectLoading);
-    
+
+    var [tabIndex, setTabIndex] = useState(1);
     const [copied, setCopied] = useState(false);
     const [accessToken, setAccessToken] = useState("");
     const [accounts, setAccounts] = useState([]);
-    const [networks, setNetworks] = useState<Network[]>([]);
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
-    const [isShowSelectNetwork, setIsShowSelectNetwork] = useState(false);
-    const [isShowAddNetwork, setIsShowAddNetwork] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
     const [isShowAddAccountPopup, setIsShowAddAccountPopup] = useState(false);
     const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
-    
+
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
 
-    const network_redux = useSelector(selectNetwork);
-    
-    
+
 
     useEffect(() => {
-        let access_token = check_token();
-        if(!access_token) {
-            router.push("/login");
-            setAccessToken("")
-        } else {
-            setAccessToken(access_token)
-        }
+        // let access_token = check_token();
+        // if(!access_token) {
+        //     // router.push("/login");
+        //     setAccessToken("")
+        // } else {
+        //     setAccessToken(access_token)
+        // }
 
-        dispatch(showApiLoading())
-        
-        Promise.all([getAccounts()])
-            .then(([accounts]) => {
-                setAccounts(accounts);
+        // dispatch(showApiLoading())
 
-                setTimeout(() => {
-                    dispatch(hideApiLoading())
-                }, 500);
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-                setTimeout(() => {
-                    dispatch(hideApiLoading())
-                }, 500);
-            });
+        // Promise.all([getAccounts()])
+        //     .then(([accounts]) => {
+        //         setAccounts(accounts);
+
+        //         setTimeout(() => {
+        //             dispatch(hideApiLoading())
+        //         }, 500);
+        //     })
+        //     .catch(error => {
+        //         console.error("Error fetching data:", error);
+        //         setTimeout(() => {
+        //             dispatch(hideApiLoading())
+        //         }, 500);
+        //     });
 
     }, [])
 
     useEffect(() => {
-        getAccountBalance()
-        setAccountBalanceETH(`${0}`)
+        // getAccountBalance()
+        // setAccountBalanceETH(`${0}`)
         // console.log("accountBalanceETH", accountBalanceETH);
     }, [account])
 
     const getAccountBalance = async () => {
         try {
-            const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
+            const provider = new ethers.JsonRpcProvider("");
             const etherBalance = await provider.getBalance(account.address);
             // console.log("Balance:", etherBalance, "ETH", account.address);
 
@@ -103,7 +96,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const handleCopyTextAddress = () => {
         const textToCopy = account.address;
-            navigator.clipboard.writeText(textToCopy)
+        navigator.clipboard.writeText(textToCopy)
             .then(() => {
                 alert("Copied account address")
             })
@@ -112,31 +105,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             });
     };
 
-    // useEffect(() => {
-    //     let network_rpc = network_redux.network?.rpc_url
-    //     const ethers_provider = new ethers.providers.JsonRpcProvider(network_rpc);
-
-    //     const balance_account_promist = accounts.map(async (account: any) => {
-    //         let coin = await ethers_provider.getBalance(account.address)
-    
-    //         let number = Number(`${coin}`)
-    //         let numberShow = (number / 1000000000000000000).toFixed(3)
-
-    //         return numberShow
-    //     });
-        
-    //     Promise.all(balance_account_promist).then((items) => {
-    //         console.log(items);
-    //     })
-    //     .catch((error) => {
-    //         console.error("Error fetching amounts:", error);
-    //     });
-    // }, [isShowSelectAccount])
 
     const getAccounts = async () => {
         try {
             const accounts = await accountApi.getAccounts();
-            const default_account : any = accounts.data[0];
+            const default_account: any = accounts.data[0];
             dispatch(changeAccount({
                 id: default_account.id,
                 name: default_account.name,
@@ -152,116 +125,107 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const getNetworks = async () => {
-        try {
-            const network = await networkApi.getNetworks();
-            // await initNetwork(network.data);
-            return network.data;
-        } catch (error) {
-            console.error("Error fetching networks:", error);
-            throw error;
-        }
-    };
-
-
-    // const initNetwork = async (network_list: Network[]) => {
-    //     network_list.forEach((network: Network) => {
-    //         if(network.is_default) {
-    //             dispatch(changeNetwork({network: network, isDefault: true}));
-    //             // console.log(network);
-    //             return network.rpc_url;
-    //         }
-    //     });
-    // }
-
+    var [popupAddBlockchainAccount, setPopupAddBlockchainAccount] = useState(false);
+    var [popupSelectAccount, setPopupSelectAccount] = useState(false);
 
     return (
         <>
-        <ToastContainer />
+            <ToastContainer />
 
-        {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
-        
-        {apiLoading.isLoading && <ApiLoading />}
-        {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
-        {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account}  setIsShowAccountDetail={setIsShowAccountDetail} />}
+            {popupAddBlockchainAccount && (
+                <PopupAddPrivateKeyBlockchainAccount
+                onCancel={() => {
+                    // setPopupAddBlockchainAccount(false);
+                }} 
+                / >
+            )}
 
-        {/* {isShowSelectNetwork && <NetworkSelectPopUp setIsShowAddNetwork={setIsShowAddNetwork} getNetworks={getNetworks} networks={networks} accessToken={accessToken} setIsShowSelectNetwork={setIsShowSelectNetwork} />}
-        {isShowAddNetwork && <AddNetworkPopUp getNetworks={getNetworks} setIsShowAddNetwork={setIsShowAddNetwork} />} */}
-        {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
-        {isShowAddAccountPopup && <AddAccountPopup getAccounts={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} />}
+            {popupSelectAccount && (
+                <PopupSelectAccount
+                onCancel={() => {
+                    setPopupSelectAccount(false);
+                }}
+                ></PopupSelectAccount>
+            )}
 
-        <div className="app-container">
-            <h1 className="wallet-logo">
-                U2MYA BLOCKCHAIN WALLET
-            </h1>
-            <div className="wallet-container">
-                <div className="wallet-container-header flex-row"> 
-                    <div className="wallet-network-hide flex-row"></div>
-                    {/* <div onClick={() => setIsShowSelectNetwork(true)} className="wallet-network flex-row">
-                        {
-                            network_redux.isDefault ?
-                            <img src="../eth_logo.png" alt="N" className="wallet-network-logo" />
-                            :
-                            <div className="wallet-network-logo-character">{network_redux.network ? network_redux.network?.name.slice(0, 1): "Mainnet"}</div>
-                        }
-                        <div className="wallet-network-name">{network_redux.network?.name || "Mainnet"}</div>
-                        <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
-                    </div> */}
-                    <div onClick={() => setIsShowSelectAccount(true)} className="wallet-account flex-row">
-                        <img src={`../account_list/${account.index_acc + 1}.jpeg`} alt="" className="wallet-account-image"/>
-                        <div className="wallet-account-name">{account?.name}</div>
-                        <i className="wallet-network-icon-select fa-solid fa-chevron-down"></i>
+            {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
+
+            {apiLoading.isLoading && <ApiLoading />}
+            {isShowSelectAccount && <SelectAccountPopUp setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+            {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
+
+            {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
+            {isShowAddAccountPopup && <AddAccountPopup getAccounts={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} />}
+
+            <div className="text-white items-center justify-center flex flex-col text-center bg-black ">
+                <h1 className="text-orangered pt-10 pb-10 bg-black items-center justify-center flex text-4xl font-bold">
+                    U2MYA BLOCKCHAIN WALLET
+                </h1>
+                <div className="bg-backgroundColor w-[1000px] items-center mb-16">
+                    <div className="relative pt-[16px] pb-[12px] px-[12px]  flex items-center justify-between border-t-2 border-b-2 border-orange-900">
+                        <div
+                            onClick={() => {
+                                setPopupAddBlockchainAccount(true)
+                            }}
+                            className="cursor-pointer bg-black py-[6px] rounded-3xl px-3 flex  items-center justify-center border-solid border-2 border-gray-600"
+                        >
+                            {/* <img
+                                src="https://cdn-icons-png.flaticon.com/512/5264/5264885.png"
+                                alt=""
+                                className="w-6 h-6 rounded-[50px] bg-white"
+                            /> */}
+                            <div className="px-[6px] text-[16px]">Add blockchain account</div>
+                        </div>
+                        <div
+                            onClick={() => {
+                                setPopupSelectAccount(true);
+                            }}
+                            className="absolute cursor-pointer left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-between"
+                        >
+                            <img src="https://cdn-icons-png.flaticon.com/512/5264/5264885.png" alt="" className="w-8 h-8 bg-white rounded-full p-1" />
+                            <div className="px-[10px] font-bold text-[22px]">Account 1</div>
+                            <i className="text-sm pl-3 fa-solid fa-chevron-down"></i>
+                        </div>
+
+                        <div onClick={() => {
+                            //   setPopupAccountDetails(true);
+                        }} className="px-4 py-1 rounded-full font-bold text-2xl hover:bg-orange-900 hover:bg-opacity-30">
+                            <i className="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
                     </div>
-                    <div style={{paddingLeft: "10px", paddingRight: "10px"}} onClick={() => setIsShowAccountDetail(true)} className="wallet-setting">
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                    <div className="items-center  w-full pt-8">
+                        <div className="flex items-center flex-col">
+                            {" "}
+                            <div
+                                className="inline-flex  justify-center text-orange-600 bg-[#422D24] px-4 py-1.5 rounded-[20px] mb-2"
+                            >
+                                <div className="pr-[6px]">0xc73cc...cdE73</div>
+                                <i className="wallet-coin-address-copy fa-regular fa-copy "></i>
+                            </div>
+                            <div className="mb-6 mt-2 text-[36px] items-center flex">
+                                2.8 ETH
+                            </div>
+                        </div>
+
+                        {pathname === '/dashboard/home' && (<div className=" mb-8 mt-4  w-full flex items-center justify-center ">
+                            <div className="w-56 cursor-pointer flex flex-col items-center justify-between">
+                                <div className="mb-2.5 bg-orange-600 w-11 h-11 rounded-full rotate-45 flex items-center justify-center hover:opacity-65">
+                                    <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
+                                </div>
+                                <span className="font-bold">Send Ethers</span>
+                            </div>
+                            <div className="w-56 cursor-pointer flex flex-col  items-center justify-between">
+                                <div className="mb-2.5 bg-orange-600 w-11 h-11 rounded-full flex items-center justify-center hover:opacity-65">
+                                    <i className="fa-solid fa-plus"></i>
+                                </div>
+                                <span className="font-bold">Add token</span>
+                            </div>
+                        </div> )}
+                    </div>
+                    <div className="">
+                        {children}
                     </div>
                 </div>
-                <div className="wallet-container-coin">
-                <div onClick={handleCopyTextAddress} className="wallet-coin-address">
-                    {/* <div className="wallet-coin-address-text">0xc73cc...cdE73</div> */}
-                    <div className="wallet-coin-address-text">{`${account.address.slice(0, 6)}...${account.address.slice(37)}`}</div>
-                    <i className="wallet-coin-address-copy fa-regular fa-copy"></i>
-                </div>
-                <div className="wallet-coin-balance">
-                    {accountBalanceETH} SepoliaETH
-                </div>
-                <div className="wallet-coin-option">
-                    <div className="wallet-coin-option-item flex-row">
-                        <div className="wallet-coin-option-button wallet-coin-option-button-disabled flex-row">
-                            <i className="fa-solid fa-plus-minus"></i>
-                        </div>
-                    <span>Buy & Sell</span>
-                    </div>
-                    <div onClick={() => setIsShowSendCoinPopup(true)} className="wallet-coin-option-item flex-row">
-                        <div className="wallet-coin-option-button flex-row">
-                            <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
-                        </div>
-                    <span>Send</span>
-                    </div>
-                    <div className="wallet-coin-option-item flex-row">
-                        <div className="wallet-coin-option-button wallet-coin-option-button-disabled flex-row">
-                            <i className="fa-solid fa-arrow-right-arrow-left"></i>
-                        </div>
-                    <span>Swap</span>
-                    </div>
-                    {/* <div className="wallet-coin-option-item flex-row">
-                        <div className="wallet-coin-option-button wallet-coin-option-button-disabled flex-row">
-                            <i className="fa-solid fa-arrow-trend-up"></i>
-                        </div>
-                    <span>Bridge</span>
-                    </div>
-                    <div className="wallet-coin-option-item flex-row">
-                        <div className="wallet-coin-option-button wallet-coin-option-button-disabled flex-row">
-                            <i className="fa-solid fa-chart-column"></i>
-                        </div>
-                    <span>Portfolio</span>
-                    </div> */}
-                </div>
-            </div>
-            <div className="wallet-container-activity">
-                <>{children}</>
-            </div>
-            </div>
             </div>
         </>
     );

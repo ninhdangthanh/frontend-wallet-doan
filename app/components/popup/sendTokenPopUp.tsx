@@ -44,13 +44,13 @@ export default function SendTokenPopUp(props: any) {
             return;
         }
         
-        const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
+        const provider = new ethers.JsonRpcProvider(network_redux.network?.rpc_url);
         
         const wallet = new ethers.Wallet(account.privateKey, provider);
         const tokenContractAddress = token.contract_address;
         const tokenContract = new ethers.Contract(tokenContractAddress, tokenAbi, wallet);
 
-        const amountToSend = ethers.utils.parseUnits(valueSend.toString(), 18);
+        const amountToSend = ethers.parseUnits(valueSend.toString(), 18);
 
         dispatch(showApiLoading())
         

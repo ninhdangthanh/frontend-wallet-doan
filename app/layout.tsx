@@ -2,6 +2,7 @@
 
 import ReduxProvider from "../redux/provider";
 import ApiLoading from "./components/loading/apiLoading";
+import "./../styles/global.css"
 
 export default function RootLayout({
   children,
