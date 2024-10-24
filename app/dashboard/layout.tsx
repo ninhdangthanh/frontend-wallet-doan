@@ -99,13 +99,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             console.log(accounts.data);
             
             const default_account: any = accounts.data[0];
+            console.log("default_account", default_account);
+            
             dispatch(changeAccount({
                 id: default_account.id,
                 name: default_account.name,
                 address: default_account.address,
                 user_id: default_account.user_id,
                 index_acc: 0,
-                privateKey: default_account.privateKey
+                privateKey: default_account.privateKey,
+                balance: default_account.balance
             }));
             setAccounts(accounts.data as any)
             return accounts.data;
@@ -123,7 +126,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <ToastContainer />
 
             {popupAddBlockchainAccount && (
-                <PopupAddPrivateKeyBlockchainAccount
+                <PopupAddBlockchainAccount
                 onCancel={() => {
                     // setPopupAddBlockchainAccount(false);
                 }} 
@@ -179,13 +182,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         <div className="flex items-center flex-col">
                             {" "}
                             <div
+                                onClick={handleCopyTextAddress}
                                 className="inline-flex  justify-center text-orange-600 bg-[#422D24] px-4 py-1.5 rounded-[20px] mb-2"
                             >
-                                <div className="pr-[6px]">0xc73cc...cdE73</div>
+                                <div className="pr-[6px]">{`${account.address.slice(0, 6)}...${account.address.slice(37)}`}</div>
                                 <i className="wallet-coin-address-copy fa-regular fa-copy "></i>
                             </div>
                             <div className="mb-6 mt-2 text-[36px] items-center flex">
-                                2.8 ETH
+                                {account.balance} ETH
                             </div>
                         </div>
 

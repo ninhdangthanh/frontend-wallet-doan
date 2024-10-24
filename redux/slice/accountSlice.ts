@@ -8,7 +8,8 @@ export interface Account {
   address: string,
   user_id: number,
   index_acc: number,
-  privateKey: string
+  privateKey: string,
+  balance: string
 }
 
 interface AccountState {
@@ -22,7 +23,8 @@ const defaultAccount : Account = {
   address: "0xrfe4...234dw",
   user_id: 0,
   index_acc: 0,
-  privateKey: "privateKey"
+  privateKey: "privateKey",
+  balance: "0.0"
 }
 
 const initialState: AccountState = {
