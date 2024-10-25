@@ -1,7 +1,4 @@
-import { accountApi } from "@/api-client/account-api";
-import { showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";

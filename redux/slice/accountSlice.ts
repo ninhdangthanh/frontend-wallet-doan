@@ -9,7 +9,7 @@ export interface Account {
   user_id: number,
   index_acc: number,
   privateKey: string,
-  balance: string
+  balance: any
 }
 
 interface AccountState {

@@ -15,14 +15,14 @@ import { toast } from "react-toastify";
 
 
 export default function SelectAccountPopUp(props: any) {
-    let { accounts, getAccountsAPI, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup, className = "w-[450px]" } = props;
+    let { accounts, getAccountsAPI, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup, className = "w-[450px]", onCancel } = props;
 
     const selectedAccountSelect = useSelector(selectedAccount);
 
 
     return (
         <>
-            <div onClick={() => setIsShowAddAccountPopup(false)} className="fixed text-white inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
+            <div onClick={() => onCancel()} className="fixed text-white inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
                 <div
                     className={`${className} py-4 px-8 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
                 >
@@ -56,7 +56,8 @@ function SelectAccountItem(props: any) {
             address: account.address,
             user_id: account.user_id,
             index_acc: index,
-            privateKey: account.privateKey
+            privateKey: account.privateKey,
+            balance: account.balance
         }
         dispatch(changeAccount(account_change))
         setIsShowSelectAccount(false)
@@ -119,7 +120,7 @@ function SelectAccountItem(props: any) {
                     />
                     <div className="flex items-start flex-col pl-2">
                         <div className="text-[18px] font-bold">{account.name}</div>
-                        <div className="text-[13px] pt-2 text-gray-400">0xc73cc...cdE73</div>
+                        <div className="text-[13px] pt-2 text-gray-400"><div className="pr-[6px]">{`${account.address.slice(0, 6)}...${account.address.slice(37)}`}</div></div>
                     </div>
                 </div>
 

@@ -119,7 +119,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
 
     var [popupAddBlockchainAccount, setPopupAddBlockchainAccount] = useState(false);
-    var [popupSelectAccount, setPopupSelectAccount] = useState(false);
+    var [popupCreateNewBlockchainAccount, setPopupCreateNewBlockchainAccount] = useState(false);
+    var [popupImportBlockchainAccount, setPopupImportBlockchainAccount] = useState(false);
+
 
     return (
         <>
@@ -127,6 +129,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {popupAddBlockchainAccount && (
                 <PopupAddBlockchainAccount
+                setPopupImportBlockchainAccount={setPopupImportBlockchainAccount}
+                setPopupCreateNewBlockchainAccount={setPopupCreateNewBlockchainAccount}
+                onCancel={() => {
+                    setPopupAddBlockchainAccount(false);
+                }} 
+                / >
+            )}
+            {popupCreateNewBlockchainAccount && (
+                <PopupAddNewBlockchainAccount
+                onCancel={() => {
+                    // setPopupAddBlockchainAccount(false);
+                }} 
+                / >
+            )}
+            {popupImportBlockchainAccount && (
+                <PopupAddPrivateKeyBlockchainAccount
                 onCancel={() => {
                     // setPopupAddBlockchainAccount(false);
                 }} 
@@ -140,7 +158,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
 
             {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
-            {isShowAddAccountPopup && <AddAccountPopup getAccounts={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} />}
 
             <div className="text-white items-center justify-center flex flex-col text-center bg-black ">
                 <h1 className="text-orangered pt-10 pb-10 bg-black items-center justify-center flex text-4xl font-bold">
