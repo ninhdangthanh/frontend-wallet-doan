@@ -22,7 +22,7 @@ export default function SelectAccountPopUp(props: any) {
 
     return (
         <>
-            <div onClick={() => onCancel()} className="fixed text-white inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
+            <div onClick={onCancel} className="fixed text-white inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
                 <div
                     className={`${className} py-4 px-8 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
                 >

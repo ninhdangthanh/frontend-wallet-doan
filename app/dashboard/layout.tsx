@@ -36,7 +36,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
-    const [isShowAddAccountPopup, setIsShowAddAccountPopup] = useState(false);
     const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
 
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
@@ -139,14 +138,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {popupCreateNewBlockchainAccount && (
                 <PopupAddNewBlockchainAccount
                 onCancel={() => {
-                    // setPopupAddBlockchainAccount(false);
+                    setPopupCreateNewBlockchainAccount(false);
                 }} 
                 / >
             )}
             {popupImportBlockchainAccount && (
                 <PopupAddPrivateKeyBlockchainAccount
                 onCancel={() => {
-                    // setPopupAddBlockchainAccount(false);
+                    setPopupImportBlockchainAccount(false);
                 }} 
                 / >
             )}
@@ -154,7 +153,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
             {apiLoading.isLoading && <ApiLoading />}
-            {isShowSelectAccount && <SelectAccountPopUp getAccountsAPI={getAccounts} setIsShowAddAccountPopup={setIsShowAddAccountPopup} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+            {isShowSelectAccount && <SelectAccountPopUp onCancel={() => setIsShowSelectAccount(false)} getAccountsAPI={getAccounts} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
             {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
 
             {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}
