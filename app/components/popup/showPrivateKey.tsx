@@ -31,7 +31,7 @@ export default function ShowPrivateKeyPopUp(props: any) {
     const logoutAction = () => {
         setIsShowAccountDetail(false)
         sessionStorage.removeItem("u2mya_wallet_access_token");
-        // router.push("/login");
+        router.push("/login");
         window.location.reload()
     }
 
@@ -87,15 +87,16 @@ export default function ShowPrivateKeyPopUp(props: any) {
             <div onClick={() => setIsShowAccountDetail(false)} className="overlay"></div>
 
             <div className="show-private-key-container">
-                <h5 className="show-private-key-title">
+                <h5 className="show-private-key-title font-bold text-2xl text-center">
                     Account details
                     <div className="activity-popup-detail-title-close">
                         <i onClick={() => setIsShowAccountDetail(false)} className="fa-solid fa-xmark"></i>
                     </div>
                 </h5>
                 <div className="show-private-key-body">
-                    <img src={`../account_list/${account.index_acc + 1}.jpeg`} alt="" className="show-private-key-detail-logo"/>
-
+                    <div className="flex item-center justify-center">
+                        <img src={`../account_list/${account.index_acc + 1}.jpeg`} alt="" className="show-private-key-detail-logo text-center"/>
+                    </div>
                     <div className="show-private-key-account-name">
                         <div className="show-private-key-account-name-title">{account.name}</div>
                         <div onClick={() => setShowIsChangeAccountnameShow(true)} className="show-private-key-name-edit-button">

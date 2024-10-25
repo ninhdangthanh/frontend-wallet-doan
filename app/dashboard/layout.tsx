@@ -18,6 +18,7 @@ import SendCoinPopUp from "../components/popup/sendCoinPopUp";
 import PopupAddBlockchainAccount from "../components/new-templete/add-new-account/popup-add-blockchain-account";
 import PopupAddNewBlockchainAccount from "../components/new-templete/add-new-account/popup-new-blockchain-acocunt";
 import PopupAddPrivateKeyBlockchainAccount from "../components/new-templete/add-new-account/popup-import-private-blockchain-account";
+import { check_token } from "@/common";
 
 
 
@@ -37,32 +38,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
     const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
+    
 
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
 
 
 
     useEffect(() => {
-        // let access_token = check_token();
-        // if(!access_token) {
-        //     // router.push("/login");
-        //     setAccessToken("")
-        // } else {
-        //     setAccessToken(access_token)
-        // }
-
-        // dispatch(showApiLoading())
+        let access_token = check_token();
+        if(!access_token) {
+            router.push("/login");
+            setAccessToken("")
+        } else {
+            setAccessToken(access_token)
+        }
 
         getAccounts();
-
-
     }, [])
-
-    useEffect(() => {
-        // getAccountBalance()
-        // setAccountBalanceETH(`${0}`)
-        // console.log("accountBalanceETH", accountBalanceETH);
-    }, [account])
 
     const getAccountBalance = async () => {
         try {
@@ -189,7 +181,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </div>
 
                         <div onClick={() => {
-                            //   setPopupAccountDetails(true);
+                            setIsShowAccountDetail(true);
                         }} className="px-4 py-1 rounded-full font-bold text-2xl hover:bg-orange-900 hover:bg-opacity-30">
                             <i className="fa-solid fa-ellipsis-vertical"></i>
                         </div>
