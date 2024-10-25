@@ -10,10 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { hideApiLoading, selectLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import ApiLoading from "../components/loading/apiLoading";
 import { ethers } from "ethers";
-import { changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
+import { addManyAccount, changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
 import ShowPrivateKeyPopUp from "../components/popup/showPrivateKey";
 import ChangePasswordPopup from "../components/popup/changePasswordPopup";
-import AddAccountPopup from "../components/popup/addAccountPopup";
 import SendCoinPopUp from "../components/popup/sendCoinPopUp";
 import PopupAddBlockchainAccount from "../components/new-templete/add-new-account/popup-add-blockchain-account";
 import PopupAddNewBlockchainAccount from "../components/new-templete/add-new-account/popup-new-blockchain-acocunt";
@@ -33,7 +32,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     var [tabIndex, setTabIndex] = useState(1);
     const [copied, setCopied] = useState(false);
     const [accessToken, setAccessToken] = useState("");
-    const [accounts, setAccounts] = useState([]);
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
@@ -87,10 +85,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const getAccounts = async () => {
         try {
             const accounts = await accountApi.getAccounts();
-            console.log(accounts.data);
+            // console.log("accounts.data", accounts.data);
+            dispatch(addManyAccount(accounts.data))
             
             const default_account: any = accounts.data[0];
-            console.log("default_account", default_account);
+            // console.log("default_account", default_account);
             
             dispatch(changeAccount({
                 id: default_account.id,
@@ -101,7 +100,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 privateKey: default_account.privateKey,
                 balance: default_account.balance
             }));
-            setAccounts(accounts.data as any)
             return accounts.data;
         } catch (error) {
             console.error("Error fetching accounts:", error);
@@ -145,7 +143,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
             {apiLoading.isLoading && <ApiLoading />}
-            {isShowSelectAccount && <SelectAccountPopUp onCancel={() => setIsShowSelectAccount(false)} getAccountsAPI={getAccounts} getAccounts={getAccounts} accounts={accounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
+            {isShowSelectAccount && <SelectAccountPopUp onCancel={() => setIsShowSelectAccount(false)} getAccountsAPI={getAccounts} getAccounts={getAccounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
             {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
 
             {isShowChangePasswordPopup && <ChangePasswordPopup setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} />}

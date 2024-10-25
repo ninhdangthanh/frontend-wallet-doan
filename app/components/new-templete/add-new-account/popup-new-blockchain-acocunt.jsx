@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { ERC20Import, tokenApi } from "@/api-client/token-api";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedAccount } from "@/redux/slice/accountSlice";
+import { addAccount, selectedAccount } from "@/redux/slice/accountSlice";
 import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { authApi } from "@/api-client/auth-api";
@@ -28,8 +28,10 @@ export default function PopupAddNewBlockchainAccount({
       try {
           dispatch(showApiLoading());
 
-          let account = await accountApi.createAccount();
-          // TODO: add accont to redux
+          let account = await accountApi.createAccount(accountName);
+          console.log("account created", account);
+          
+          dispatch(addAccount(account.data))
           
           toast.success('Create account successfully', {
               position: 'top-right',
@@ -41,7 +43,6 @@ export default function PopupAddNewBlockchainAccount({
               progress: undefined,
               theme: 'dark',
           });
-          // await getAccounts();
           setIsShowAddAccountPopup(false)
 
       } catch (error) {
@@ -57,21 +58,20 @@ export default function PopupAddNewBlockchainAccount({
           });
       }
       dispatch(hideApiLoading());
+      onCancel()
   }
 
   
   return (
-    <div onClick={onCancel} className="text-black fixed inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
-      {/* Popup container */}
+      <>
       <div
-        className={`${className} p-4 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
+        className={`${className}  fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-50  p-4 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
       >
-        <div className="text-orangered pb-3 pt-1 text-center font-bold text-[22px] text-center">Create Blockchain Account</div>
+        <div className="text-orangered pb-3 pt-1 text-center font-bold text-[22px]">Create Blockchain Account</div>
 
-        {/* Popup body */}
         <div className="w-full mt-6 justify-center flex flex-col items-center">
           <div>
-            <label for="account_name" class="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500">Account name</label>
+            <label htmlFor="account_name" className="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500">Account name</label>
             <input type="text"  value={accountName} onChange={e => setAccountName(e.target.value)} placeholder="Account name" required id="account_name" className="w-[280px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-800 focus:border-orange-800 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-800 dark:focus:border-orange-800" />
           </div>
           <br />
@@ -81,9 +81,9 @@ export default function PopupAddNewBlockchainAccount({
         </div>
 
 
-        {/* Additional content */}
-        {children}
       </div>
-    </div>
+      <div onClick={onCancel} className="text-black fixed inset-0 z-40 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
+      </div>
+      </>
   );
 }

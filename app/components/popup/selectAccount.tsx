@@ -8,16 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { Account, changeAccount, selectedAccount } from "@/redux/slice/accountSlice";
+import { Account, changeAccount, selectAccounts, selectedAccount } from "@/redux/slice/accountSlice";
 import { accountApi } from "@/api-client/account-api";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { toast } from "react-toastify";
 
 
 export default function SelectAccountPopUp(props: any) {
-    let { accounts, getAccountsAPI, setIsShowSelectAccount, getAccounts, setIsShowAddAccountPopup, className = "w-[450px]", onCancel } = props;
+    let { setIsShowSelectAccount, getAccounts, className = "w-[450px]", onCancel } = props;
 
     const selectedAccountSelect = useSelector(selectedAccount);
+    let accounts = useSelector(selectAccounts)
 
 
     return (
@@ -32,7 +33,7 @@ export default function SelectAccountPopUp(props: any) {
 
                     {
                         accounts.map((account: any, index: any) => {
-                            return <SelectAccountItem getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} account={account} index={index} />
+                            return <SelectAccountItem key={index} getAccounts={getAccounts} setIsShowSelectAccount={setIsShowSelectAccount} isSelected={selectedAccountSelect?.id == account.id} account={account} index={index} />
                         })
                     }
 
@@ -127,7 +128,7 @@ function SelectAccountItem(props: any) {
                 <div className="flex">
                     <div className="flex-col">
                         <div className="network-select-item-name1">
-                            {account.balance | 0.0} <span className="text-gray-400">ETH</span>
+                            {account.balance} <span className="text-gray-400">ETH</span>
                         </div>
                     </div>
                     <div className="pl-8">

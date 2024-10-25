@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { accountApi } from "@/api-client/account-api";
+import { addAccount } from "@/redux/slice/accountSlice";
 
 PopupAddPrivateKeyBlockchainAccount.propTypes = {
   onCancel: PropTypes.func.isRequired,
@@ -12,9 +13,9 @@ PopupAddPrivateKeyBlockchainAccount.propTypes = {
 };
 
 export default function PopupAddPrivateKeyBlockchainAccount({
-  onCancel,
   className = "w-[350px]",
   children,
+  onCancel
 }) {
   
     const [privateKey, setPrivateKey] = useState("")
@@ -31,7 +32,9 @@ export default function PopupAddPrivateKeyBlockchainAccount({
           dispatch(showApiLoading());
 
           let account = await accountApi.importAccount(privateKey, accountName);
-          // TODO: add accont to redux
+          console.log("import account ", account);
+          
+          dispatch(addAccount(account.data))
           
           toast.success('Import account successfully', {
               position: 'top-right',
@@ -57,18 +60,17 @@ export default function PopupAddPrivateKeyBlockchainAccount({
           });
       }
       dispatch(hideApiLoading());
+      onCancel()
   }
 
 
   return (
-    <div onClick={onCancel} className="text-black fixed inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
-    {/* Popup container */}
+    <>
     <div
-      className={`${className} p-4 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
+      className={`${className}  fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-50  p-4 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
     >
       <div className="text-orangered pb-3 pt-1 text-center font-bold text-[22px]">Import Blockchain Account</div>
 
-      {/* Popup body */}
       <div className="w-full mt-6 justify-center flex flex-col items-center">
         <div>
           <label for="account_name" class="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500">Account name</label>
@@ -85,9 +87,9 @@ export default function PopupAddPrivateKeyBlockchainAccount({
       </div>
 
 
-      {/* Additional content */}
-      {children}
     </div>
-  </div>
+    <div onClick={onCancel} className="text-black fixed inset-0 z-40 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
+    </div>
+    </>
   );
 }

@@ -42,6 +42,16 @@ const accountsSlice = createSlice({
     changeSelectedAccountName: (state, action: PayloadAction<string>) => {
       state.selectedAccount.name = action.payload;
     },
+    addAccount: (state, action: PayloadAction<Account>) => {
+      state.accounts.push(action.payload);
+    },
+    addManyAccount: (state, action: PayloadAction<Account[]>) => {
+      state.accounts = [...action.payload];
+    },
+    removeAccount: (state, action: PayloadAction<string>) => {
+      state.accounts = state.accounts.filter(account => account.id !== action.payload);
+    },
+
     // toggleTodo: (state, action: PayloadAction<number>) => {
     //   const todo = state.todos.find((t) => t.id === action.payload);
     //   if (todo) {
@@ -57,7 +67,7 @@ const accountsSlice = createSlice({
   },
 });
 
-export const { changeAccount, changeSelectedAccountName } = accountsSlice.actions;
+export const { changeAccount, changeSelectedAccountName, addAccount, addManyAccount, removeAccount } = accountsSlice.actions;
 export default accountsSlice.reducer;
 
 // Selector to get the todos state

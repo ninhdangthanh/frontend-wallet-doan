@@ -16,14 +16,14 @@ export default function PopupAddBlockchainAccount({
   setPopupCreateNewBlockchainAccount
 }) {
   return (
-    <div onClick={onCancel} className="text-black fixed inset-0 z-50 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
-      {/* Popup container */}
-      <div
-        className={`${className} p-4 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
+    <>
+    <div onClick={onCancel} className="text-black fixed inset-0 z-40 bg-black bg-opacity-10 scrollbar-thin backdrop-blur-sm flex justify-center items-center mx-4 overflow-y-auto">
+    </div>
+    <div
+        className={`${className} fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-50 p-4 min-ss:w-[320px] flex-col justify-center items-center bg-linear-gradient-grey border border-border-color rounded-[12px] flex bg-neutral-900`}
       >
-        <div className="text-orangered pb-3 pt-1 text-center font-bold text-2xl text-center">Add Blockchain account</div>
+        <div className="text-orangered pb-3 pt-1 font-bold text-2xl text-center">Add Blockchain account</div>
 
-        {/* Popup body */}
         <div className="w-full mt-6 justify-center flex flex-col items-center">
           <button onClick={() => {
             onCancel()
@@ -38,11 +38,7 @@ export default function PopupAddBlockchainAccount({
             Import with Private Key
           </button>
         </div>
-
-
-        {/* Additional content */}
-        {children}
       </div>
-    </div>
+    </>
   );
 }
