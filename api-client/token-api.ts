@@ -16,6 +16,6 @@ export const tokenApi = {
 
 
 export interface ERC20Import {
-  account_id: string,
+  account_id: number,
   token_address: string
 }

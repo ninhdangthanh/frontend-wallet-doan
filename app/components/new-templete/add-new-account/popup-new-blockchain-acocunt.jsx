@@ -31,6 +31,7 @@ export default function PopupAddNewBlockchainAccount({
           let account = await accountApi.createAccount(accountName);
           console.log("account created", account);
           
+          account.data.balance = "0.000"
           dispatch(addAccount(account.data))
           
           toast.success('Create account successfully', {

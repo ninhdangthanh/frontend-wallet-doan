@@ -18,6 +18,9 @@ import PopupAddBlockchainAccount from "../components/new-templete/add-new-accoun
 import PopupAddNewBlockchainAccount from "../components/new-templete/add-new-account/popup-new-blockchain-acocunt";
 import PopupAddPrivateKeyBlockchainAccount from "../components/new-templete/add-new-account/popup-import-private-blockchain-account";
 import { check_token } from "@/common";
+import AddERC20PopUp from "../components/new-templete/addERC20";
+import { tokenApi } from "@/api-client/token-api";
+import { addManyTokens, selectTokens } from "@/redux/slice/ERC20Slice";
 
 
 
@@ -28,6 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const account = useSelector(selectedAccount);
     const apiLoading = useSelector(selectLoading);
+    const tokens = useSelector(selectTokens);
 
     var [tabIndex, setTabIndex] = useState(1);
     const [copied, setCopied] = useState(false);
@@ -36,7 +40,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
     const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
-    
 
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
 
@@ -53,22 +56,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         getAccounts();
     }, [])
-
-    const getAccountBalance = async () => {
-        try {
-            const provider = new ethers.JsonRpcProvider("");
-            const etherBalance = await provider.getBalance(account.address);
-            // console.log("Balance:", etherBalance, "ETH", account.address);
-
-            let showBalance = (etherBalance as unknown as number / 1000000000000000000).toFixed(4);
-            if (showBalance == '0.0000') {
-                showBalance = '0'
-            }
-            setAccountBalanceETH(`${showBalance}`)
-        } catch (error) {
-            console.error("Error when get account balance:", error);
-        }
-    }
 
     const handleCopyTextAddress = () => {
         const textToCopy = account.address;
@@ -110,6 +97,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     var [popupAddBlockchainAccount, setPopupAddBlockchainAccount] = useState(false);
     var [popupCreateNewBlockchainAccount, setPopupCreateNewBlockchainAccount] = useState(false);
     var [popupImportBlockchainAccount, setPopupImportBlockchainAccount] = useState(false);
+    const [isShowAddTokenERC20, setIsShowAddTokenERC20] = useState(false);
 
 
     return (
@@ -140,9 +128,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 / >
             )}
 
-            {isShowSendCoinPopup && <SendCoinPopUp getAccountBalance={getAccountBalance} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
+            {isShowSendCoinPopup && <SendCoinPopUp setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
             {apiLoading.isLoading && <ApiLoading />}
+            {isShowAddTokenERC20 && <AddERC20PopUp setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
             {isShowSelectAccount && <SelectAccountPopUp onCancel={() => setIsShowSelectAccount(false)} getAccountsAPI={getAccounts} getAccounts={getAccounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
             {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
 
@@ -206,7 +195,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                 </div>
                                 <span className="font-bold">Send Ethers</span>
                             </div>
-                            <div className="w-56 cursor-pointer flex flex-col  items-center justify-between">
+                            <div onClick={() => setIsShowAddTokenERC20(true)} className="w-56 cursor-pointer flex flex-col  items-center justify-between">
                                 <div className="mb-2.5 bg-orange-600 w-11 h-11 rounded-full flex items-center justify-center hover:opacity-65">
                                     <i className="fa-solid fa-plus"></i>
                                 </div>

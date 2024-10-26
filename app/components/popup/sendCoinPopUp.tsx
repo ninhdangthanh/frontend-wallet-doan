@@ -13,7 +13,23 @@ import { selectNetwork } from "@/redux/slice/networkSlice";
 const { ethers } = require("ethers");
 
 export default function SendCoinPopUp(props: any) {
-    const {coinBalance, setIsShowSendCoinPopup, getAccountBalance} = props
+    const {coinBalance, setIsShowSendCoinPopup} = props
+
+    const getAccountBalance = async () => {
+        try {
+            const provider = new ethers.JsonRpcProvider("");
+            const etherBalance = await provider.getBalance(account.address);
+            // console.log("Balance:", etherBalance, "ETH", account.address);
+
+            let showBalance = (etherBalance as unknown as number / 1000000000000000000).toFixed(4);
+            if (showBalance == '0.0000') {
+                showBalance = '0'
+            }
+            // setAccountBalanceETH(`${showBalance}`)
+        } catch (error) {
+            console.error("Error when get account balance:", error);
+        }
+    }
 
     const account = useSelector(selectedAccount);
     const network_redux = useSelector(selectNetwork);

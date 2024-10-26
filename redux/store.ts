@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import apiLoadingReducer from "./slice/apiLoadingSlice";
 import networkReducer from "./slice/networkSlice";
 import accountReducer from "./slice/accountSlice";
+import tokenReducer from "./slice/ERC20Slice";
 
 const store = configureStore({
   reducer: {
     apiLoading: apiLoadingReducer,
     network: networkReducer,
-    account: accountReducer
+    account: accountReducer,
+    tokens: tokenReducer
   },
 });
 

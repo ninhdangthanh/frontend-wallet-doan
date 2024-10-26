@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { Account, changeAccount, selectAccounts, selectedAccount } from "@/redux/slice/accountSlice";
+import { Account, changeAccount, removeAccount, selectAccounts, selectedAccount } from "@/redux/slice/accountSlice";
 import { accountApi } from "@/api-client/account-api";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { toast } from "react-toastify";
@@ -71,6 +71,8 @@ function SelectAccountItem(props: any) {
             try {
                 dispatch(showApiLoading())
                 await accountApi.removeAccount(accountId);
+                dispatch(removeAccount(accountId))
+
                 toast.success('Remove account successfully', {
                     position: 'top-right',
                     autoClose: 5000,
@@ -82,9 +84,6 @@ function SelectAccountItem(props: any) {
                     theme: 'dark',
                 });
                 setIsShowSelectAccount(false)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000);
             } catch (error) {
                 toast.error('Remove account failed', {
                     position: 'top-right',

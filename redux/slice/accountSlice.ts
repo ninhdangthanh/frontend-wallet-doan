@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 export interface Account {
-  id: string,
+  id: number,
   name: string,
   address: string,
   user_id: number,
@@ -18,7 +18,7 @@ interface AccountState {
 }
 
 const defaultAccount : Account = {
-  id: "0",
+  id: 99999,
   name: "Account 1",
   address: "0xrfe4...234dw",
   user_id: 0,
@@ -48,7 +48,7 @@ const accountsSlice = createSlice({
     addManyAccount: (state, action: PayloadAction<Account[]>) => {
       state.accounts = [...action.payload];
     },
-    removeAccount: (state, action: PayloadAction<string>) => {
+    removeAccount: (state, action: PayloadAction<number>) => {
       state.accounts = state.accounts.filter(account => account.id !== action.payload);
     },
 
