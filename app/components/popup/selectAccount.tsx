@@ -131,13 +131,13 @@ function SelectAccountItem(props: any) {
                         </div>
                     </div>
                     <div className="pl-8">
-                        <i
+                        {!isSelected && <i
                             className="fa-solid fa-trash hidden group-hover:text-red"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteAccount(account.id);
                             }}
-                        ></i>
+                        ></i>}
                     </div>
                 </div>
             </div>
