@@ -6,10 +6,8 @@ import AddERC20PopUp from "@/app/components/new-templete/addERC20";
 import { tokenApi } from "@/api-client/token-api";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedAccount } from "@/redux/slice/accountSlice";
-import { ethers } from "ethers";
-import TokenERC20 from "@/app/components/popup/tokenERC20Detail";
+import TokenERC20 from "@/app/components/new-templete/tokenERC20Detail";
 import SendTokenPopUp from "@/app/components/popup/sendTokenPopUp";
-import { selectNetwork } from "@/redux/slice/networkSlice";
 import { addManyTokens, selectTokens } from "@/redux/slice/ERC20Slice";
 
 
@@ -22,7 +20,6 @@ const tokenAbi = [
 
 export default function Home() {
 
-    const [isShowAddTokenERC20, setIsShowAddTokenERC20] = useState(false);
     const dispatch = useDispatch();
     const tokens = useSelector(selectTokens);
     const account = useSelector(selectedAccount);
@@ -43,8 +40,6 @@ export default function Home() {
 
     return (
         <>
-            {isShowAddTokenERC20 && <AddERC20PopUp getTokenERC20s={getTokenERC20s} setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
-
             <div className="shadow-md py-4 px-6 relative flex items-center justify-center">
                 <Link
                     href="/dashboard/analysis"
@@ -74,25 +69,8 @@ export default function Home() {
                 </div> */}
                 <div className="mb-[20px] ">
                     {
-                        tokens.tokens.map((item, index) => {
-                            return (<div key={index} className={(index % 2 === 0) ? 
-                                "flex px-16 py-3 justify-between hover:bg-gray-700 hover:bg-opacity-35" 
-                                : "flex px-16 py-3 justify-between bg-slate-800 bg-opacity-50  hover:bg-gray-700 hover:bg-opacity-35"}>
-                                <div className="flex ">
-                                    <img
-                                        src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc"
-                                        alt=""
-                                        className="w-10 h-10 rounded-[50px] mr-[12px]"
-                                    />
-                                    <div className="items-start flex-col flex">
-                                        <div className="font-bold pb-[6px]">{item.name}</div>
-                                        <div className="wallet-token-item-real-balance">{item.balance} ETH</div>
-                                    </div>
-                                </div>
-                                <p className="py-1 px-3 border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white">
-                                    Send
-                                </p>
-                            </div>)
+                        tokens.tokens.map((token, index) => {
+                            return (<TokenERC20Item token={token} index={index} />)
                         })
                     }
                     
@@ -105,7 +83,7 @@ export default function Home() {
 
 
 const TokenERC20Item = (props: any) => {
-    const { token, getTokenERC20s } = props
+    const { token, index } = props
 
     const [isShowSendTokenPopup, setIsShowSendTokenPopup] = useState(false);
     const [tokenStateSend, setTokenStateSend] = useState<any>();
@@ -119,18 +97,33 @@ const TokenERC20Item = (props: any) => {
 
     return (
         <>
-            {isShowSendTokenPopup && <SendTokenPopUp getTokenERC20s={getTokenERC20s} setIsShowSendTokenPopup={setIsShowSendTokenPopup} token={tokenStateSend} />}
-            {showDetail && <TokenERC20 showSendToken={showSendToken} getTokenERC20s={getTokenERC20s} setShowDetail={setShowDetail} token={token} />}
-            <div className="wallet-token-item" onClick={() => setShowDetail(true)}>
-                <img src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc" alt="" className="wallet-token-item-logo" />
-                <div className="wallet-token-item-balance">
-                    <div className="wallet-token-item-name">
-                        {token.name}
-                    </div>
-                    <div className="wallet-token-item-real-balance">
-                        {token.balances} {token.symbol}
+            {isShowSendTokenPopup && <SendTokenPopUp setIsShowSendTokenPopup={setIsShowSendTokenPopup} token={tokenStateSend} />}
+            {showDetail && <TokenERC20 showSendToken={showSendToken} setShowDetail={setShowDetail} token={token} />}
+
+            <div onClick={() => setShowDetail(true)} key={index} className={(index % 2 === 0) ? 
+                "flex px-16 py-3 justify-between hover:bg-gray-700 hover:bg-opacity-35" 
+                : "flex px-16 py-3 justify-between bg-slate-800 bg-opacity-50  hover:bg-gray-700 hover:bg-opacity-35"}>
+                <div className="flex ">
+                    <img
+                        src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc"
+                        alt=""
+                        className="w-10 h-10 rounded-[50px] mr-[12px]"
+                    />
+                    <div className="items-start flex-col flex">
+                        <div className="font-bold pb-[6px]">{token.name}</div>
+                        <div className="wallet-token-item-real-balance">{token.balance} ETH</div>
                     </div>
                 </div>
+                <p 
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        console.log("send erc20");
+                        
+                    }}
+                    className="py-1 px-3 border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white"
+                >
+                    Send
+                </p>
             </div>
         </>
     )

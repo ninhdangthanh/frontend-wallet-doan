@@ -147,7 +147,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             onClick={() => {
                                 setPopupAddBlockchainAccount(true)
                             }}
-                            className="cursor-pointer bg-black py-[6px] rounded-3xl px-3 flex  items-center justify-center border-solid border-2 border-gray-600"
+                            className="cursor-pointer bg-black py-[6px] rounded-3xl px-3 flex  items-center justify-center border-solid border-2 border-orange-900"
                         >
                             {/* <img
                                 src="https://cdn-icons-png.flaticon.com/512/5264/5264885.png"
