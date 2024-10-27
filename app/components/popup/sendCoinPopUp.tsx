@@ -10,26 +10,10 @@ import { selectedAccount } from "@/redux/slice/accountSlice";
 import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { selectNetwork } from "@/redux/slice/networkSlice";
-const { ethers } = require("ethers");
+import { ethers } from "ethers";
 
 export default function SendCoinPopUp(props: any) {
-    const {coinBalance, setIsShowSendCoinPopup} = props
-
-    const getAccountBalance = async () => {
-        try {
-            const provider = new ethers.JsonRpcProvider("");
-            const etherBalance = await provider.getBalance(account.address);
-            // console.log("Balance:", etherBalance, "ETH", account.address);
-
-            let showBalance = (etherBalance as unknown as number / 1000000000000000000).toFixed(4);
-            if (showBalance == '0.0000') {
-                showBalance = '0'
-            }
-            // setAccountBalanceETH(`${showBalance}`)
-        } catch (error) {
-            console.error("Error when get account balance:", error);
-        }
-    }
+    const {setIsShowSendCoinPopup} = props
 
     const account = useSelector(selectedAccount);
     const network_redux = useSelector(selectNetwork);
@@ -38,25 +22,20 @@ export default function SendCoinPopUp(props: any) {
     const [toAddress, setToAddress] = useState("")
     const [valueSend, setValueSend] = useState(0)
 
-    useEffect(() => {
-        console.log(coinBalance, " ", typeof(coinBalance));
-        
-    }, [])
-
     const handleSendToken = async () => {
         if(toAddress == "" || !toAddress.startsWith("0x") || toAddress == account.address) {
             alert("Please fill in the correct to address.")
             return;
         }
-        if(valueSend > coinBalance || valueSend == 0) {
+        if(valueSend > parseFloat(account.balance) || valueSend == 0) {
             alert("Please fill in the correct amount.")
             return;
         }
         
-        const provider = new ethers.providers.JsonRpcProvider(network_redux.network?.rpc_url);
+        const provider = new ethers.JsonRpcProvider(network_redux.network?.rpc_url);
         
         const wallet = new ethers.Wallet(account.privateKey, provider);
-        const amountToSend = ethers.utils.parseEther(valueSend.toString());
+        const amountToSend = ethers.parseEther(valueSend.toString());
 
         dispatch(showApiLoading())
         
@@ -120,7 +99,6 @@ export default function SendCoinPopUp(props: any) {
 
         dispatch(hideApiLoading())
 
-        await getAccountBalance()
         setValueSend(0)
         setToAddress("")
     }
@@ -162,7 +140,7 @@ export default function SendCoinPopUp(props: any) {
                                     ETH
                                 </div>
                                 <div className="quantity-send-asset-choose-quantity-balance">
-                                    Balance: <strong style={{fontSize: 18}}>{coinBalance}</strong> ETH
+                                    Balance: <strong style={{fontSize: 18}}>{account.balance}</strong> ETH
                                 </div>
                             </div>
                             {/* <i className="fa-solid fa-caret-down"></i> */}
@@ -181,7 +159,7 @@ export default function SendCoinPopUp(props: any) {
                                 <div className="quantity-send-amount-input-title">ETH</div>
                             </div>
                             <div className="quantity-send-amount-input-bot">
-                                No conversion rate avalable
+                                {/* No conversion rate avalable */}
                             </div>
                         </div>
                     </div>

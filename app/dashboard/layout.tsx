@@ -39,7 +39,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [isShowSelectAccount, setIsShowSelectAccount] = useState(false);
     const [isShowAccountDetail, setIsShowAccountDetail] = useState(false);
     const [isShowChangePasswordPopup, setIsShowChangePasswordPopup] = useState(false);
-    const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
 
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
 
@@ -98,6 +97,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     var [popupCreateNewBlockchainAccount, setPopupCreateNewBlockchainAccount] = useState(false);
     var [popupImportBlockchainAccount, setPopupImportBlockchainAccount] = useState(false);
     const [isShowAddTokenERC20, setIsShowAddTokenERC20] = useState(false);
+    const [isShowSendCoinPopup, setIsShowSendCoinPopup] = useState(false);
 
 
     return (
@@ -189,7 +189,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </div>
 
                         {pathname === '/dashboard/home' && (<div className=" mb-8 mt-4  w-full flex items-center justify-center ">
-                            <div className="w-56 cursor-pointer flex flex-col items-center justify-between">
+                            <div onClick={() => setIsShowSendCoinPopup(true)} className="w-56 cursor-pointer flex flex-col items-center justify-between">
                                 <div className="mb-2.5 bg-orange-600 w-11 h-11 rounded-full rotate-45 flex items-center justify-center hover:opacity-65">
                                     <i className="fa-solid fa-arrow-up wallet-coin-option-button-send"></i>
                                 </div>
@@ -207,6 +207,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         {children}
                     </div>
                 </div>
+                <div className="h-40"></div>
             </div>
         </>
     );
