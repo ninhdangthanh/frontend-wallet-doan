@@ -1,8 +1,22 @@
 "use client";
 
+import { activityApi } from "@/api-client/activity-api";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function SignIn() {
+    let [activities, setActivities] = useState([])
+
+    useEffect(() => {
+        getActivities()
+    }, [])
+    
+    
+    const getActivities = async () => {
+        let activities = await activityApi.getActivity()
+        console.log("activities ", activities.data);
+        setActivities(activities.data)
+    }
 
     return (
         <>

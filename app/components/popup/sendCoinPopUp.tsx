@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
+import { Activity, activityApi } from "@/api-client/activity-api";
 
 export default function SendCoinPopUp(props: any) {
     const {setIsShowSendCoinPopup} = props
@@ -23,6 +24,14 @@ export default function SendCoinPopUp(props: any) {
     const [valueSend, setValueSend] = useState(0)
 
     const handleSendToken = async () => {
+        let newActivity : Activity = {
+            tx_hash: null,
+            from: account.address,
+            to: toAddress,
+            amount: valueSend.toString(),
+            status: "PENDING",
+            account_id: account.id,
+        }
         if(toAddress == "" || !toAddress.startsWith("0x") || toAddress == account.address) {
             alert("Please fill in the correct to address.")
             return;
@@ -45,6 +54,16 @@ export default function SendCoinPopUp(props: any) {
                 value: amountToSend,
             });
 
+            try {
+                newActivity.tx_hash = transactionResponse.hash
+                await activityApi.createActivity(newActivity);
+            } catch (error) {
+                dispatch(hideApiLoading())
+                setIsShowSendCoinPopup(false)
+                setValueSend(0)
+                setToAddress("")
+            }
+
             toast.success('Import transaction into blockchain successfully', {
                 position: 'top-right',
                 autoClose: 5000,
@@ -56,35 +75,44 @@ export default function SendCoinPopUp(props: any) {
                 theme: 'dark',
             });
 
-            try {
-                await transactionResponse.wait();
-                toast.success('The transaction is successfully processed by the blockchain', {
-                    position: 'top-right',
-                    autoClose: 8000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'dark',
-                });
-
-                setIsShowSendCoinPopup(false)
+            // try {
+            //     await transactionResponse.wait();
+            //     newActivity.status = "SUCCESS"
+            //     await activityApi.createActivity(newActivity);
                 
-            } catch (error) {
-                toast.error('The transaction processed by the blockchain failed', {
-                    position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'dark',
-                });
-            }
+            //     toast.success('The transaction is successfully processed by the blockchain', {
+            //         position: 'top-right',
+            //         autoClose: 8000,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //         theme: 'dark',
+            //     });
+
+            //     setIsShowSendCoinPopup(false)
+                
+            // } catch (error) {
+            //     newActivity.status = "FAILED"
+            //     await activityApi.createActivity(newActivity);
+                
+            //     toast.error('The transaction processed by the blockchain failed', {
+            //         position: 'top-right',
+            //         autoClose: 5000,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //         theme: 'dark',
+            //     });
+            // }
 
         } catch (error) {
+            newActivity.status = "FAILED"
+            await activityApi.createActivity(newActivity);
+
             toast.error('Failed when import transaction into blockchain', {
                 position: 'top-right',
                 autoClose: 5000,
@@ -98,6 +126,7 @@ export default function SendCoinPopUp(props: any) {
         }
 
         dispatch(hideApiLoading())
+        setIsShowSendCoinPopup(false)
 
         setValueSend(0)
         setToAddress("")
