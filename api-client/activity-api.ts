@@ -12,13 +12,14 @@ export interface Activity {
   status: "FAILED" | "PENDING" | "SUCCESS";
   account_id: number;
   user_id?: number;
+  createdAt: any;
 }
 
 export const activityApi = {
   createActivity(body: Activity) {
     return axiosClient.post("api/activities", body);
   },
-  getActivity() {
-    return axiosClient.get("api/activities");
+  getActivity(accountId: number) {
+    return axiosClient.get(`api/activities/${accountId}`);
   },
 };

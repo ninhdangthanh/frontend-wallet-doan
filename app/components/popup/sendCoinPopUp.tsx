@@ -31,6 +31,7 @@ export default function SendCoinPopUp(props: any) {
             amount: valueSend.toString(),
             status: "PENDING",
             account_id: account.id,
+            createdAt: ""
         }
         if(toAddress == "" || !toAddress.startsWith("0x") || toAddress == account.address) {
             alert("Please fill in the correct to address.")
@@ -136,14 +137,14 @@ export default function SendCoinPopUp(props: any) {
         <>
             <div onClick={() => setIsShowSendCoinPopup(false)} className="overlay"></div>
 
-            <div className="popup-send-container" style={{color: "white"}}>
+            <div className="popup-send-container  border-2 border-solid border-white" style={{color: "white"}}>
                 <div className="quantity-send-container" style={{color: "white"}}>
-                    <div className="quantity-send-title">
+                    <div className="quantity-send-title text-orangered font-bold !text-3xl">
                         Send
                     </div>
-                    <div onClick={() => setIsShowSendCoinPopup(false)} className="quantity-send-close">
+                    {/* <div onClick={() => setIsShowSendCoinPopup(false)} className="quantity-send-close">
                         Cancel
-                    </div>
+                    </div> */}
                     <div className="quantity-send-account">
                         <div className="quantity-send-account-name">
                             From: {account.name}
