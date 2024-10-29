@@ -14,19 +14,8 @@ export default function Activity() {
     let [activities, setActivities] = useState<ActivityModel[]>([])
     const account = useSelector(selectedAccount);
 
-    const { sendMessage } = useWebSocket();
+    const { sendMessage, messages } = useWebSocket();
 
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-        sendMessage("Message from Activity (child)");
-        }, 3000); // Send every 3 seconds
-    
-        return () => {
-        clearInterval(interval); // Clear interval on component unmount
-        };
-    }, [sendMessage]);
-    
     useEffect(() => {
         getActivities()
     }, [])

@@ -8,6 +8,25 @@ type WebSocketContextType = {
 
 const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
 
+export enum ComunicateWSType {
+  ETH = "ETH",
+  TOKEN = "TOKEN",
+}
+
+export enum TransactionStatusType {
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+}
+
+export interface SendToServer {
+  type: ComunicateWSType,
+  tx_hash: string,
+  from: string,
+  to: string,
+  account_id: number,
+  status: TransactionStatusType
+}
+
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [messages, setMessages] = useState<string[]>([]);
     const [ws, setWs] = useState<WebSocket | null>(null);
@@ -17,7 +36,9 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setWs(socket);
 
         socket.onmessage = (event) => {
-        setMessages((prev) => [...prev, event.data]);
+          console.log("Ws event: ", event.data);
+          
+          setMessages(event as any);
         };
 
         return () => {

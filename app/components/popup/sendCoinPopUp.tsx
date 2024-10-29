@@ -12,9 +12,10 @@ import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { Activity, activityApi } from "@/api-client/activity-api";
+import { ComunicateWSType, SendToServer, TransactionStatusType } from "@/app/context/WebSocketContext";
 
 export default function SendCoinPopUp(props: any) {
-    const {setIsShowSendCoinPopup} = props
+    const {setIsShowSendCoinPopup, sendMessage} = props
 
     const account = useSelector(selectedAccount);
     const network_redux = useSelector(selectNetwork);
@@ -58,6 +59,15 @@ export default function SendCoinPopUp(props: any) {
             try {
                 newActivity.tx_hash = transactionResponse.hash
                 await activityApi.createActivity(newActivity);
+                let wsEventSend : SendToServer = {
+                    type: ComunicateWSType.ETH,
+                    tx_hash: transactionResponse.hash,
+                    from: newActivity.from!,
+                    to: newActivity.to,
+                    account_id: account.id,
+                    status: TransactionStatusType.SUCCESS
+                }
+                sendMessage(wsEventSend)
             } catch (error) {
                 dispatch(hideApiLoading())
                 setIsShowSendCoinPopup(false)

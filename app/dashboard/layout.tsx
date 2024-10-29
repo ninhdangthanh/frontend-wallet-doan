@@ -43,21 +43,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
 
-    const { sendMessage } = useWebSocket();
-
+    const { sendMessage, messages } = useWebSocket();
 
     useEffect(() => {
         const interval = setInterval(() => {
         sendMessage("Message from Layout (parent)");
-        }, 2000); // Send every 2 seconds
+        }, 10000); // Send every 2 seconds
     
         return () => {
         clearInterval(interval); // Clear interval on component unmount
         };
     }, [sendMessage]);
-    
-    
-    
+
     useEffect(() => {
         let access_token = check_token();
         if(!access_token) {
@@ -142,7 +139,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 / >
             )}
 
-            {isShowSendCoinPopup && <SendCoinPopUp setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
+            {isShowSendCoinPopup && <SendCoinPopUp sendMessage={sendMessage} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
             {apiLoading.isLoading && <ApiLoading />}
             {isShowAddTokenERC20 && <AddERC20PopUp setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
