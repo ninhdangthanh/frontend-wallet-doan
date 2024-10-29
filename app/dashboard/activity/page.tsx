@@ -2,6 +2,7 @@
 
 import { Activity as ActivityModel, activityApi } from "@/api-client/activity-api";
 import ActivityDetailPopUp from "@/app/components/popup/activityDetail";
+import { useWebSocket } from "@/app/context/WebSocketContext";
 import { selectedAccount } from "@/redux/slice/accountSlice";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,6 +14,19 @@ export default function Activity() {
     let [activities, setActivities] = useState<ActivityModel[]>([])
     const account = useSelector(selectedAccount);
 
+    const { sendMessage } = useWebSocket();
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+        sendMessage("Message from Activity (child)");
+        }, 3000); // Send every 3 seconds
+    
+        return () => {
+        clearInterval(interval); // Clear interval on component unmount
+        };
+    }, [sendMessage]);
+    
     useEffect(() => {
         getActivities()
     }, [])
