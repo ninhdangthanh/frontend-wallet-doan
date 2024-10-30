@@ -6,12 +6,15 @@ import "../../../css/main.css"
 import "../../../css/send.css"
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedAccount } from "@/redux/slice/accountSlice";
+import { changeBalance, selectedAccount } from "@/redux/slice/accountSlice";
 import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { Activity, activityApi } from "@/api-client/activity-api";
+import { ComunicateWSType, SendToServer, TransactionStatusType } from "@/app/context/WebSocketContext";
+import { addActivity, addManyActivities } from "@/redux/slice/activitySlice";
+import { formatEthBalance } from "@/utils/format-address";
 
 export default function SendCoinPopUp(props: any) {
     const {setIsShowSendCoinPopup} = props
@@ -22,6 +25,25 @@ export default function SendCoinPopUp(props: any) {
 
     const [toAddress, setToAddress] = useState("")
     const [valueSend, setValueSend] = useState(0)
+
+    const getActivities = async () => {
+        let activities = await activityApi.getActivity(account.id)
+        dispatch(addManyActivities(activities.data))
+    }
+
+    const getEthBalance = async () => {
+        try {
+            const provider = new ethers.JsonRpcProvider(network_redux.network?.rpc_url);
+            const balanceInWei = await provider.getBalance(account.address);
+            const balanceInEth = ethers.formatEther(balanceInWei);
+            console.log("balanceInEth: ", balanceInEth);
+            dispatch(changeBalance(formatEthBalance(balanceInEth)))
+            
+            // setBalance(balanceInEth);
+        } catch (error) {
+            console.error("Error fetching balance:", error);
+        }
+    };
 
     const handleSendToken = async () => {
         let newActivity : Activity = {
@@ -55,9 +77,12 @@ export default function SendCoinPopUp(props: any) {
                 value: amountToSend,
             });
 
+            let createdActivity;
+            
             try {
                 newActivity.tx_hash = transactionResponse.hash
-                await activityApi.createActivity(newActivity);
+                createdActivity = await activityApi.createActivity(newActivity);
+                await getActivities()
             } catch (error) {
                 dispatch(hideApiLoading())
                 setIsShowSendCoinPopup(false)
@@ -76,43 +101,54 @@ export default function SendCoinPopUp(props: any) {
                 theme: 'dark',
             });
 
-            // try {
-            //     await transactionResponse.wait();
-            //     newActivity.status = "SUCCESS"
-            //     await activityApi.createActivity(newActivity);
-                
-            //     toast.success('The transaction is successfully processed by the blockchain', {
-            //         position: 'top-right',
-            //         autoClose: 8000,
-            //         hideProgressBar: false,
-            //         closeOnClick: true,
-            //         pauseOnHover: true,
-            //         draggable: true,
-            //         progress: undefined,
-            //         theme: 'dark',
-            //     });
+            dispatch(hideApiLoading())
+            setIsShowSendCoinPopup(false)
+            setValueSend(0)
+            setToAddress("")
 
-            //     setIsShowSendCoinPopup(false)
+            try {
+                await transactionResponse.wait();
+                if (createdActivity) {
+                    createdActivity.data.status = "SUCCESS"
+                    await activityApi.updateActivity(createdActivity.data.id, createdActivity.data);
+                    await getActivities()
+                    console.log("confirmed:", createdActivity.data);
+                }
                 
-            // } catch (error) {
-            //     newActivity.status = "FAILED"
-            //     await activityApi.createActivity(newActivity);
+                toast.success('The transaction is successfully processed by the blockchain', {
+                    position: 'top-right',
+                    autoClose: 8000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            } catch (error) {
+                if (createdActivity) {
+                    createdActivity.data.status = "FAILED"
+                    await activityApi.updateActivity(createdActivity.data.id, createdActivity.data);
+                    await getActivities()
+                    console.log("failed:", createdActivity.data);
+                }
                 
-            //     toast.error('The transaction processed by the blockchain failed', {
-            //         position: 'top-right',
-            //         autoClose: 5000,
-            //         hideProgressBar: false,
-            //         closeOnClick: true,
-            //         pauseOnHover: true,
-            //         draggable: true,
-            //         progress: undefined,
-            //         theme: 'dark',
-            //     });
-            // }
+                toast.error('The transaction processed by the blockchain failed', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
+            }
 
         } catch (error) {
             newActivity.status = "FAILED"
             await activityApi.createActivity(newActivity);
+            await getActivities()
 
             toast.error('Failed when import transaction into blockchain', {
                 position: 'top-right',
@@ -128,9 +164,9 @@ export default function SendCoinPopUp(props: any) {
 
         dispatch(hideApiLoading())
         setIsShowSendCoinPopup(false)
-
         setValueSend(0)
         setToAddress("")
+        await getEthBalance()
     }
 
     return (

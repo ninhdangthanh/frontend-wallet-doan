@@ -2,17 +2,21 @@
 
 import { Activity as ActivityModel, activityApi } from "@/api-client/activity-api";
 import ActivityDetailPopUp from "@/app/components/popup/activityDetail";
+import { useWebSocket } from "@/app/context/WebSocketContext";
 import { selectedAccount } from "@/redux/slice/accountSlice";
+import { addManyActivities, selectActivities } from "@/redux/slice/activitySlice";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Activity() {
     let [isShowDetail, setIsShowDetail] = useState(false)
     let [activityDetail, setActivityDetail] = useState<ActivityModel>()
-    let [activities, setActivities] = useState<ActivityModel[]>([])
-    const account = useSelector(selectedAccount);
+    const dispatch = useDispatch();
 
+    const account = useSelector(selectedAccount);
+    const activities = useSelector(selectActivities);
+    
     useEffect(() => {
         getActivities()
     }, [])
@@ -24,8 +28,7 @@ export default function Activity() {
     
     const getActivities = async () => {
         let activities = await activityApi.getActivity(account.id)
-        console.log("activities ", activities.data);
-        setActivities(activities.data)
+        dispatch(addManyActivities(activities.data))
     }
 
     return (

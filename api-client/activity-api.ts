@@ -19,6 +19,9 @@ export const activityApi = {
   createActivity(body: Activity) {
     return axiosClient.post("api/activities", body);
   },
+  updateActivity(act_id: number, body: Activity) {
+    return axiosClient.put(`api/activities/${act_id}`, body);
+  },
   getActivity(accountId: number) {
     return axiosClient.get(`api/activities/${accountId}`);
   },

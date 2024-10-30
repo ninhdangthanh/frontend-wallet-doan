@@ -21,3 +21,8 @@ export const hexToNumber = (hexString: string) => {
   
   return decimalNumber;
 }
+
+export function formatEthBalance(balance: string | number): string {
+  const numBalance = typeof balance === "string" ? parseFloat(balance) : balance;
+  return numBalance.toFixed(3);
+}
