@@ -65,6 +65,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }
         
         getAccounts();
+        sendMessage("Message from Layout (parent)");
     }, [])
 
     const handleCopyTextAddress = () => {
