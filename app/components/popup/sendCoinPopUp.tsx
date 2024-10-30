@@ -12,7 +12,6 @@ import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
 import { Activity, activityApi } from "@/api-client/activity-api";
-import { ComunicateWSType, SendToServer, TransactionStatusType } from "@/app/context/WebSocketContext";
 import { addActivity, addManyActivities } from "@/redux/slice/activitySlice";
 import { formatEthBalance } from "@/utils/format-address";
 

@@ -2,7 +2,6 @@
 
 import { Activity as ActivityModel, activityApi } from "@/api-client/activity-api";
 import ActivityDetailPopUp from "@/app/components/popup/activityDetail";
-import { useWebSocket } from "@/app/context/WebSocketContext";
 import { selectedAccount } from "@/redux/slice/accountSlice";
 import { addManyActivities, selectActivities } from "@/redux/slice/activitySlice";
 import Link from "next/link";

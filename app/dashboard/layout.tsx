@@ -21,7 +21,6 @@ import { check_token } from "@/common";
 import AddERC20PopUp from "../components/new-templete/addERC20";
 import { tokenApi } from "@/api-client/token-api";
 import { addManyTokens, selectTokens } from "@/redux/slice/ERC20Slice";
-import { useWebSocket } from "../context/WebSocketContext";
 
 
 
@@ -43,17 +42,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     const [accountBalanceETH, setAccountBalanceETH] = useState('0');
 
-    const { sendMessage, messages } = useWebSocket();
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-        sendMessage("Message from Layout (parent)");
-        }, 10000); // Send every 2 seconds
-    
-        return () => {
-        clearInterval(interval); // Clear interval on component unmount
-        };
-    }, [sendMessage]);
 
     useEffect(() => {
         let access_token = check_token();
@@ -65,7 +53,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }
         
         getAccounts();
-        sendMessage("Message from Layout (parent)");
     }, [])
 
     const handleCopyTextAddress = () => {
@@ -140,7 +127,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 / >
             )}
 
-            {isShowSendCoinPopup && <SendCoinPopUp sendMessage={sendMessage} setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
+            {isShowSendCoinPopup && <SendCoinPopUp setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
             {apiLoading.isLoading && <ApiLoading />}
             {isShowAddTokenERC20 && <AddERC20PopUp setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
