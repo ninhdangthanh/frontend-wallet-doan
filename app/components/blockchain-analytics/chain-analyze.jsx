@@ -2,44 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import powImage from "@/assets/proof-of-work.png"
 import axios from 'axios';
+import env_fe from '@/utils/env_fe';
 
 const ChainAnalytics = () => {
   const [blockInfo, setBlockInfo] = useState(null);
-  const [highlight, setHighlight] = useState(false); // State to track highlight
+  const [highlight, setHighlight] = useState(false); 
+  const timeBetweenBlock = 12;
 
   useEffect(() => {
+    const provider = new ethers.JsonRpcProvider(env_fe.block_analytics_rpc);
+
     const fetchLatestBlock = async () => {
       try {
-        let latestBlockInfoResponse = await axios.get("http://localhost:5000/api/chain/latest-block-info");
-        let latestBlockInfo = latestBlockInfoResponse.data[0]
-        // console.log(latestBlockInfo);
-        
+        const latestBlockNumber = await provider.getBlockNumber();
+        const block = await provider.getBlock(latestBlockNumber);
+        const blockMinedAt = new Date(block.timestamp * 1000);
+        const txCount = block.transactions.length;
+
         setBlockInfo({
-          blockNumber: latestBlockInfo.block_number,
-          miner: latestBlockInfo.miner,
-          gasUsed: latestBlockInfo.gas_used,
-          txCount: latestBlockInfo.transaction_count,
-          blockMinedAt: latestBlockInfo.block_mined_at,
-          timeBetweenBlocks: latestBlockInfo.time_between_blocks
+          blockNumber: block.number,
+          miner: block.miner,
+          gasUsed: block.gasUsed.toString(),
+          txCount,
+          blockMinedAt: blockMinedAt.toLocaleString(),
         });
 
         setHighlight(true);
-        setTimeout(() => setHighlight(false), 1500); // 1.5s highlight duration
+        setTimeout(() => setHighlight(false), 1500);
       } catch (error) {
         console.error("Error fetching block:", error);
       }
     };
 
-    // Fetch the initial block when the component mounts
     fetchLatestBlock();
 
-    // Set an interval to query every 12 seconds after the first fetch
     const intervalId = setInterval(fetchLatestBlock, 12000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
-
 
 
   return (
@@ -73,7 +73,7 @@ const ChainAnalytics = () => {
                   </tr>
                   <tr>
                     <td className="border px-4 py-2 font-bold">Time Between Blocks:</td>
-                    <td className={`border px-4 py-2 text-lg ${highlight ? 'text-orangered' : 'text-blue-500'}`}><strong>{blockInfo.timeBetweenBlocks}</strong></td>
+                    <td className={`border px-4 py-2 text-lg ${highlight ? 'text-orangered' : 'text-blue-500'}`}><strong>{timeBetweenBlock}</strong></td>
                   </tr>
                   <tr>
                     <td className="border px-4 py-2 font-bold">Gas Used:</td>
