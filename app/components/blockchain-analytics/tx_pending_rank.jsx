@@ -35,16 +35,16 @@ const TxPoolAnalyzer = () => {
               <td className="border border-gray-600 px-2 text-sm py-1 text-white">{tx.gasTip} Gwei</td>
             </tr>
           ))}
-          <tr key={12} className="bg-gray-800">
+          {/* <tr key={12} className="bg-gray-800">
               <td className="border border-gray-600 px-2 text-sm py-1 text-white">11</td>
               <td className="border border-gray-600 px-2 text-sm py-1 text-white">0x3254698562657847605476348768076</td>
               <td className="border border-gray-600 px-2 text-sm py-1 text-white">0.24</td>
               <td className="border border-gray-600 px-2 text-sm py-1 text-white">653547 Gwei</td>
-            </tr>
+            </tr> */}
         </tbody>
       </table>
 
-        <div className='mb-20'>
+        {/* <div className='mb-20'>
             <button className='text-white px-4 py-2 bg-orangered rounded-2xl text-xl hover:bg-orange-800'>
                 Latest Block
             </button>
@@ -60,7 +60,7 @@ const TxPoolAnalyzer = () => {
                     +
                 </button>
             </div>
-        </div>
+        </div> */}
     </div>
   );
 };

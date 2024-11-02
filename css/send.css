@@ -150,7 +150,7 @@
     width: 200px;
     height: 46px;
     border-radius: 80px;
-    background-color: red;
+    /* background-color: red; */
     text-align: center;
     display: flex;
     align-items: center;

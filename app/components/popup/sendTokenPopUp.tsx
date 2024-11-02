@@ -127,25 +127,22 @@ export default function SendTokenPopUp(props: any) {
 
             <div className="popup-send-container" style={{color: "white"}}>
                 <div className="quantity-send-container" style={{color: "white"}}>
-                    <div className="quantity-send-title">
-                        Send
+                    <div className="text-[28px] text-center text-orangered pb-[12px] font-bold">
+                        Send Token ERC20
                     </div>
-                    <div onClick={() => setIsShowSendTokenPopup(false)} className="quantity-send-close">
-                        Cancel
-                    </div>
-                    <div className="quantity-send-account">
-                        <div className="quantity-send-account-name">
+                    <div className="border-[1px] border-white rounded-[8px] text-left px-3 py-[8px] mt-[10px]">
+                        <div className="text-white">
                             From: {account.name}
                         </div>
-                        <div className="quantity-send-account-address">
+                        <div className="text-[14px]">
                             {account.address}
                         </div>
                     </div>
-                    <div className="quantity-send-account-to">
-                        <div className="quantity-send-account-name-to">
+                    <div className="flex mt-3">
+                        <div className="text-white text-[20px] pl-[10px] pr-[12px]">
                             To:
                         </div>
-                        <input value={toAddress} onChange={(e) => setToAddress(e.target.value)} type="text" className="quantity-send-account-input" />
+                        <input value={toAddress} onChange={(e) => setToAddress(e.target.value)} type="text" className="border-[1px] border-white rounded-[8px] text-left px-4 py-1 bg-[#191c23] text-orangered flex-1" />
                     </div>
                     <div className="quantity-send-asset flex-row">
                         <div className="quantity-send-amount-title">
@@ -176,14 +173,14 @@ export default function SendTokenPopUp(props: any) {
                                 <input value={valueSend} onChange={e => setValueSend(Number(e.target.value))} type="number" placeholder="0" className="quantity-send-amount-input-top-input"/>
                                 <div className="quantity-send-amount-input-title">{token.symbol}</div>
                             </div>
-                            <div className="quantity-send-amount-input-bot">
+                            {/* <div className="quantity-send-amount-input-bot">
                                 No conversion rate avalable
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className="quantity-send-button flex-row">
-                        <div onClick={() => setIsShowSendTokenPopup(false)} className="quantity-send-button-cancel">Cancel</div>
-                        <div onClick={() => handleSendToken()} className="quantity-send-button-send">Send</div>
+                        <div onClick={() => setIsShowSendTokenPopup(false)} className=" bg-black text-white border-1 border-white">Cancel</div>
+                        <div onClick={() => handleSendToken()} className=" bg-black text-orangered border-1 border-white">Send</div>
                     </div>
                 </div>
             </div>
