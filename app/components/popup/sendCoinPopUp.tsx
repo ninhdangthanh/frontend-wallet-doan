@@ -230,7 +230,7 @@ export default function SendCoinPopUp(props: any) {
                     </div>
                     <div className="quantity-send-button flex-row">
                         <div onClick={() => setIsShowSendCoinPopup(false)} className="quantity-send-button-cancel">Cancel</div>
-                        <div onClick={() => handleSendToken()} className="quantity-send-button-send">Send</div>
+                        <div onClick={() => handleSendToken()} className="quantity-send-button-send bg-red">Send</div>
                     </div>
                 </div>
             </div>
