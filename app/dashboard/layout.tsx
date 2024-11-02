@@ -206,7 +206,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         {children}
                     </div>
                 </div>
-                <div className="h-40"></div>
+                {/* bottom hight */}
+                <div className="h-[800px]"></div>
             </div>
         </>
     );
