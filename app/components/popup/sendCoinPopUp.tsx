@@ -174,8 +174,8 @@ export default function SendCoinPopUp(props: any) {
 
             <div className="popup-send-container  border-2 border-solid border-white" style={{color: "white"}}>
                 <div className="quantity-send-container" style={{color: "white"}}>
-                    <div className="quantity-send-title text-orangered font-bold !text-3xl">
-                        Send
+                    <div className="quantity-send-title text-orangered font-bold !text-3xl mb-4">
+                        Send ETH
                     </div>
                     {/* <div onClick={() => setIsShowSendCoinPopup(false)} className="quantity-send-close">
                         Cancel
