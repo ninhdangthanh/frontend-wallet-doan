@@ -20,6 +20,7 @@ export interface NetworkState {
   isDefault: boolean
 }
 
+// TODO: config rpc url
 const sepoliaTestNet : Network = {
   name: "SepoliaTestnet",
   rpc_url: "https://ethereum-sepolia-rpc.publicnode.com",

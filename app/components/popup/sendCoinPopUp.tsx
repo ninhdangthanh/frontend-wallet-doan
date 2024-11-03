@@ -203,10 +203,10 @@ export default function SendCoinPopUp(props: any) {
                         <div className="quantity-send-amount-title">
                             Assets:
                         </div>
-                        <div className="quantity-send-asset-choose flex-row">
+                        <div className="quantity-send-asset-choose !border-orangered flex-row">
                             {/* <img src="./account-1-logologo.png" alt="Send tokens logo" className="quantity-send-asset-choose-logo" /> */}
                             <div className="quantity-send-asset-choose-quantity">
-                                <div className="quantity-send-asset-choose-quantity-name">
+                                <div className="text-orangered quantity-send-asset-choose-quantity-name">
                                     ETH
                                 </div>
                                 <div className="quantity-send-asset-choose-quantity-balance">
@@ -216,14 +216,14 @@ export default function SendCoinPopUp(props: any) {
                             {/* <i className="fa-solid fa-caret-down"></i> */}
                         </div>
                     </div>
-                    <div className="quantity-send-amount flex-row">
+                    <div className="quantity-send-amount flex-row ">
                         <div className="quantity-send-amount-title">
                             Amount:
                             {/* <div className="quantity-send-amount-title-max">
                                 Max
                             </div> */}
                         </div>
-                        <div className="quantity-send-amount-input">
+                        <div className="quantity-send-amount-input !border-orangered">
                             <div className="quantity-send-amount-input-top">
                                 <input value={valueSend} onChange={e => setValueSend(Number(e.target.value))} type="number" placeholder="0" className="quantity-send-amount-input-top-input"/>
                                 <div className="quantity-send-amount-input-title">ETH</div>

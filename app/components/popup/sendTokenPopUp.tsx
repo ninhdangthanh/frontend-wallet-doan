@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 
 const tokenAbi = [
-    "function balanceOf(address) view returns (uint256)",
     "function transfer(address to, uint256 value) returns (bool)"
 ];
 
@@ -30,7 +29,7 @@ export default function SendTokenPopUp(props: any) {
     const [valueSend, setValueSend] = useState(0)
 
     useEffect(() => {
-        console.log(token.balances, " ", typeof(token.balances));
+        console.log("send token popup");
         
     }, [])
 
@@ -39,13 +38,13 @@ export default function SendTokenPopUp(props: any) {
             alert("Please fill in the correct to address.")
             return;
         }
-        if(valueSend > Number(token.balances) || valueSend == 0) {
+        if(valueSend > Number(token.balance) || valueSend == 0) {
             alert("Please fill in the correct amount.")
             return;
         }
         
         const provider = new ethers.JsonRpcProvider(network_redux.network?.rpc_url);
-        
+         
         const wallet = new ethers.Wallet(account.privateKey, provider);
         const tokenContractAddress = token.contract_address;
         const tokenContract = new ethers.Contract(tokenContractAddress, tokenAbi, wallet);
@@ -125,13 +124,13 @@ export default function SendTokenPopUp(props: any) {
         <>
             <div onClick={() => setIsShowSendTokenPopup(false)} className="overlay"></div>
 
-            <div className="popup-send-container" style={{color: "white"}}>
+            <div className="popup-send-container border" style={{color: "white"}}>
                 <div className="quantity-send-container" style={{color: "white"}}>
                     <div className="text-[28px] text-center text-orangered pb-[12px] font-bold">
                         Send Token ERC20
                     </div>
                     <div className="border-[1px] border-white rounded-[8px] text-left px-3 py-[8px] mt-[10px]">
-                        <div className="text-white">
+                        <div className="text-orangered">
                             From: {account.name}
                         </div>
                         <div className="text-[14px]">
@@ -151,11 +150,11 @@ export default function SendTokenPopUp(props: any) {
                         <div className="quantity-send-asset-choose flex-row">
                             {/* <img src="./account-1-logologo.png" alt="Send tokens logo" className="quantity-send-asset-choose-logo" /> */}
                             <div className="quantity-send-asset-choose-quantity">
-                                <div className="quantity-send-asset-choose-quantity-name">
+                                <div className="quantity-send-asset-choose-quantity-name text-orangered">
                                     {token.name}
                                 </div>
                                 <div className="quantity-send-asset-choose-quantity-balance">
-                                    Balance: <strong style={{fontSize: 18}}>{token.balances}</strong> {token.symbol}
+                                    Balance: <strong style={{fontSize: 18}}>{token.balance}</strong> {token.symbol}
                                 </div>
                             </div>
                             {/* <i className="fa-solid fa-caret-down"></i> */}

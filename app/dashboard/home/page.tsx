@@ -70,7 +70,7 @@ export default function Home() {
                 <div className="mb-[20px] ">
                     {
                         tokens.tokens.map((token, index) => {
-                            return (<TokenERC20Item token={token} index={index} />)
+                            return (<TokenERC20Item key={index} token={token} index={index} />)
                         })
                     }
                     
@@ -96,18 +96,19 @@ const TokenERC20Item = (props: any) => {
 
     return (
         <>
-            {isShowSendTokenPopup && <SendTokenPopUp setIsShowSendTokenPopup={setIsShowSendTokenPopup} token={tokenStateSend} />}
+            {isShowSendTokenPopup && <SendTokenPopUp token={token} setIsShowSendTokenPopup={setIsShowSendTokenPopup} />}
             {showDetail && <TokenERC20 showSendToken={showSendToken} setShowDetail={setShowDetail} token={token} />}
 
             <div onClick={() => setShowDetail(true)} key={index} className={(index % 2 === 0) ? 
                 "flex px-16 py-3 justify-between hover:bg-gray-700 hover:bg-opacity-35" 
                 : "flex px-16 py-3 justify-between bg-slate-800 bg-opacity-50  hover:bg-gray-700 hover:bg-opacity-35"}>
                 <div className="flex ">
-                    <img
+                    {/* <img
                         src="https://imgs.search.brave.com/maVnAeMgk8RU7p1bBsOcuRfemtXiRggIekSe30-B_J0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtMDAuaWNvbmR1/Y2suY29tL2Fzc2V0/cy4wMC9ldGhlcmV1/bS1jbGFzc2ljLWNy/eXB0b2N1cnJlbmN5/LWljb24tMjU2eDI1/Ni1qcHlsMWx6OS5w/bmc"
                         alt=""
                         className="w-10 h-10 rounded-[50px] mr-[12px]"
-                    />
+                    /> */}
+                    <div className="w-12 h-12 rounded-[50px] mr-[16px] font-bold bg-black text-center flex text-lg justify-center items-center border-[1px] border-orangered"><div>{token.name.slice(0, 1)}</div></div>
                     <div className="items-start flex-col flex">
                         <div className="font-bold pb-[6px]">{token.name}</div>
                         <div className="wallet-token-item-real-balance">{token.balance} ETH</div>
@@ -117,7 +118,7 @@ const TokenERC20Item = (props: any) => {
                     onClick={(event) => {
                         event.stopPropagation()
                         console.log("send erc20");
-                        
+                        setIsShowSendTokenPopup(true)
                     }}
                     className="py-1 px-3 border text-orangered rounded-full items-center justify-center flex font-bold text-[18px] hover:bg-orange-900 hover:text-white"
                 >
