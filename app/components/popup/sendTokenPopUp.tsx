@@ -11,6 +11,8 @@ import { ethers } from "ethers";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { toast } from "react-toastify";
 import { selectNetwork } from "@/redux/slice/networkSlice";
+import { Activity, activityApi, GetActivityParams } from "@/api-client/activity-api";
+import { addManyActivities } from "@/redux/slice/activitySlice";
 
 const tokenAbi = [
     "function transfer(address to, uint256 value) returns (bool)"
@@ -33,7 +35,27 @@ export default function SendTokenPopUp(props: any) {
         
     }, [])
 
+    const getActivities = async () => {
+        const query: GetActivityParams = {
+            accountId: account.id,
+            page: 1,
+            pageSize: 10,
+        };
+        let activities = await activityApi.getActivity(query)
+        dispatch(addManyActivities(activities.data.data))
+    }
+    
     const handleSendToken = async () => {
+        let newActivity: Activity = {
+            tx_hash: null,
+            from: account.address,
+            to: toAddress,
+            amount: valueSend.toString(),
+            status: "PENDING",
+            account_id: account.id,
+            createdAt: ""
+        };
+        
         if(toAddress == "" || !toAddress.startsWith("0x")) {
             alert("Please fill in the correct to address.")
             return;
@@ -55,6 +77,9 @@ export default function SendTokenPopUp(props: any) {
         
         try {
             const transactionResponse = await tokenContract.transfer(toAddress, amountToSend);
+            newActivity.tx_hash = transactionResponse.hash;
+            const createdActivity = await activityApi.createActivity(newActivity);
+            await getActivities();
 
             toast.success('Import transaction into blockchain successfully', {
                 position: 'top-right',
@@ -67,35 +92,37 @@ export default function SendTokenPopUp(props: any) {
                 theme: 'dark',
             });
 
+            setIsShowSendTokenPopup(false);
+            setValueSend(0);
+            setToAddress("");
+
             try {
                 await transactionResponse.wait();
+                createdActivity.data.status = "SUCCESS";
+                await activityApi.updateActivity(createdActivity.data.id, createdActivity.data);
+                await getActivities();
+
                 toast.success('The transaction is successfully processed by the blockchain', {
                     position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
+                    autoClose: 8000,
                     theme: 'dark',
                 });
-
-                setIsShowSendTokenPopup(false)
-                
             } catch (error) {
+                createdActivity.data.status = "FAILED";
+                await activityApi.updateActivity(createdActivity.data.id, createdActivity.data);
+                await getActivities();
+
                 toast.error('The transaction processed by the blockchain failed', {
                     position: 'top-right',
                     autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
                     theme: 'dark',
                 });
             }
-
         } catch (error) {
+            newActivity.status = "FAILED";
+            await activityApi.createActivity(newActivity);
+            await getActivities();
+            
             toast.error('Failed when import transaction into blockchain', {
                 position: 'top-right',
                 autoClose: 5000,
@@ -108,16 +135,11 @@ export default function SendTokenPopUp(props: any) {
             });
         }
 
-        dispatch(hideApiLoading())
-
-        await getTokenERC20s()
-        setValueSend(0)
-        setToAddress("")
-        
-        
-        
-        setValueSend(0)
-        setToAddress("")
+        dispatch(hideApiLoading());
+        setIsShowSendTokenPopup(false);
+        setValueSend(0);
+        setToAddress("");
+        await getTokenERC20s();
     }
 
     return (
