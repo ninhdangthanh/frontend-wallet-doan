@@ -92,10 +92,10 @@ export default function TokenERC20(props: any) {
                     <div className="mt-10"></div>
                 </div>
 
-                <div onClick={() => handleOpenNewTab()} className="top-20px top-20px network-select-add">
+                <div onClick={() => handleOpenNewTab()} className="top-20px top-20px network-select-add bg-black text-white border">
                     View Asset in explorer
                 </div>
-                <div onClick={() => hideTokenERC20(token.id)} className="top-20px network-select-add">
+                <div onClick={() => hideTokenERC20(token.id)} className="top-20px network-select-add bg-black">
                     Hide token
                 </div>
                 <div className="h-6"></div>
