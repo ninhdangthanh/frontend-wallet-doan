@@ -51,13 +51,19 @@ const ChainAnalytics = () => {
             <div className="w-1/2 p-4 flex flex-col items-center">
               <div className='flex'>
                 <img src={powImage.src} alt='Proof of Work' className="w-28 h-28" />
-                <div className={`flex-1 text-4xl font-bold mb-4 ${highlight ? 'text-orangered' : 'text-blue-500'}`}>
+                <div 
+                  onClick={() => window.open(`https://etherscan.io/block/${blockInfo.blockNumber}`, '_blank')}
+                  className={`hover:text-blue-800 flex-1 text-4xl font-bold mb-4 ${highlight ? 'text-orangered' : 'text-blue-500'}`}
+                >
                   Block #{formatBlockNumber(blockInfo.blockNumber)}
                 </div>
               </div>
               <div className='flex'>
                 <div className='w-28'></div>
-                <p className={`text-lg w-3/4 break-all ${highlight ? 'text-orangered' : 'text-slate-400'}`}>
+                <p
+                  onClick={() => window.open(`https://etherscan.io/address/${blockInfo.miner}`, '_blank')}
+                  className={`hover:text-blue-800 text-lg w-3/4 break-all cursor-pointer ${highlight ? 'text-orangered' : 'text-slate-400'}`}
+                >
                   <strong>Miner:</strong> {blockInfo.miner}
                 </p>
               </div>

@@ -104,7 +104,12 @@ const TxPoolAnalyzer = () => {
               {rowsToDisplay.map((tx, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'}>
                   <td className="border border-gray-600 px-2 text-sm py-1 text-white">{tx.rank}</td>
-                  <td className="border border-gray-600 px-2 text-sm py-1 text-white">{tx.txHash}</td>
+                  <td
+                    onClick={() => window.open(`https://etherscan.io/tx/${tx.txHash}`, '_blank')}
+                    className="border border-gray-600 px-2 text-sm py-1 text-white cursor-pointer hover:bg-orange-700"
+                  >
+                    {tx.txHash}
+                  </td>
                   <td className="border border-gray-600 px-2 text-sm py-1 text-white">{tx.balances}</td>
                   <td className="border border-gray-600 px-2 text-sm py-1 text-white">{tx.gasTip} Gwei</td>
                 </tr>
