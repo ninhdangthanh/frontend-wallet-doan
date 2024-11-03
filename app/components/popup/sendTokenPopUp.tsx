@@ -191,7 +191,18 @@ export default function SendTokenPopUp(props: any) {
                         </div>
                         <div className="quantity-send-amount-input">
                             <div className="quantity-send-amount-input-top">
-                                <input value={valueSend} onChange={e => setValueSend(Number(e.target.value))} type="number" placeholder="0" className="quantity-send-amount-input-top-input"/>
+                            <input 
+                                value={Number(valueSend).toString()}
+                                onChange={e => {
+                                    const newValue = e.target.value.replace(/^0+(?=\d)/, ''); // Remove leading zeros only if there's a digit after them
+                                    console.log("newValue", newValue);
+                                    
+                                    setValueSend(Number(newValue)); // Handle empty input by resetting to 0
+                                }} 
+                                type="number" 
+                                // placeholder="0" 
+                                className="quantity-send-amount-input-top-input" 
+                            />
                                 <div className="quantity-send-amount-input-title">{token.symbol}</div>
                             </div>
                             {/* <div className="quantity-send-amount-input-bot">
