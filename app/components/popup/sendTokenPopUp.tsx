@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { Activity, activityApi, GetActivityParams } from "@/api-client/activity-api";
 import { addManyActivities } from "@/redux/slice/activitySlice";
+import { updateTokenBalance } from "@/redux/slice/ERC20Slice";
 
 const tokenAbi = [
     "function transfer(address to, uint256 value) returns (bool)"
@@ -53,7 +54,9 @@ export default function SendTokenPopUp(props: any) {
             amount: valueSend.toString(),
             status: "PENDING",
             account_id: account.id,
-            createdAt: ""
+            createdAt: "",
+            erc20_name: token.name,
+            erc20_symbol: token.symbol
         };
         
         if(toAddress == "" || !toAddress.startsWith("0x")) {
@@ -95,12 +98,15 @@ export default function SendTokenPopUp(props: any) {
             setIsShowSendTokenPopup(false);
             setValueSend(0);
             setToAddress("");
+            dispatch(hideApiLoading())
 
             try {
                 await transactionResponse.wait();
                 createdActivity.data.status = "SUCCESS";
                 await activityApi.updateActivity(createdActivity.data.id, createdActivity.data);
                 await getActivities();
+                let newBalance = token.balance - valueSend;
+                dispatch(updateTokenBalance({id: token.id, balance: newBalance}))
 
                 toast.success('The transaction is successfully processed by the blockchain', {
                     position: 'top-right',
