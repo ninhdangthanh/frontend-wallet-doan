@@ -6,19 +6,20 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Analysis() {
-    const [blockNumber, setBlockNumber] = useState('');
+    const [searchInput, setSearchInput] = useState('');
 
-    const handleSubmitSearchBlock = (e: any) => {
-        e.preventDefault(); // Prevent default form submission behavior
-        
-        const number = Number(blockNumber);
-        
-        // Check if the input is a valid number
-        if (!isNaN(number) && Number.isInteger(number) && number > 0) {
-            const url = `https://etherscan.io/block/${number}`;
-            window.open(url, '_blank'); // Open in new tab
+    const handleSubmitSearch = (e: any) => {
+        e.preventDefault();
+
+        if (searchInput.startsWith('0x')) {
+            const url = `https://etherscan.io/tx/${searchInput}`;
+            window.open(url, '_blank');
+        }
+        else if (Number(searchInput)) {
+            const url = `https://etherscan.io/block/${searchInput}`;
+            window.open(url, '_blank');
         } else {
-            alert('Please enter a valid block number'); // Alert for invalid input
+            alert('Please enter a valid block number or transaction hash.');
         }
     };
     
@@ -45,15 +46,15 @@ export default function Analysis() {
                 </Link>
             </div>
 
-            <form className="max-w-xl mx-auto mt-2 pb-2" onSubmit={handleSubmitSearchBlock}>
+            <form className="w-[70%] mx-auto mt-2 pb-2" onSubmit={handleSubmitSearch}>
                 <div className="relative">
                     <input
-                        type="number"
-                        value={blockNumber}
-                        onChange={(e) => setBlockNumber(e.target.value)}
+                        type="text"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
                         id="default-search"
                         className="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-3xl bg-gray-50 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-                        placeholder="Block number"
+                        placeholder="Block number, Transaction hash"
                         required
                     />
                     <button

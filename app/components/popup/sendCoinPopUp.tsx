@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { selectNetwork } from "@/redux/slice/networkSlice";
 import { ethers } from "ethers";
-import { Activity, activityApi } from "@/api-client/activity-api";
+import { Activity, activityApi, GetActivityParams } from "@/api-client/activity-api";
 import { addActivity, addManyActivities } from "@/redux/slice/activitySlice";
 import { formatEthBalance } from "@/utils/format-address";
 
@@ -26,8 +26,13 @@ export default function SendCoinPopUp(props: any) {
     const [valueSend, setValueSend] = useState(0)
 
     const getActivities = async () => {
-        let activities = await activityApi.getActivity(account.id)
-        dispatch(addManyActivities(activities.data))
+        const query: GetActivityParams = {
+            accountId: account.id,
+            page: 1,
+            pageSize: 10,
+        };
+        let activities = await activityApi.getActivity(query)
+        dispatch(addManyActivities(activities.data.data))
     }
 
     const getEthBalance = async () => {
