@@ -22,7 +22,24 @@ export const activityApi = {
   updateActivity(act_id: number, body: Activity) {
     return axiosClient.put(`api/activities/${act_id}`, body);
   },
-  getActivity(accountId: number) {
-    return axiosClient.get(`api/activities/${accountId}`);
+  getActivity({ accountId, status = "", type = "", page = 1, pageSize = 10 }: GetActivityParams) {
+    const params = {
+        status: status || undefined,
+        type: type || undefined,
+        page,
+        pageSize,
+    };
+
+    return axiosClient.get(`api/activities/account/${accountId}/activities`, {
+        params, // Attach the params to the request
+    });
   },
 };
+
+export interface GetActivityParams {
+  accountId: number;
+  status?: string;
+  type?: string;
+  page?: number;
+  pageSize?: number;
+}
