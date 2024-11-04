@@ -8,7 +8,7 @@ const TxPoolAnalyzer = () => {
   const [error, setError] = useState(null); // Track errors
   const [loading, setLoading] = useState(false); // Track loading state
 
-  const provider = new ethers.JsonRpcProvider(env_fe.block_analytics_rpc);
+  const provider = new ethers.JsonRpcProvider(env_fe.transaction_analytics_rpc);
 
   const handleKeyPress = async (event) => {
     if (event.key === 'Enter') {

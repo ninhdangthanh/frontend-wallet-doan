@@ -46,7 +46,6 @@ export default function PopupAddPrivateKeyBlockchainAccount({
               progress: undefined,
               theme: 'dark',
           });
-          setIsShowAddAccountPopup(false)
       } catch (error) {
           toast.error('Import account failed', {
               position: 'top-right',
@@ -73,11 +72,11 @@ export default function PopupAddPrivateKeyBlockchainAccount({
 
       <div className="w-full mt-6 justify-center flex flex-col items-center">
         <div>
-          <label for="account_name" class="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500">Account name</label>
+          <label htmlFor="account_name" className="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500">Account name</label>
           <input  value={accountName} onChange={e => setAccountName(e.target.value)} type="text" placeholder="Account name" required id="account_name" className="w-[280px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-800 focus:border-orange-800 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-800 dark:focus:border-orange-800" />
         </div>
         <div className="pt-4">
-          <label for="private_key" class="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500"><strong>Private Key</strong></label>
+          <label htmlFor="private_key" className="block mb-2 text-sm font-medium text-orange-500 dark:text-orange-500"><strong>Private Key</strong></label>
           <input value={privateKey} onChange={e => setPrivateKey(e.target.value)} type="text" placeholder="0x.........." required id="account_name" className="w-[280px] bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-orange-800 focus:border-orange-800 block p-2 dark:bg-gray-700 dark:border-orangered dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-800 dark:focus:border-orange-800 border border-orangered" />
         </div>
         <br />

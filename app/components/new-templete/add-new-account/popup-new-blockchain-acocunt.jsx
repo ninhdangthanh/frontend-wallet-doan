@@ -25,41 +25,43 @@ export default function PopupAddNewBlockchainAccount({
   const [accountName, setAccountName] = useState("")
 
   const createAccountRequest = async () => {
-      try {
-          dispatch(showApiLoading());
+    console.log("start");
+    try {
+        dispatch(showApiLoading());
 
-          let account = await accountApi.createAccount(accountName);
-          console.log("account created", account);
-          
-          account.data.balance = "0.000"
-          dispatch(addAccount(account.data))
-          
-          toast.success('Create account successfully', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'dark',
-          });
-          setIsShowAddAccountPopup(false)
-
-      } catch (error) {
-          toast.error('Create account failed', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'dark',
-          });
-      }
+        let account = await accountApi.createAccount(accountName);
+        // console.log("account created", account);
+        
+        account.data.balance = "0.000"
+        dispatch(addAccount(account.data))
+        
+        toast.success('Create account successfully', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+        });
+        
+    } catch (error) {
+        toast.error('Create account failed', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+        });
+    } finally {
       dispatch(hideApiLoading());
       onCancel()
+      console.log("complete");
+    }
   }
 
   
