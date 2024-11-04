@@ -21,6 +21,7 @@ import { check_token } from "@/common";
 import AddERC20PopUp from "../components/new-templete/addERC20";
 import { tokenApi } from "@/api-client/token-api";
 import { addManyTokens, selectTokens } from "@/redux/slice/ERC20Slice";
+import ParticleAnimation from "../components/loading/newLoading";
 
 
 
@@ -129,7 +130,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {isShowSendCoinPopup && <SendCoinPopUp setIsShowSendCoinPopup={setIsShowSendCoinPopup} coinBalance={accountBalanceETH} />}
 
-            {apiLoading.isLoading && <ApiLoading />}
+            {true && <ParticleAnimation />}
             {isShowAddTokenERC20 && <AddERC20PopUp setIsShowAddTokenERC20={setIsShowAddTokenERC20} />}
             {isShowSelectAccount && <SelectAccountPopUp onCancel={() => setIsShowSelectAccount(false)} getAccountsAPI={getAccounts} getAccounts={getAccounts} accessToken={accessToken} setIsShowSelectAccount={setIsShowSelectAccount} />}
             {isShowAccountDetail && <ShowPrivateKeyPopUp setIsShowChangePasswordPopup={setIsShowChangePasswordPopup} account={account} setIsShowAccountDetail={setIsShowAccountDetail} />}
