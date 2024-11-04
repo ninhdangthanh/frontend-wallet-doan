@@ -7,7 +7,7 @@ export default function ApiLoading() {
         <div className="overlay_loading"></div>
 
         
-        {/* <img src="../snailloading.png" alt="Loading....." className="api_loading_image" /> */}
+        <img src="../kOnzy.gif" alt="Loading....." className="api_loading_image" />
         {/* <div className="api_loading_image_text">Loading...</div> */}
     </>
 );
