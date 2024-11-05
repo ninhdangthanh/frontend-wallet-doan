@@ -2,6 +2,7 @@
 
 import ChainAnalytics from "@/app/components/blockchain-analytics/chain-analyze"
 import TxPoolAnalyzer from "@/app/components/blockchain-analytics/tx_pending_rank"
+import env_fe from "@/utils/env_fe";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -12,11 +13,11 @@ export default function Analysis() {
         e.preventDefault();
 
         if (searchInput.startsWith('0x')) {
-            const url = `https://etherscan.io/tx/${searchInput}`;
+            const url = `${env_fe.mainnet_ether_scan}/tx/${searchInput}`;
             window.open(url, '_blank');
         }
         else if (Number(searchInput)) {
-            const url = `https://etherscan.io/block/${searchInput}`;
+            const url = `${env_fe.mainnet_ether_scan}/block/${searchInput}`;
             window.open(url, '_blank');
         } else {
             alert('Please enter a valid block number or transaction hash.');

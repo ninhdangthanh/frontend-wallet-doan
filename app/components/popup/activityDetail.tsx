@@ -4,6 +4,7 @@ import "../../../css/fontawesome-free-6.5.1-web/css/all.css"
 import "../../../css/bootstrap.min.css"
 import "../../../css/main.css"
 import "../../../css/popup.css"
+import env_fe from "@/utils/env_fe";
 
 export default function ActivityDetailPopUp(props: any) {
     const {setIsShowDetail, activity, account} = props
@@ -19,7 +20,7 @@ export default function ActivityDetailPopUp(props: any) {
             <div className="activity-popup-detail-body">
                 <div className="activity-popup-detail-row flex-row">
                     <div className="activity-popup-detail-content"
-                        onClick={() => window.open(`https://sepolia.etherscan.io/tx/${activity.tx_hash}`, '_blank')}
+                        onClick={() => window.open(`${env_fe.sepolia_ether_scan}/tx/${activity.tx_hash}`, '_blank')}
                     >View on block explorer</div>
                     <div className="text-gray-400 font-bold text-sm">Tx Hash</div>
                 </div>

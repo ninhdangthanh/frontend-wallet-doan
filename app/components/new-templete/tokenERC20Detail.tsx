@@ -11,6 +11,7 @@ import { tokenApi } from "@/api-client/token-api";
 import { toast } from "react-toastify";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { removeToken } from "@/redux/slice/ERC20Slice";
+import env_fe from "@/utils/env_fe";
 
 export default function TokenERC20(props: any) {
     const {setShowDetail, token, showSendToken} = props
@@ -19,7 +20,7 @@ export default function TokenERC20(props: any) {
 
 
     const handleOpenNewTab = () => {
-        window.open(`https://sepolia.etherscan.io/address/${token.contract_address}`, '_blank');
+        window.open(`${env_fe.sepolia_ether_scan}/address/${token.contract_address}`, '_blank');
     };
 
     const hideTokenERC20 = async (tokenID: number) => {

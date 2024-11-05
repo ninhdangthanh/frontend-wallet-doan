@@ -105,7 +105,7 @@ const TxPoolAnalyzer = () => {
                 <tr key={index} className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'}>
                   <td className="border border-gray-600 px-2 text-sm py-1 text-white">{tx.rank}</td>
                   <td
-                    onClick={() => window.open(`https://etherscan.io/tx/${tx.txHash}`, '_blank')}
+                    onClick={() => window.open(`${env_fe.mainnet_ether_scan}/tx/${tx.txHash}`, '_blank')}
                     className="border border-gray-600 px-2 text-sm py-1 text-white cursor-pointer hover:bg-orange-700"
                   >
                     {tx.txHash}

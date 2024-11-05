@@ -1,6 +1,7 @@
 // src/store/todosSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import env_fe from "@/utils/env_fe";
 
 export interface Network {
   id: number;
@@ -23,10 +24,10 @@ export interface NetworkState {
 // TODO: config rpc url
 const sepoliaTestNet : Network = {
   name: "SepoliaTestnet",
-  rpc_url: "https://ethereum-sepolia-rpc.publicnode.com",
+  rpc_url: env_fe.network_sepolia_node,
   chain_id: 11155111,
   currency_symbol: "SepoliaETH",
-  block_explorer_url: "https://sepolia.etherscan.io/",
+  block_explorer_url: `${env_fe.sepolia_ether_scan}/`,
   logo: "sepolia_eth_logo",
   is_default: true,
   id: 0,
