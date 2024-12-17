@@ -21,6 +21,7 @@ import { check_token } from "@/common";
 import AddERC20PopUp from "../components/new-templete/addERC20";
 import { tokenApi } from "@/api-client/token-api";
 import { addManyTokens, selectTokens } from "@/redux/slice/ERC20Slice";
+import { formatEthBalance } from "@/utils/format-address";
 
 
 
@@ -183,7 +184,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                 <i className="wallet-coin-address-copy fa-regular fa-copy "></i>
                             </div>
                             <div className="mb-6 mt-2 text-[36px] items-center flex">
-                                {account.balance} ETH
+                                {formatEthBalance(account.balance)} ETH
                             </div>
                         </div>
 

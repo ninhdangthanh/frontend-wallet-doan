@@ -12,6 +12,7 @@ import { Account, changeAccount, removeAccount, selectAccounts, selectedAccount 
 import { accountApi } from "@/api-client/account-api";
 import { hideApiLoading, showApiLoading } from "@/redux/slice/apiLoadingSlice";
 import { toast } from "react-toastify";
+import { formatEthBalance } from "@/utils/format-address";
 
 
 export default function SelectAccountPopUp(props: any) {
@@ -127,7 +128,7 @@ function SelectAccountItem(props: any) {
                 <div className="flex">
                     <div className="flex-col">
                         <div className="network-select-item-name1">
-                            {account.balance} <span className="text-gray-400">ETH</span>
+                            {formatEthBalance(account.balance)} <span className="text-gray-400">ETH</span>
                         </div>
                     </div>
                     <div className="pl-8">
