@@ -1,7 +1,7 @@
 services:
   fe:
-    container_name: u2mya-wallet
-    image: u2mya-wallet:latest
+    container_name: u2mya-wallet-fe
+    image: u2mya-wallet-fe:latest
     build:
       dockerfile: Dockerfile
       context: ./
