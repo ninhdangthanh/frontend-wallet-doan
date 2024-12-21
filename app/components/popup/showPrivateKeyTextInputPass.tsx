@@ -12,7 +12,7 @@ import { accountApi } from "@/api-client/account-api";
 import { toast } from "react-toastify";
 import { changeSelectedAccountName, getPrivateKey } from "@/redux/slice/accountSlice";
 
-export default function ShowPrivateKeyPopUp(props: any) {
+export default function ShowPrivateKeyInputPassPopUp(props: any) {
     const {setIsShowAccountDetail, account, setIsShowChangePasswordPopup} = props
     const router = useRouter();
     const dispatch = useDispatch();
@@ -86,65 +86,21 @@ export default function ShowPrivateKeyPopUp(props: any) {
         <>
             <div onClick={() => setIsShowAccountDetail(false)} className="overlay"></div>
 
-            <div className="show-private-key-container">
+            <div className="show-private-key-container w-[800px]">
                 <h5 className="show-private-key-title font-bold text-2xl text-center">
-                    Account details
+                    Enter password to show Private Key
                     <div className="activity-popup-detail-title-close">
-                        <i onClick={() => setIsShowAccountDetail(false)} className="fa-solid fa-xmark"></i>
+                        {/* <i onClick={() => setIsShowAccountDetail(false)} className="fa-solid fa-xmark"></i> */}
                     </div>
                 </h5>
                 <div className="show-private-key-body">
-                    <div className="flex item-center justify-center">
-                        <img src={`../account_list/${account.index_acc + 1}.jpeg`} alt="" className="show-private-key-detail-logo text-center"/>
-                    </div>
-                    <div className="show-private-key-account-name">
-                        <div className="show-private-key-account-name-title">{account.name}</div>
-                        <div onClick={() => setShowIsChangeAccountnameShow(true)} className="show-private-key-name-edit-button">
-                            <i className="fa-solid fa-pen-to-square"></i>
-                        </div>
+                    <div className="mb-4 mt-4">
+                        <input type="text"  placeholder="Password" required id="account_name" className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-800 focus:border-orange-800 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-800 dark:focus:border-orange-800" />
                     </div>
 
-                    {
-                        isChangeAccountnameShow && <>
-                        <div className="show-private-key-enter-password">
-                            <div className="show-private-key-enter-password-title">
-                                Enter new account name
-                            </div>
-                            <input value={newAccountName} onChange={((e) => setNewAccountName(e.target.value))} 
-                            type="text" className="form-control" placeholder="Password"/>
-                        </div>
-
-                        <div className="show-private-key-button flex-row">
-                            <div onClick={() => setShowIsChangeAccountnameShow(false)} className="show-private-key-button-cancel">
-                                Cancel
-                            </div>
-                            <div onClick={() => changeAccountName()} className={newAccountName.length < 5 ? "show-private-key-button-confirm-disabled" : "show-private-key-button-confirm"}>
-                                Save
-                            </div>
-                        </div>
-                        </>
-                    }
-
-                    {/* {!isChangeAccountnameShow && <>
-                        <div style={{fontSize: 24, color: "white", marginTop: 20}}>Private Key</div>
-                        <div onClick={handleCopyTextAddress} className="wallet-coin-address-private">
-                            <div style={{color: "orangered", width: 300, wordWrap: "break-word"}}>{privateKey}</div>
-                            <div><i className="wallet-coin-address-copy fa-regular fa-copy"></i></div>
-                        </div>
-                        
-                    </>} */}
-
-                    <div className="show-private-key-button-cancel mb-4 mt-4">
-                        <span className="text-white">Show Private Key</span>
-                    </div>
-
-
-                    {!isChangeAccountnameShow && <div onClick={() => {setIsShowChangePasswordPopup(true);setIsShowAccountDetail(false)}} className="show-private-key-button-cancel">
-                        Change password
-                    </div>}
 
                     <div onClick={() => logoutAction()} className="show-private-key-button-logout">
-                        Log out
+                        Show
                     </div>
                 </div>
             </div>
